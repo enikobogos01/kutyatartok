@@ -1,0 +1,126 @@
+
+#totalField{
+    height: 300px;
+    background-color:bisque;
+    border-radius: 10px;
+    text-align: left;
+}
+#totalTitle{
+    text-align: center;
+    background-color: #2F3B49;
+    color: white;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    height: 50px;
+    /*szöveg középre rakása*/
+    padding-top: 8px;
+}
+#buyButton{
+    width: 100%;
+    border-radius: 5px;
+    border: none;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #2F3B49;
+    height: 45px;
+    /*szöveg középre rakás*/
+    text-align: center;
+    padding-top: 8px;
+}
+#buyButton:hover{
+    color: #9ADEF8;
+}
+#labelBackground{
+    height: 45px;
+    text-align: center;
+    padding-top: 10px;
+    background-color: #2F3B49;
+    color: white;
+}
+.quantityDiv{
+    display: flex;
+}
+/*mennyiség input mező*/
+.quantity{
+    height: 25px;
+    width: 50px;
+    margin-top: 40px;
+}
+/*minusz gomb*/
+.bi-dash-circle-fill{
+    display: block;
+    margin-top: 30px;
+    font-size: 25px;
+    color: #2F3B49;
+}
+.bi-dash-circle-fill:hover{
+    cursor: pointer;
+}
+/*plusz gomb*/
+.bi-plus-circle-fill{
+    display: block;
+    margin-top: 30px;
+    font-size: 25px;
+    color: #2F3B49;
+/*
+border: 3px solid red;
+border-radius: 1000px;
+*/
+}
+.bi-plus-circle-fill:hover{
+    cursor: pointer;
+}
+/*Nyilak eltüntetése inputból Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+/*Nyilak eltüntetése inputból Firefox */
+input[type=number] {
+    appearance: textified;
+    -moz-appearance: textfield;
+}
+
+.price{
+    font-size: 25px;
+    margin-top: 45px;
+}
+.productName{
+    font-size: 25px;
+}
+
+.dividerLine{
+    border-top: 2px solid #2F3B49;      
+}
+
+#basketContent{
+    min-height: 350px;
+}
+
+.productImage{
+    width: 220px;
+}
+
+.bi-trash-fill{
+    display: block;
+    font-size: 35px;
+    color: red;
+}
+.bi-trash-fill:hover{
+    cursor: pointer;
+    color: rgb(136, 2, 2);
+}
+
+#trashBorder{
+    margin-left: 80px;
+    margin-right: 80px;
+}
+
+footer{
+    margin-top: 110px;
+}      
