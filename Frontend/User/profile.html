@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kutyatartók Webáruháza</title>
+    <link rel="icon" href="../../imgs/logo.jpg" sizes="32x32" type="image/png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="main.html"><img src="../../imgs/logo.png" alt="Logo" class="logo"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link" href="main.html">Főoldal</a>
+                    <a class="nav-link" href="products.html">Termékeink</a>
+                    <a class="nav-link" href="aboutUs.html">Rólunk</a>
+                    <a class="nav-link" aria-current="page" href="#"><i class="bi bi-person"></i></a>
+                    <a class="nav-link" href="basket.html"><i class="bi bi-basket2-fill"></i></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="content">
+        <div class="row">
+            <div class="col-md-5 col-lg-5 mb-4">
+                <div class="bejelentkezes-info">
+                    <h2 class="fs-1 pt-2">Üdvözöllek a Kutyatartók Webáruházában!</h2>
+                    <p class="fs-6 pt-2" style="text-align: justify;">
+                        Jelentkezz be a profilodba, vagy ha még nincs, akkor most regisztrálj, hogy élvezhesd az összes fantasztikus ajánlatot és szolgáltatást! Legyél része a Kutyatartók közösségének, és gondoskodj hűséges társadnak a legjobb termékekkel. Ne hagyd ki ezt az alkalmat, csatlakozz hozzánk ma.
+                    </p>
+                    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="../../imgs/registKep.jpg" class="d-block w-100" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="../../imgs/registKep4.jpg" class="d-block w-100" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="../../imgs/registKep2.jpg" class="d-block w-100" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="../../imgs/registKep3.jpg" class="d-block w-100" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="../../imgs/registKep1.jpg" class="d-block w-100" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="../../imgs/registKep5.jpg" class="d-block w-100" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="../../imgs/registKep6.jpg" class="d-block w-100" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="../../imgs/registKep7.jpg" class="d-block w-100" alt="...">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7 col-lg-7">
+                <div class="registration rounded mb-4">
+                    <h2>Regisztráció</h2>
+                    <div class="content">
+                        <iframe name="hiddenFrame" width="0" height="0" border="0" style="display: none;"></iframe>
+                        <form id="registration-form" action="registration.php" method="POST" target="hiddenFrame" onsubmit="validateForm()">
+                            <div class="user-details">
+                                <div class="input-box">
+                                    <span class="details">Teljes név: </span>
+                                    <input type="text" placeholder="Teljes név" name="fullname" id="fullname" required autocomplete="name">
+                                </div>
+                                <div class="input-box">
+                                    <span class="details">Email: </span>
+                                    <input type="email" placeholder="Email" name="email" id="email" autocomplete="email" required>
+                                </div>
+                                <div class="input-box">
+                                    <span class="details">Jelszó: </span>
+                                    <input type="password" placeholder="Jelszó" name="password" id="password" required>
+                                </div>
+                                <div class="input-box">
+                                    <span class="details">Jelszó újra: </span>
+                                    <input type="password" placeholder="Jelszó újra" name="confirmPassword" id="confirmPassword" required>
+                                </div>
+                            </div>
+                            <div class="button">
+                                <input type="submit" value="Regisztráció" id="submitButton">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="logIn rounded">
+                    <h2>Bejelentkezés</h2>
+                    <div class="content">
+                        <form id="login-form" action="login.php" method="POST" target="hiddenFrame">
+                            <div class="user-details">
+                                <div class="input-box">
+                                    <span class="details">Email: </span>
+                                    <input type="email" placeholder="Email" name="loginEmail" id="loginEmail" required autocomplete="email">
+                                </div>
+                                <div class="input-box">
+                                    <span class="details">Jelszó: </span>
+                                    <input type="password" placeholder="Jelszó" name="loginPassword" id="loginPassword" required>
+                                </div>
+                            </div>
+                            <div class="button">
+                                <input type="submit" value="Bejelentkezés" id="loginSubmitButton">
+                            </div>
+                            <div id="login-message"></div> <!-- Az új div elem az üzenetek megjelenítéséhez -->
+                        </form>
+                    </div>
+                </div>                               
+            </div>
+        </div>
+    </div>
+    <footer class="text-center">
+        <p class="p-2 pb-0">
+            Telefonszám: +36 1 234 5678<br>
+            Email: kutyatartokwebaruhaza@gmail.com<br>
+            © 2023, Kutyatartók Webáruháza. Minden jog fenntartva.
+        </p>
+    </footer>
+    <script src="../js/registration.js"></script>
+</body>
+</html>
