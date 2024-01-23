@@ -71,7 +71,7 @@
                     <h2>Regisztráció</h2>
                     <div class="content">
                         <iframe name="hiddenFrame" width="0" height="0" border="0" style="display: none;"></iframe>
-                        <form id="registration-form" action="registration.php" method="POST" target="hiddenFrame" onsubmit="validateForm()">
+                        <form id="registration-form" action="../../Backend/Controller/registrationController.php" method="POST" target="hiddenFrame" onsubmit="validateForm()">
                             <div class="user-details">
                                 <div class="input-box">
                                     <span class="details">Teljes név: </span>
@@ -99,7 +99,7 @@
                 <div class="logIn rounded">
                     <h2>Bejelentkezés</h2>
                     <div class="content">
-                        <form id="login-form" action="login.php" method="POST" target="hiddenFrame">
+                        <form id="login-form" action="#" method="POST" target="hiddenFrame">
                             <div class="user-details">
                                 <div class="input-box">
                                     <span class="details">Email: </span>
@@ -128,5 +128,6 @@
         </p>
     </footer>
     <script src="../js/registration.js"></script>
+    <script src="../../Backend/Controller/userController.php"></script>
 </body>
 </html>
