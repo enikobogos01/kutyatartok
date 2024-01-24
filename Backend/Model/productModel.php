@@ -12,22 +12,22 @@ class ProductModel {
     public function getProducts($sortOption, $categoryFilter, $minPrice, $maxPrice) {
         // SQL query with placeholders for sort and category filter
         $sql = "SELECT * FROM products";
-    
+
+        $where = "";
+
         // Add category filter
         if ($categoryFilter != 'all') {
-            $sql .= " WHERE category = ?";
+            $where .= " WHERE category = ?";
         }
-    
+
         // Add price range filter
         if ($minPrice !== null && $maxPrice !== null) {
-            if ($categoryFilter == 'all') {
-                $sql .= " WHERE";
-            } else {
-                $sql .= " AND";
-            }
-            $sql .= " price BETWEEN ? AND ?";
+            $where .= ($where == "") ? " WHERE" : " AND";
+            $where .= " price BETWEEN ? AND ?";
         }
-    
+
+        $sql .= $where;
+
         // Add sorting
         switch ($sortOption) {
             case 'price-asc':
@@ -44,23 +44,27 @@ class ProductModel {
                 break;
             default:
                 // Default sorting or no sorting
-                $sql .= " ORDER BY RAND()"; // Hozzáadva: Random sorrend
+                $sql .= " ORDER BY RAND()";
         }
-    
-        // ...
-    
+        
         // Prepared statement for increased security
         $stmt = $this->conn->prepare($sql);
-    
+
         // Bind the parameters if category or price filter is applied
         if ($categoryFilter != 'all') {
-            $stmt->bind_param("s", $categoryFilter);
+            if (is_array($categoryFilter)) {
+                $paramType = str_repeat('s', count($categoryFilter));
+                $stmt->bind_param($paramType, ...$categoryFilter);
+            } else {
+                $stmt->bind_param('s', $categoryFilter);
+            }
         }
-    
+
         if ($minPrice !== null && $maxPrice !== null) {
             $stmt->bind_param("dd", $minPrice, $maxPrice);
         }
-    
+
+
         $stmt->execute();
     
         $result = $stmt->get_result();
@@ -77,6 +81,5 @@ class ProductModel {
     
         return $products;
     }
-    
 }
 ?>

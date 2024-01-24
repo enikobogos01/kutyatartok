@@ -21,20 +21,26 @@ async function fetchAndDisplayProducts(sortBy = 'default', filterBy = 'all', pri
 
     try {
         const response = await fetch(url);
-        const products = await response.json();
+        const contentType = response.headers.get('content-type');
 
-        const cardContainer = document.getElementById('cardContainer');
-        cardContainer.innerHTML = '';
+        if (contentType && contentType.includes('application/json')) {
+            const products = await response.json();
+            const cardContainer = document.getElementById('cardContainer');
+            cardContainer.innerHTML = '';
 
-        // Create and append product cards to the container
-        products.forEach(product => {
-            const card = createProductCard(product);
-            cardContainer.appendChild(card);
-        });
+            products.forEach(product => {
+                const card = createProductCard(product);
+                cardContainer.appendChild(card);
+            });
+        } else {
+            const text = await response.text();
+            console.log("Server response:", text);
+        }
     } catch (error) {
         console.error('Error fetching products:', error);
     }
 }
+
 
 // Function to create a product card HTML element
 function createProductCard(product) {
@@ -120,35 +126,4 @@ document.addEventListener("DOMContentLoaded", () => {
             maximumFractionDigits: 0
         }).format(amount);
     }
-
-    // Function to fetch and display products with price filtering
-    async function fetchAndDisplayProducts(sortBy = 'default', filterBy = 'all', priceRange = [0, 7000]) {
-    const url = `../../Backend/Controller/productController.php?sort=${sortBy}&filter=${filterBy}&minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}`;
-
-    try {
-        const response = await fetch(url);
-        const contentType = response.headers.get('content-type');
-
-        if (contentType && contentType.includes('application/json')) {
-            // Ha a válasz JSON típusú, akkor olvassuk be és használjuk JSON.parse-t
-            const products = await response.json();
-            const cardContainer = document.getElementById('cardContainer');
-            cardContainer.innerHTML = '';
-
-            // Create and append product cards to the container
-            products.forEach(product => {
-                const card = createProductCard(product);
-                cardContainer.appendChild(card);
-            });
-        } else {
-            // Ha a válasz nem JSON típusú, akkor tekintsük szövegként
-            const text = await response.text();
-            console.log("Server response:", text);
-        }
-    } catch (error) {
-        console.error('Error fetching products:', error);
-    }
-}
-
-    
 });
