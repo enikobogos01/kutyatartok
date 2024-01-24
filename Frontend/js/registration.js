@@ -49,7 +49,7 @@ window.onload = function () {
             // Check if registration was successful and send email
             if (msg == 'Sikeres regisztráció!') {
                 // Send registration email
-                sendRegistrationEmail(data.email);
+                // sendRegistrationEmail(data.email);
             }
         } catch (e) {
             console.error("Error parsing JSON: " + e.message);

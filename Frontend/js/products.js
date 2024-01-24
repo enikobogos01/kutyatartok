@@ -16,8 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Function to fetch and display products based on sorting and filtering options
-async function fetchAndDisplayProducts(sortBy = 'default', filterBy = 'all') {
-    const url = `fetchProducts.php?sort=${sortBy}&filter=${filterBy}`;
+async function fetchAndDisplayProducts(sortBy = 'default', filterBy = 'all', priceRange = [0, 7000]) {
+    const url = `../../Backend/Controller/productController.php?sort=${sortBy}&filter=${filterBy}&minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}`;
 
     try {
         const response = await fetch(url);
@@ -123,12 +123,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Function to fetch and display products with price filtering
     async function fetchAndDisplayProducts(sortBy = 'default', filterBy = 'all', priceRange = [0, 7000]) {
-        const url = `fetchProducts.php?sort=${sortBy}&filter=${filterBy}&minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}`;
+    const url = `../../Backend/Controller/productController.php?sort=${sortBy}&filter=${filterBy}&minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}`;
 
-        try {
-            const response = await fetch(url);
+    try {
+        const response = await fetch(url);
+        const contentType = response.headers.get('content-type');
+
+        if (contentType && contentType.includes('application/json')) {
+            // Ha a válasz JSON típusú, akkor olvassuk be és használjuk JSON.parse-t
             const products = await response.json();
-
             const cardContainer = document.getElementById('cardContainer');
             cardContainer.innerHTML = '';
 
@@ -137,8 +140,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 const card = createProductCard(product);
                 cardContainer.appendChild(card);
             });
-        } catch (error) {
-            console.error('Error fetching products:', error);
+        } else {
+            // Ha a válasz nem JSON típusú, akkor tekintsük szövegként
+            const text = await response.text();
+            console.log("Server response:", text);
         }
+    } catch (error) {
+        console.error('Error fetching products:', error);
     }
+}
+
+    
 });
