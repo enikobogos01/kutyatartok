@@ -102,6 +102,7 @@
                 <!--Fizetési mód-->
                 <div class="row btn-group pt-2 pb-3">
                     <h4>Fizetési mód</h4>
+                    <!--
                     <div class="col-6 form-check">
                         <input class="btn-check" type="radio" name="paymentMethod" id="cashOnDelivery" checked>
                         <label class="btn btn-secondary" for="cashOnDelivery">
@@ -114,13 +115,26 @@
                             <i class="bi bi-credit-card"></i> Bankkártya
                         </label>
                     </div>
+                    -->
+                    
+                    <div class="btn-group">
+                        <input class="btn-check" type="radio" name="paymentMethod" id="cashOnDelivery" checked>
+                        <label class="btn btn-secondary" for="cashOnDelivery">
+                            <i class="bi bi-cash-coin"></i> Készpénzes utánvétel
+                        </label>
+
+                        <input class="btn-check" type="radio" name="paymentMethod" id="creditCard">
+                        <label class="btn btn-secondary" for="creditCard">
+                            <i class="bi bi-credit-card"></i> Bankkártya
+                        </label>
+                    </div>
 
                 </div>
                 <hr>
                 <!--Szállítási mód-->
                 <div class="row btn-group pt-2">
                     <h4>Szállítási mód</h4>
-                    
+                    <!--
                     <div class="col-6 form-check">
                         <input class="btn-check" type="radio" name="deliveryMethod" id="homeDelivery" checked>
                         <label class="btn btn-secondary" for="homeDelivery">
@@ -128,6 +142,19 @@
                         </label>
                     </div>
                     <div class="col-6 form-check">
+                        <input class="btn-check" type="radio" name="deliveryMethod" id="packageLocker">
+                        <label class="btn btn-secondary" for="packageLocker">
+                          Csomagautomata
+                        </label>
+                    </div>
+                    -->
+
+                    <div class="btn-group">
+                        <input class="btn-check" type="radio" name="deliveryMethod" id="homeDelivery" checked>
+                        <label class="btn btn-secondary" for="homeDelivery">
+                          Házhoz szállítás
+                        </label>
+
                         <input class="btn-check" type="radio" name="deliveryMethod" id="packageLocker">
                         <label class="btn btn-secondary" for="packageLocker">
                           Csomagautomata
