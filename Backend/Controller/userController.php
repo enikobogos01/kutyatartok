@@ -65,6 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["method"] == "registration") 
         if (empty($fullname) || empty($email) || empty($password)) {
             $result = array('msg' => 'Minden mező kitöltése kötelező.');
         } else {
+            $database = new Database(); // Új adatbázis példány létrehozása
             $userController = new UserController($database);
             $result = $userController->registerUser($fullname, $email, $password);
         }

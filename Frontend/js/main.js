@@ -3,7 +3,7 @@ var swiper2;
 
 // New event handler for dynamically loading products
 async function fetchAndDisplayProducts(containerId, maxProducts = null) {
-    const url = 'fetchProducts.php';
+    const url = '../../Backend/Controller/productController.php';
 
     try {
         const response = await fetch(url);

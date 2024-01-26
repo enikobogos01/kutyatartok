@@ -26,7 +26,7 @@ window.onload = function () {
             if (xhr.readyState == 4) {
                 if (xhr.status == 200) {
                     // Successful registration
-                    var response = xhr.responseText;
+                    var response = xhr.responseText.replace(/(\r\n|\n|\r)/gm, "");
                     console.log("Server response: " + response);
                     handleResponse(response);
                 } else {
@@ -41,14 +41,18 @@ window.onload = function () {
     }
 
     function handleResponse(responseText) {
-        var data = JSON.parse(responseText);
-        var msg = data.msg;
-        alert(msg);
-
-        // Check if registration was successful and send email
-        if (msg == 'Sikeres regisztráció!') {
-            // Send registration email
-            sendRegistrationEmail(data.email);
+        try {
+            var data = JSON.parse(responseText);
+            var msg = data.msg;
+            alert(msg);
+    
+            // Check if registration was successful and send email
+            if (msg == 'Sikeres regisztráció!') {
+                // Send registration email
+                // sendRegistrationEmail(data.email);
+            }
+        } catch (e) {
+            console.error("Error parsing JSON: " + e.message);
         }
     }
 };

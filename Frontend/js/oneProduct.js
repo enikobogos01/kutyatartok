@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (selectedProduct) {
-        document.getElementById('quantity').setAttribute('min', 0);
+        document.getElementById('quantity').setAttribute('min', 1);
         document.getElementById('quantity').setAttribute('max', selectedProduct.quantity);
     }
 });
