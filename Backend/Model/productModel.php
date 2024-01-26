@@ -61,13 +61,20 @@ class ProductModel {
         }
 
         if ($minPrice !== null && $maxPrice !== null) {
-            $stmt->bind_param("dd", $minPrice, $maxPrice);
+            // Biztonsági ellenőrzés a numerikus értékek használata előtt
+            if (is_numeric($minPrice) && is_numeric($maxPrice)) {
+                $stmt->bind_param("dd", $minPrice, $maxPrice);
+            } else {
+                // Ha a megadott árak nem numerikus értékek, akkor kezelheted ezt a hibát
+                // pl.: kiléphetsz a függvényből, logolhatsz, vagy hibát dobhatsz
+                // példa: throw new InvalidArgumentException('Invalid price values');
+            }
         }
 
-
         $stmt->execute();
-    
+
         $result = $stmt->get_result();
+
     
         // Store the products in a PHP array
         $products = [];

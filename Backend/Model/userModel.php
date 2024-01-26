@@ -9,8 +9,6 @@ class UserModel {
     }
 
     public function registerUser($fullname, $email, $password) {
-        // Validációk a UserModel rétegben
-
         // Adatbázis ellenőrzés
         $checkEmailQuery = "SELECT * FROM users WHERE email = ?";
         $stmt = $this->conn->prepare($checkEmailQuery);
