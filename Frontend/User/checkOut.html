@@ -36,6 +36,25 @@
         background-color: rgb(0, 123, 255);
         border-color: rgb(0, 123, 255);
     }
+
+    .productImage{
+        width: 220px;
+    }
+
+    .price{
+    font-size: 25px;
+    margin-top: 45px;
+    }
+
+    .productName{
+        font-size: 25px;
+    }
+
+    .quantity{
+        height: 25px;
+        width: 50px;
+        margin-top: 40px;
+    }
   </style>
   <body>
     <nav class="navbar navbar-expand-lg sticky-top">
@@ -65,20 +84,8 @@
                 <div class="row pb-3">
                     <h4>Kosár</h4>
                     <div id="cartSummary">
-                        <!--Termékek dinamikusan ennek a heylére-->
-                        <div class="row">
-                            <div class="col-3">
-                                kép
-                            </div>
-                            <div class="col-3">
-                                név
-                            </div>
-                            <div class="col-3">
-                                mennyiség
-                            </div>
-                            <div class="col-3">
-                                ár
-                            </div>
+                        <!--Termékek dinamikus beillesztése ide-->
+                        
                         </div>
                     </div>
                 </div>
@@ -189,5 +196,6 @@
             © 2023, Kutyatartók Webáruháza. Minden jog fenntartva.
         </p>
     </footer>
+    <script src="../js/showCartSummary.js"></script>
 </body>
 </html>
