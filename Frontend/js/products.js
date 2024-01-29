@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log('Start Event:', values, handle);
 
         // Send XMLHttpRequest to the server for price filtering
-        fetchAndDisplayProducts('default', 'all', values);
+        fetchAndDisplayProducts('default', 'all', values[0], values[1]);
     });
 
     // React to the change event
@@ -114,8 +114,9 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log('Change Event:', values, handle);
 
         // Send XMLHttpRequest to the server for price filtering
-        fetchAndDisplayProducts('default', 'all', values);
+        fetchAndDisplayProducts('default', 'all', values[0], values[1]);
     });
+
 
     // Helper function to format currency
     function formatCurrency(amount) {

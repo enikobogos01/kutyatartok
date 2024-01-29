@@ -1,6 +1,7 @@
 <?php
-require_once '../Model/userModel.php';
 require_once '../Config/database.php';
+require_once '../Model/userModel.php';
+require_once '../Model/LoginController.php';
 
 class UserController {
     private $database;
@@ -52,7 +53,7 @@ class UserController {
         return true;
     }
 }
-
+// Regisztráció funkció
 if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["method"] == "registration") {
     if (isset($_POST["fullname"]) && isset($_POST["email"]) && isset($_POST["password"])) {
         $fullname = trim($_POST["fullname"]);
@@ -73,6 +74,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["method"] == "registration") 
         echo json_encode($result);
     } else {
         $result = array('msg' => 'Incorrect registration form filling.');
+        echo json_encode($result);
+    }
+}
+// Bejelentkezési funkció
+if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["method"] == "login") {
+    if (isset($_POST["loginEmail"]) && isset($_POST["loginPassword"])) {
+        $loginEmail = trim($_POST["loginEmail"]);
+        $loginPassword = trim($_POST["loginPassword"]);
+
+        $loginEmail = filter_var($loginEmail, FILTER_VALIDATE_EMAIL);
+
+        if (empty($loginEmail) || empty($loginPassword)) {
+            $result = array('msg' => 'Minden mező kitöltése kötelező.');
+        } else {
+            $database = new Database(); // Új adatbázis példány létrehozása
+            $loginController = new LoginController($database);
+            $loginResult = $loginController->loginUser($loginEmail, $loginPassword);
+
+            echo json_encode($loginResult);
+            exit();
+        }
+    } else {
+        $result = array('msg' => 'Incorrect login form filling.');
         echo json_encode($result);
     }
 }

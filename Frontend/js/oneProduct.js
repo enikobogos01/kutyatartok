@@ -15,8 +15,8 @@ document.addEventListener("DOMContentLoaded", function () {
     if (selectedProduct.category === 'collar' || selectedProduct.category === 'harness') {
         // Set the content to a Size Chart link with the appropriate image
         sizesContainer.innerHTML = `
-            <a href="imgs/${selectedProduct.category}Size.jpg" target="_blank" class="size-chart-link fw-bold">
-                <img src="imgs/ruler-2493.svg" alt="Size Chart Icon" class="icon"> Size Chart
+            <a href="../../imgs/${selectedProduct.category}Size.jpg" target="_blank" class="size-chart-link fw-bold">
+                <img src="../../imgs/ruler-2493.svg" alt="Size Chart Icon" class="icon"> Size Chart
             </a>
         `;
 
