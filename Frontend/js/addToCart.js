@@ -29,8 +29,7 @@ function addToCart() {
     };
 
     var sizesDropdownContainer = document.getElementById("sizes-container");
-    // csak akkor fusson le, ha 0-nál nagyobb szám van kiválasztva a mennyiségnél
-    if(quantity > 0){
+
         // csak akkor fusson le ha van kiválasztva méret vagy nem lehet méretet kiválasztani
         if(product.size != "default" || sizesDropdownContainer.style.display != "block"){
 
@@ -58,8 +57,4 @@ function addToCart() {
         else{
             alert("Válasszon méretet!");
         }
-    }
-    else{
-        alert("Válasszon 0-nál nagyobb mennyiséget!");
-    }
 }

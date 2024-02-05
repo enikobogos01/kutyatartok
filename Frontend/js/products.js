@@ -16,25 +16,31 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Function to fetch and display products based on sorting and filtering options
-async function fetchAndDisplayProducts(sortBy = 'default', filterBy = 'all') {
-    const url = `fetchProducts.php?sort=${sortBy}&filter=${filterBy}`;
+async function fetchAndDisplayProducts(sortBy = 'default', filterBy = 'all', priceRange = [0, 7000]) {
+    const url = `../../Backend/Controller/productController.php?sort=${sortBy}&filter=${filterBy}&minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}`;
 
     try {
         const response = await fetch(url);
-        const products = await response.json();
+        const contentType = response.headers.get('content-type');
 
-        const cardContainer = document.getElementById('cardContainer');
-        cardContainer.innerHTML = '';
+        if (contentType && contentType.includes('application/json')) {
+            const products = await response.json();
+            const cardContainer = document.getElementById('cardContainer');
+            cardContainer.innerHTML = '';
 
-        // Create and append product cards to the container
-        products.forEach(product => {
-            const card = createProductCard(product);
-            cardContainer.appendChild(card);
-        });
+            products.forEach(product => {
+                const card = createProductCard(product);
+                cardContainer.appendChild(card);
+            });
+        } else {
+            const text = await response.text();
+            console.log("Server response:", text);
+        }
     } catch (error) {
         console.error('Error fetching products:', error);
     }
 }
+
 
 // Function to create a product card HTML element
 function createProductCard(product) {
@@ -99,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log('Start Event:', values, handle);
 
         // Send XMLHttpRequest to the server for price filtering
-        fetchAndDisplayProducts('default', 'all', values);
+        fetchAndDisplayProducts('default', 'all', values[0], values[1]);
     });
 
     // React to the change event
@@ -108,8 +114,9 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log('Change Event:', values, handle);
 
         // Send XMLHttpRequest to the server for price filtering
-        fetchAndDisplayProducts('default', 'all', values);
+        fetchAndDisplayProducts('default', 'all', values[0], values[1]);
     });
+
 
     // Helper function to format currency
     function formatCurrency(amount) {
@@ -119,26 +126,5 @@ document.addEventListener("DOMContentLoaded", () => {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0
         }).format(amount);
-    }
-
-    // Function to fetch and display products with price filtering
-    async function fetchAndDisplayProducts(sortBy = 'default', filterBy = 'all', priceRange = [0, 7000]) {
-        const url = `fetchProducts.php?sort=${sortBy}&filter=${filterBy}&minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}`;
-
-        try {
-            const response = await fetch(url);
-            const products = await response.json();
-
-            const cardContainer = document.getElementById('cardContainer');
-            cardContainer.innerHTML = '';
-
-            // Create and append product cards to the container
-            products.forEach(product => {
-                const card = createProductCard(product);
-                cardContainer.appendChild(card);
-            });
-        } catch (error) {
-            console.error('Error fetching products:', error);
-        }
     }
 });

@@ -3,7 +3,9 @@ var swiper2;
 
 // New event handler for dynamically loading products
 async function fetchAndDisplayProducts(containerId, maxProducts = null) {
-    const url = 'fetchProducts.php';
+    const sortBy = containerId === 'swiper-wrapper-1' ? 'upload_date' : 'quantity';
+    const swiperIdentifier = containerId === 'swiper-wrapper-1' ? 'swiper1' : 'swiper2';
+    const url = `../../Backend/Controller/productController.php?swiper=${swiperIdentifier}&limit=${maxProducts}`;
 
     try {
         const response = await fetch(url);
@@ -12,10 +14,7 @@ async function fetchAndDisplayProducts(containerId, maxProducts = null) {
         const cardContainer = document.getElementById(containerId);
         cardContainer.innerHTML = '';
 
-        // Limit the number of products to load based on the maxProducts parameter
-        const productsToDisplay = maxProducts ? products.slice(0, maxProducts) : products;
-
-        productsToDisplay.forEach(product => {
+        products.forEach(product => {
             const card = createProductCard(product, containerId);
             cardContainer.appendChild(card);
         });
