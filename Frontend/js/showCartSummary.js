@@ -9,6 +9,7 @@ function showCartSummary() {
     cartSummaryElement.innerHTML = "";
 
     cartSummary.forEach(function (product, index) {
+        var itemPrice = product.price * product.quantity;
         var div = document.createElement("div");
         div.innerHTML = `<div class="row">
                             <div class="col-8">
@@ -30,6 +31,7 @@ function showCartSummary() {
                         </div>`;
         cartSummaryElement.appendChild(div);
     });
+    calculateSubtotal();
 }
 
 function removeFromCartSummary(index, newQuantity) {
@@ -51,4 +53,22 @@ function removeFromCartSummary(index, newQuantity) {
         // A cartSummary frissítése
         showCartSummary();
     }
+}
+
+function calculateSubtotal() {
+    var subtotalElement = document.getElementById("subtotal");
+    var quantities = document.getElementsByClassName("quantity");
+    var prices = document.getElementsByClassName("price");
+    var subtotal = 0;
+
+    for (var i = 0; i < prices.length; i++) {
+        // Extract quantity and price from their respective elements
+        var quantity = parseInt(quantities[i].value);
+        var itemPrice = parseFloat(prices[i].textContent.replace(' Ft', ''));
+
+        // Calculate the subtotal for each item
+        subtotal += itemPrice * quantity;
+    }
+
+    subtotalElement.innerHTML = subtotal.toFixed(0) + " Ft";
 }
