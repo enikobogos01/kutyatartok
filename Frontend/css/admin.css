@@ -51,7 +51,7 @@
   body {
     margin: 0;
     font-family: "Lato", sans-serif;
-    background-color: #e31b1b;
+    background-color: #ffffff;
   }
   .content{
     margin: 0;
@@ -115,4 +115,12 @@
     display: block; /* Blokkként való megjelenítés */
     margin: 0 auto;
     padding: 2px;
+}
+.admin-item{
+  background-color: #bcbcbc;
+  text-align: center;
+  width: 70%;
+  padding: 10px;
+  color: #333;
+  margin-top: 2vw;
 }
