@@ -75,7 +75,7 @@
     <!--Checkout tartalom-->
     <div class="content mt-5">
         <div class="row">
-            <div class="col-9 bg-body shadow rounded p-4">
+            <div class="col-6 col-md-9 bg-body shadow rounded p-4">
                 <h2>Rendelés véglegesítése</h2>
                 <hr>
                 <!--A megvásárolandó termékek összesítése-->
@@ -92,32 +92,35 @@
                     <h4>Szállítási adatok</h4>
                     <form action="" method="POST">
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-12 col-md-6">
                                 <input class="mb-1" type="text" placeholder="Ország" name="country" id="country">
                             </div>
-                            <div class="col-6">
+                            <div class="col-12 col-md-6">
                                 <input class="mb-1" type="text" placeholder="Város" name="city" id="city">
                             </div>
-                            <div class="col-6">
+                            <div class="col-12 col-md-6">
                                 <input class="mb-1" type="text" placeholder="Írányítószám" name="postalCode" id="postalCode">
                             </div>
-                            <div class="col-6">
+                            <div class="col-12 col-md-6">
                                 <input type="text" placeholder="Utca, házszám" name="address" id="address">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <input type="tel" placeholder="Telefonszám" name="phoneNumber" id="phoneNumber">
                             </div>
                         </div>
                     </form>
                 </div>
                 <hr>
                 <!--Fizetési mód-->
-                <div class="row btn-group pt-2 pb-3">
+                <div class="row pt-2 pb-3">
                     <h4>Fizetési mód</h4>
-                    <div class="btn-group">
+                    <div class="btn-group flex-column flex-md-row">
                         <input class="btn-check" type="radio" name="paymentMethod" id="cashOnDelivery" checked>
-                        <label class="btn btn-secondary" for="cashOnDelivery">
+                        <label class="btn btn-secondary rounded-0" for="cashOnDelivery">
                             <i class="bi bi-cash-coin"></i> Készpénzes utánvétel
                         </label>
 
-                        <input class="btn-check" type="radio" name="paymentMethod" id="creditCard">
+                        <input class="btn-check" type="radio" name="paymentMethod" id="creditCard" disabled>
                         <label class="btn btn-secondary rounded-0" for="creditCard">
                             <i class="bi bi-credit-card"></i> Bankkártya
                         </label>
@@ -125,11 +128,11 @@
                 </div>
                 <hr>
                 <!--Szállítási mód-->
-                <div class="row btn-group pt-2">
+                <div class="row pt-2">
                     <h4>Szállítási mód</h4>
-                    <div class="btn-group">
+                    <div class="btn-group flex-column flex-md-row">
                         <input class="btn-check" type="radio" name="deliveryMethod" id="homeDelivery" checked>
-                        <label class="btn btn-secondary" for="homeDelivery">
+                        <label class="btn btn-secondary rounded-0" for="homeDelivery">
                           Házhoz szállítás
                         </label>
 
@@ -141,7 +144,7 @@
 
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-6 col-md-3">
                 <!--Teljes fizetendő összeg-->
                 <div class="p-4 bg-body shadow rounded">
                     <h5 class="pb-3">Összesítés</h5>
