@@ -35,7 +35,7 @@
                 <div class="bejelentkezes-info">
                     <h2 class="fs-1 pt-2">Üdvözöllek a Kutyatartók Webáruházában!</h2>
                     <p class="fs-6 pt-2" style="text-align: justify;">
-                        Jelentkezz be a profilodba, vagy ha még nincs, akkor most regisztrálj, hogy élvezhesd az összes fantasztikus ajánlatot és szolgáltatást! Legyél része a Kutyatartók közösségének, és gondoskodj hűséges társadnak a legjobb termékekkel. Ne hagyd ki ezt az alkalmat, csatlakozz hozzánk ma.
+                        Jelentkezz be a profilodba, vagy ha még nincs, akkor most regisztrálj, hogy élvezhesd az összes fantasztikus ajánlatot és szolgáltatást! Legyél része a Kutyatartók közösségének, és gondoskodj hűséges társadnak a legjobb termékekkel.
                     </p>
                     <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000">
                         <div class="carousel-inner">
@@ -69,41 +69,8 @@
             </div>
             <div class="col-md-6 col-lg-6">
                 <div class="wrapper">
-                    <iframe name="hiddenFrame" width="0" height="0" style="display: none;"></iframe>
-                    <form id="registrationForm" action="../../Backend/Controller/userController.php" method="POST" target="hiddenFrame" onsubmit="validateForm()">
-                        <h2>Regisztráció</h2>
-                        <div class="input-box">
-                            <input type="text" id="fullname" name="fullname" placeholder="Teljes név" required>
-                        </div>
-                        <div class="input-box">
-                            <input type="text" id="email" name="email" placeholder="E-mail cím" required>
-                        </div>
-                        <div class="input-box">
-                            <input type="password" id="password" name="password" placeholder="Jelszó" required>
-                            <span id="password-toggle" class="password-toggle" onclick="togglePasswordVisibility('password')"></span>
-                        </div>
-                        <div class="input-box">
-                            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Jelszó újra" required>
-                            <span id="confirmPassword-toggle" class="password-toggle" onclick="togglePasswordVisibility('confirmPassword')"></span>
-                        </div>
-                        <div class="policy">
-                            <input type="checkbox" required>
-                            <h3>Elfogadom a feltételeket.</h3>
-                        </div>
-                        <div class="input-box button">
-                            <input type="submit" id="submitButton" value="Regisztráció">
-                        </div>
-                        <div class="text">
-                            <h3>Van már fiókod? <a href="#" onclick="toggleForm()">Jelentkezz be!</a></h3>
-                        </div>
-                        <p class="condition">
-                            Kérjük, adjon meg teljes nevet. <br>
-                            Kérjük, adjon meg érvényes e-mail címet. <br>
-                            A jelszónak legalább 8 karakter hosszúnak kell lennie, és nem tartalmazhat szóközt. <br>
-                            A jelszó és a jelszó újra mezők tartalmának meg kell egyeznie. <br>
-                        </p>
-                    </form>               
-                    <form id="loginForm" style="display: none;">
+                    <iframe id="feedbackIframe" name="hiddenFrame" width="0" height="0" style="display: none;"></iframe>
+                    <form id="loginForm">
                         <h2>Bejelentkezés</h2>
                       <div class="input-box">
                         <input type="text" placeholder="E-mail cím" required>
@@ -118,6 +85,60 @@
                         <h3>Még nincs fiókod? <a href="#" onclick="toggleForm()">Regisztrálj most!</a></h3>
                       </div>                    
                     </form>
+                    <form id="registrationForm" action="../../Backend/Controller/userController.php" method="POST" target="hiddenFrame" onsubmit="validateForm()" style="display: none;">
+                        <h2>Regisztráció</h2>
+                        <div class="input-box">
+                            <input type="text" id="fullname" name="fullname" placeholder="Teljes név" required>
+                        </div>
+                        <div class="input-box">
+                            <input type="email" id="email" name="email" placeholder="E-mail cím" required>
+                        </div>
+                        <div class="input-box">
+                            <input type="password" id="password" name="password" placeholder="Jelszó" required>
+                            <span id="password-toggle" class="password-toggle" onclick="togglePasswordVisibility('password', 'password-toggle')">
+                                <i class="bi bi-eye"></i>
+                            </span>
+                        </div>
+                        <div class="input-box">
+                            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Jelszó újra" required>
+                            <span id="confirmPassword-toggle" class="password-toggle" onclick="togglePasswordVisibility('confirmPassword', 'confirmPassword-toggle')">
+                                <i class="bi bi-eye"></i>
+                            </span>
+                        </div>
+                        <div class="policy">
+                            <input type="checkbox" id="terms" name="terms" required>
+                            <label for="terms">Elfogadom a <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Feltételek</a>.</label>
+                            <!-- Modális Ablak -->
+                            <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h5 class="modal-title" id="termsModalLabel">Felhasználási Feltételek</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Elfogadom a weboldal felhasználási feltételeit, amelyek magukban foglalják, hogy minden személyes adatomat, beleértve a jelszavamat is, biztonságosan tárolja az oldal. Tudomásul veszem, hogy a jelszavak hash-elt formában kerülnek tárolásra az adatbázisban a magas szintű biztonság érdekében. Elkötelezem magam amellett, hogy nem osztom meg a bejelentkezési adataimat harmadik felekkel és óvatosan bánok a személyes információimmal.
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bezár</button>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>                        
+                        <div class="input-box button">
+                            <input type="submit" id="submitButton" value="Regisztráció">
+                        </div>
+                        <div class="text">
+                            <h3>Van már fiókod? <a href="#" onclick="toggleForm()">Jelentkezz be!</a></h3>
+                        </div>
+                        <p class="condition">
+                            Kérjük, adjon meg teljes nevet. <br>
+                            Kérjük, adjon meg érvényes e-mail címet. <br>
+                            A jelszónak legalább 8 karakter hosszúnak kell lennie, és nem tartalmazhat szóközt. <br>
+                            A jelszó és a jelszó újra mezők tartalmának meg kell egyeznie. <br>
+                        </p>
+                    </form>               
                 </div>                               
             </div>
         </div>
@@ -130,6 +151,5 @@
         </p>
     </footer>
     <script src="../js/user.js"></script>
-    <script src="../../Backend/Controller/userController.php"></script>
 </body>
 </html>
