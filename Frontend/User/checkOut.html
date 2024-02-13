@@ -130,7 +130,7 @@
                 <!--Szállítási mód-->
                 <div class="row pt-2">
                     <h4>Szállítási mód</h4>
-                    <div class="btn-group flex-column flex-md-row">
+                    <div class="btn-group flex-column flex-md-row mb-2">
                         <input class="btn-check" type="radio" name="deliveryMethod" id="homeDelivery" checked>
                         <label class="btn btn-secondary rounded-0" for="homeDelivery">
                           Házhoz szállítás
@@ -146,7 +146,9 @@
                         <h1>HÁZHOZ</h1>
                     </div>
                     <div class="collapse" id="packageLockerContent">
-                        <h1>MAP</h1>
+                        <div id="map" style="height: 500px;">
+                            <iframe class="w-100 h-100" src="https://maps.google.com/maps?q=pecs&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0"></iframe>
+                        </div>
                     </div>
 
                 </div>
