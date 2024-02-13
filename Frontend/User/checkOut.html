@@ -120,11 +120,19 @@
                             <i class="bi bi-cash-coin"></i> Készpénzes utánvétel
                         </label>
 
-                        <input class="btn-check" type="radio" name="paymentMethod" id="creditCard" disabled>
+                        <input class="btn-check" type="radio" name="paymentMethod" id="creditCard">
                         <label class="btn btn-secondary rounded-0" for="creditCard">
                             <i class="bi bi-credit-card"></i> Bankkártya
                         </label>
                     </div>
+
+                    <div class="collapse show" id="cashOnDeliveryContent">
+                        <h1>KÉSZPÉNZ</h1>
+                    </div>
+                    <div class="collapse" id="creditCardContent">
+                        <h1>BANKKÁRTYA</h1>
+                    </div>
+
                 </div>
                 <hr>
                 <!--Szállítási mód-->
@@ -176,5 +184,6 @@
     </footer>
     <script src="../js/showCartSummary.js"></script>
     <script src="../js/deliveryOptionsToggle.js"></script>
+    <script src="../js/paymentOptionsToggle.js"></script>
 </body>
 </html>
