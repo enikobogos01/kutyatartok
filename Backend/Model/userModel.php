@@ -1,11 +1,14 @@
 <?php
+// userModel.php
+
 require_once '../Config/database.php';
 
 class UserModel {
     private $conn; 
 
-    public function __construct($conn) {
-        $this->conn = $conn;
+    public function __construct() {
+        $database = new Database();
+        $this->conn = $database->getConnection();
     }
 
     public function registerUser($fullname, $email, $password) {
@@ -27,7 +30,7 @@ class UserModel {
 
             try {
                 if ($stmt->execute()) {
-                    return array('msg' => 'Sikeres regisztráció!');
+                    return array('msg' => 'Sikeres regisztráció! Most már be tudsz jelentkezni.');
                 } else {
                     return array('msg' => 'Hiba történt a regisztráció közben!');
                 }
@@ -36,4 +39,27 @@ class UserModel {
             }
         }
     }
+    
+    public function loginUser($email, $password) {
+        $sql = "SELECT id, password FROM users WHERE email = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    
+        if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+            $userId = $row['id'];
+            $hashedPassword = $row['password'];
+    
+            if (password_verify($password, $hashedPassword)) {
+                return ['success' => true, 'msg' => 'Sikeres bejelentkezés.', 'userId' => $userId];
+            } else {
+                return ['success' => false, 'msg' => 'Hibás email-cím vagy jelszó.'];
+            }
+        } else {
+            return ['success' => false, 'msg' => 'A felhasználó nem található.'];
+        }
+    }
+      
 }
