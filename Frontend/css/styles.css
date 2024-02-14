@@ -8,6 +8,7 @@ body {
   letter-spacing: 0.1vw;
   margin-bottom: 0px;
   color: #2F3B49;
+  min-height: 100vh;
 }
 
 nav{

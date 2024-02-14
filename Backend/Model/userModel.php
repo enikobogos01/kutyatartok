@@ -75,7 +75,7 @@ class UserModel {
             } else {
                 // Sikertelen bejelentkezés, hibás jelszó
                 return ['success' => false, 'msg' => 'Hibás email-cím vagy jelszó.'];
-            }
+            }            
         } else {
             // A felhasználó nem található
             return ['success' => false, 'msg' => 'A felhasználó nem található.'];
