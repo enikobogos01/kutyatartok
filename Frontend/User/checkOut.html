@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        <script src="https://js.stripe.com/v3/"></script>
         <link rel="stylesheet" href="../css/styles.css">
   </head>
   <style>
@@ -127,10 +128,29 @@
                     </div>
 
                     <div class="collapse show" id="cashOnDeliveryContent">
+                        <!--Készpénzes Fizetés-->
                         <h1>KÉSZPÉNZ</h1>
                     </div>
                     <div class="collapse" id="creditCardContent">
-                        <h1>BANKKÁRTYA</h1>
+                        <!--Bankkártyás Fizetés-->
+                        <h1>Teszt Fizetés</h1>
+                        <iframe name="hiddenFrame" width="0" height="0" style="display: none;"></iframe>
+                        <form action="../../Backend/Controller/Payment/checkOutProcess.php" method="post" id="payment-form" target="hiddenFrame">
+                            <div id="card-element">
+                                <!-- A fizetési űrlap elemei -->
+                            </div>
+                            <!-- Input mezők a név és email cím bekéréséhez -->
+                            <label for="customerName">Név:</label>
+                            <input type="text" id="customerName" name="customerName" required><br>
+                            <label for="customerEmail">Email cím:</label>
+                            <input type="email" id="customerEmail" name="customerEmail" required><br>
+                            <button type="submit">Fizetés</button>
+                        </form>
+                        <!--
+                        <div id="payment-result">
+                            <?php echo $message; ?>
+                        </div>
+                        -->
                     </div>
 
                 </div>
@@ -185,5 +205,37 @@
     <script src="../js/showCartSummary.js"></script>
     <script src="../js/deliveryOptionsToggle.js"></script>
     <script src="../js/paymentOptionsToggle.js"></script>
+
+    <script src="checkOutProcess.php"></script>
+    <script>
+        var stripe = Stripe('pk_test_51OjIVcFKfMSlBuhVNoM1Szow8nytCWPgV8diFnS9ESg1J2E4XzEaLLoIfoEr7MhtxJGpwp0dJdXM7oHlWUbFDaOY00gzVQ6hQ8'); // Cseréld le a saját publikus kulcsodra
+        var elements = stripe.elements();
+
+        var card = elements.create('card');
+        card.mount('#card-element');
+
+        var form = document.getElementById('payment-form');
+        var paymentResult = document.getElementById('payment-result');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            stripe.createToken(card).then(function(result) {
+                if (result.error) {
+                    // Hiba kezelése
+                    paymentResult.textContent = result.error.message;
+                } else {
+                    var tokenInput = document.createElement('input');
+                    tokenInput.type = 'hidden';
+                    tokenInput.name = 'stripeToken';
+                    tokenInput.value = result.token.id;
+                    form.appendChild(tokenInput);
+
+                    // Elküldjük az űrlapot a szervernek
+                    form.submit();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
