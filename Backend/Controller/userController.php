@@ -1,6 +1,4 @@
 <?php
-// userController.php
-
 require_once '../Model/userModel.php';
 
 class UserController {
@@ -41,24 +39,30 @@ class UserController {
             $result = $this->userModel->loginUser($email, $password);
     
             if ($result['success']) {
-                return json_encode(['success' => true, 'msg' => $result['msg'], 'userId' => $result['userId']]);
-            } else {
-                return json_encode(['success' => false, 'msg' => $result['msg']]);
+                // Sikeres bejelentkezés esetén vissza kell adni a felhasználó teljes nevét is
+                $fullname = $this->userModel->getUserFullnameByEmail($email);
+                return json_encode(['success' => true, 'msg' => 'Sikeres bejelentkezés.', 'fullname' => $fullname, 'userId' => $result['userId']]);
+            } elseif ($result['msg'] == 'Hibás email-cím vagy jelszó.') {
+                return json_encode(['success' => false, 'msg' => 'Helyes email-cím, de hibás jelszó.']);
+            } elseif ($result['msg'] == 'A felhasználó nem található.') {
+                return json_encode(['success' => false, 'msg' => 'Nem regisztráltak még ilyen email-címmel.']);
             }
         } catch (Exception $e) {
-            return json_encode(['success' => false, 'msg' => $e->getMessage()]);
+            return json_encode(['success' => false, 'msg' => 'Rendszerhiba: ' . $e->getMessage()]);
         }
     }
     
-
+    public function getUserFullnameByEmail($email) {
+        return $this->userModel->getUserFullnameByEmail($email);
+    }
     
-       
-    // Egyedi email validáció
+    
+    // Email validáció
     private function isValidEmail($email) {
         $emailPattern = '/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/';
         return preg_match($emailPattern, $email);
     }
-    // Egyedi jelszó validáció
+    // Jelszó validáció
     private function isValidPassword($password) {
         if (strlen($password) < 8) {
             return false;
@@ -105,11 +109,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST["email"], $_POST["password"])) {
             $email = trim($_POST["email"]);
             $password = trim($_POST["password"]);
-
-            // Ellenőrizd a bejelentkezési adatokat a UserModel segítségével
-            $result = $userController->loginUser($email, $password);
-            echo $result; // A loginUser metódus visszaadja a JSON választ
-
+    
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                // Ha az email formátuma érvénytelen
+                echo json_encode(['success' => false, 'msg' => 'Érvénytelen email formátum.']);
+            } else {
+                // Ellenőrizd a bejelentkezési adatokat a UserModel segítségével
+                $result = $userController->loginUser($email, $password);
+                echo $result; // A loginUser metódus visszaadja a JSON választ
+            }
+        } else {
+            // Ha az email vagy a jelszó hiányzik
+            echo json_encode(['success' => false, 'msg' => 'Hiányzó email vagy jelszó.']);
         }
     }
+    
 }
+?>

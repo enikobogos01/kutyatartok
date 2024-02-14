@@ -37,7 +37,7 @@
                     <p class="fs-6 pt-2" style="text-align: justify;">
                         Jelentkezz be a profilodba, vagy ha még nincs, akkor most regisztrálj, hogy élvezhesd az összes fantasztikus ajánlatot és szolgáltatást! Legyél része a Kutyatartók közösségének, és gondoskodj hűséges társadnak a legjobb termékekkel.
                     </p>
-                    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000">
+                    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000" height>
                         <div class="carousel-inner">
                             <div class="carousel-item active">
                                 <img src="../../imgs/registKep.jpg" class="d-block w-100" alt="...">
@@ -73,10 +73,10 @@
                     <form id="loginForm">
                         <h2>Bejelentkezés</h2>
                       <div class="input-box">
-                        <input type="email" id="loginEmail" placeholder="E-mail cím" required>
+                        <input type="email" name="email" id="loginEmail" placeholder="E-mail cím" required>
                       </div>
                       <div class="input-box">
-                        <input type="password" id="loginPassword" placeholder="Jelszó" required>
+                        <input type="password" name="password" id="loginPassword" placeholder="Jelszó" required>
                         <span id="password-toggle" class="password-toggle" onclick="togglePasswordVisibility('loginPassword', 'password-toggle')">
                             <i class="bi bi-eye"></i>
                         </span>
@@ -88,7 +88,7 @@
                         <h3>Még nincs fiókod? <a href="#" onclick="toggleForm()">Regisztrálj most!</a></h3>
                       </div>                    
                     </form>
-                    <form id="registrationForm" action="../../Backend/Controller/userController.php" method="POST" target="hiddenFrame" onsubmit="validateForm()" style="display: none;">
+                    <form id="registrationForm" action="../../Backend/Controller/userController.php" method="POST" target="hiddenFrame" style="display: none;">
                         <h2>Regisztráció</h2>
                         <div class="input-box">
                             <input type="text" id="fullname" name="fullname" placeholder="Teljes név" required>
@@ -116,11 +116,29 @@
                                 <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                    <h5 class="modal-title" id="termsModalLabel">Felhasználási Feltételek</h5>
+                                    <h5 class="modal-title" id="termsModalLabel">Felhasználási Feltételek és Adatvédelmi Irányelvek</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        Elfogadom a weboldal felhasználási feltételeit, amelyek magukban foglalják, hogy minden személyes adatomat, beleértve a jelszavamat is, biztonságosan tárolja az oldal. Tudomásul veszem, hogy a jelszavak hash-elt formában kerülnek tárolásra az adatbázisban a magas szintű biztonság érdekében. Elkötelezem magam amellett, hogy nem osztom meg a bejelentkezési adataimat harmadik felekkel és óvatosan bánok a személyes információimmal.
+                                        A regisztrációval és a "Kutyatartók Webáruháza" weboldal használatával Ön elfogadja az alábbi feltételeket:
+
+                                        Korhatár: A regisztrációhoz Önnek legalább 18 évesnek kell lennie, vagy rendelkeznie kell szülői/gondviselői engedéllyel.
+
+                                        Személyes Adatok: Ön beleegyezik, hogy a regisztráció során megadott személyes adatokat (név, e-mail cím, stb.) a "Kutyatartók Webáruháza" tárolja és feldolgozza az Ön számára nyújtott szolgáltatások érdekében.
+
+                                        Adatvédelem: Kötelezzük magunkat az Ön személyes adatainak biztonságos kezelésére. Adatvédelmi irányelveink részletezik, hogyan védjük és használjuk fel az Ön adatait.
+
+                                        Felhasználói Felelősség: Ön felelős minden tevékenységért, amely a fiókján keresztül történik. Gondoskodnia kell a bejelentkezési adatainak biztonságáról, és értesítenie kell minket, ha bármilyen illetéktelen hozzáférést észlel.
+
+                                        Tartalomhasználat: A weboldalon található tartalmak (szövegek, képek, videók stb.) szerzői jog által védettek. Ezeket a tartalmakat kizárólag személyes és nem kereskedelmi célokra használhatja fel.
+
+                                        Tilos Tevékenységek: Tilos a weboldal használata bármilyen jogellenes tevékenységhez, beleértve, de nem korlátozva a szerzői jogok megsértésére, zaklatásra vagy káros szoftverek terjesztésére.
+
+                                        Módosítások: Fenntartjuk a jogot, hogy bármikor módosítsuk a felhasználási feltételeket és az adatvédelmi irányelveket. A weboldal használatával Ön elfogadja ezeket a módosításokat.
+
+                                        Felmondás: Fenntartjuk a jogot, hogy bármikor, előzetes értesítés nélkül felfüggesszük vagy megszüntessük fiókját, amennyiben úgy ítéljük meg, hogy megsértette a felhasználási feltételeket.
+
+                                    A "Kutyatartók Webáruháza" weboldal használatával Ön kijelenti és garantálja, hogy elfogadja és betartja ezeket a feltételeket.
                                     </div>
                                     <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bezár</button>

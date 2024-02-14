@@ -8,15 +8,6 @@ window.onload = function () {
         });
     }
 
-    // Bejelentkezés űrlap elküldése
-    var loginForm = document.getElementById("loginForm");
-    if (loginForm) {
-        loginForm.addEventListener("submit", function(event) {
-            event.preventDefault();
-            submitLoginForm();
-        });
-    }
-
     // Űrlap mezők formázása
     var inputElement = document.getElementById('fullname');
     if (inputElement) {
@@ -26,6 +17,15 @@ window.onload = function () {
                 return word.charAt(0).toUpperCase() + word.slice(1);
             });
             inputElement.value = words.join(' ');
+        });
+    }
+
+    // Bejelentkezés űrlap elküldése
+    var loginForm = document.getElementById("loginForm");
+    if (loginForm) {
+        loginForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+            submitLoginForm();
         });
     }
 };
@@ -53,6 +53,37 @@ function submitRegistrationForm() {
     xhr.send(params);
 }
 
+// Regisztrációs paraméterek összeállítása
+function buildRegistrationParams() {
+    var fullname = document.getElementById("fullname").value;
+    var email = document.getElementById("email").value;
+    var password = document.getElementById("password").value;
+    var confirmPassword = document.getElementById("confirmPassword").value;
+
+    return "method=registration" +
+        "&fullname=" + encodeURIComponent(fullname) +
+        "&email=" + encodeURIComponent(email) +
+        "&password=" + encodeURIComponent(password) +
+        "&confirmPassword=" + encodeURIComponent(confirmPassword);
+}
+
+// Regisztrációs válasz kezelése
+function handleRegistrationResponse(responseText) {
+    try {
+        var data = JSON.parse(responseText);
+        var msg = data.msg;
+        alert(msg);
+
+        if (msg == 'Sikeres regisztráció! Most már be tudsz jelentkezni.') {
+            window.location.href = '#loginForm';
+            clearFormAndShowMessage('registrationForm', '');
+            toggleForm();
+        }
+    } catch (e) {
+        console.error("Error parsing JSON: " + e.message);
+    }
+}
+
 // Bejelentkezési űrlap elküldése
 function submitLoginForm() {
     var xhr = new XMLHttpRequest();
@@ -71,43 +102,12 @@ function submitLoginForm() {
     xhr.send(params);
 }
 
-// Regisztrációs paraméterek összeállítása
-function buildRegistrationParams() {
-    var fullname = document.getElementById("fullname").value;
-    var email = document.getElementById("email").value;
-    var password = document.getElementById("password").value;
-    var confirmPassword = document.getElementById("confirmPassword").value;
-
-    return "method=registration" +
-        "&fullname=" + encodeURIComponent(fullname) +
-        "&email=" + encodeURIComponent(email) +
-        "&password=" + encodeURIComponent(password) +
-        "&confirmPassword=" + encodeURIComponent(confirmPassword);
-}
-
 // Bejelentkezési paraméterek összeállítása
 function buildLoginParams() {
     var email = document.getElementById("loginEmail").value;
     var password = document.getElementById("loginPassword").value;
 
     return "method=login&email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password);
-}
-
-// Regisztrációs válasz kezelése
-function handleRegistrationResponse(responseText) {
-    try {
-        var data = JSON.parse(responseText);
-        var msg = data.msg;
-        alert(msg);
-
-        if (msg == 'Sikeres regisztráció! Most már be tudsz jelentkezni.') {
-            window.location.href = '#loginForm';
-            clearFormAndShowMessage('registrationForm', '');
-            toggleForm();
-        }
-    } catch (e) {
-        console.error("Error parsing JSON: " + e.message);
-    }
 }
 
 // Bejelentkezési válasz kezelése és tartalom frissítése
@@ -130,7 +130,6 @@ function handleLoginResponse(responseText) {
         console.error("Error parsing JSON: ", e.message);
     }
 }
-
 
 // Űrlap mezők törlése és üzenet megjelenítése
 function clearFormAndShowMessage(formId, message) {
