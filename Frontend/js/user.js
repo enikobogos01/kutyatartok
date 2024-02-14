@@ -1,4 +1,6 @@
 window.onload = function () {
+    checkLoginState();
+
     // Regisztráció űrlap elküldése
     var registrationForm = document.getElementById("registrationForm");
     if (registrationForm) {
@@ -30,7 +32,19 @@ window.onload = function () {
     }
 };
 
-// Regisztrációs űrlap elküldése
+function checkLoginState() {
+    var isLoggedIn = localStorage.getItem('isLoggedIn');
+    var fullname = localStorage.getItem('fullname');
+    if (isLoggedIn === 'true') {
+        document.getElementById('content').style.display = 'none';
+        document.getElementById('welcomeMessage').textContent = `Üdvözlünk, ${fullname}!`;
+        document.getElementById('profileInfo').style.display = 'block';
+    } else {
+        document.getElementById('content').style.display = 'block';
+        document.getElementById('profileInfo').style.display = 'none';
+    }
+}
+
 function submitRegistrationForm() {
     var xhr = new XMLHttpRequest();
     var url = "../../Backend/Controller/userController.php";
@@ -40,20 +54,16 @@ function submitRegistrationForm() {
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
     xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-            if (xhr.status == 200) {
-                handleRegistrationResponse(xhr.responseText);
-            } else {
-                console.error("Server response (error): " + xhr.status);
-                handleRegistrationResponse(xhr.responseText);
-            }
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            handleRegistrationResponse(xhr.responseText);
+        } else {
+            console.error("Server response (error): " + xhr.status);
         }
     };
 
     xhr.send(params);
 }
 
-// Regisztrációs paraméterek összeállítása
 function buildRegistrationParams() {
     var fullname = document.getElementById("fullname").value;
     var email = document.getElementById("email").value;
@@ -67,24 +77,20 @@ function buildRegistrationParams() {
         "&confirmPassword=" + encodeURIComponent(confirmPassword);
 }
 
-// Regisztrációs válasz kezelése
 function handleRegistrationResponse(responseText) {
     try {
         var data = JSON.parse(responseText);
-        var msg = data.msg;
-        alert(msg);
-
-        if (msg == 'Sikeres regisztráció! Most már be tudsz jelentkezni.') {
-            window.location.href = '#loginForm';
-            clearFormAndShowMessage('registrationForm', '');
+        if (data.msg === 'Sikeres regisztráció! Most már be tudsz jelentkezni.') {
+            alert(data.msg);
             toggleForm();
+        } else {
+            alert(data.msg);
         }
     } catch (e) {
         console.error("Error parsing JSON: " + e.message);
     }
 }
 
-// Bejelentkezési űrlap elküldése
 function submitLoginForm() {
     var xhr = new XMLHttpRequest();
     var url = "../../Backend/Controller/userController.php";
@@ -102,7 +108,6 @@ function submitLoginForm() {
     xhr.send(params);
 }
 
-// Bejelentkezési paraméterek összeállítása
 function buildLoginParams() {
     var email = document.getElementById("loginEmail").value;
     var password = document.getElementById("loginPassword").value;
@@ -110,20 +115,16 @@ function buildLoginParams() {
     return "method=login&email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password);
 }
 
-// Bejelentkezési válasz kezelése és tartalom frissítése
 function handleLoginResponse(responseText) {
-    console.log("Received response:", responseText);
-
     try {
         var data = JSON.parse(responseText);
         if (data.success) {
-            // Sikeres bejelentkezés esetén tartalom törlése és üzenet megjelenítése
-            var contentDiv = document.getElementById('content');
-            var welcomeMessage = data.fullname ? `Sikeres bejelentkezés, ${data.fullname}!` : "Sikeres bejelentkezés!";
-            contentDiv.innerHTML = `<h1>${welcomeMessage}</h1>`;
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userStatus', 'loggedIn');
+            localStorage.setItem('fullname', data.fullname);
+            checkLoginState();
+            // További logika...
         } else {
-            // Sikertelen bejelentkezés esetén hibaüzenet megjelenítése
-            console.log("Login failed: " + data.msg); // Add console log here
             alert(data.msg);
         }
     } catch (e) {
@@ -131,33 +132,26 @@ function handleLoginResponse(responseText) {
     }
 }
 
-// Űrlap mezők törlése és üzenet megjelenítése
-function clearFormAndShowMessage(formId, message) {
-    document.getElementById(formId).reset();
-    let iframe = document.getElementById('feedbackIframe');
-    iframe.style.display = 'block';
-    iframe.contentWindow.document.body.innerHTML = message;
+
+function logout() {
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('userStatus');
+    localStorage.removeItem('fullname');
+    checkLoginState();
+    // További logika...
 }
 
-// Űrlapok váltása
+
 function toggleForm() {
     var registrationForm = document.getElementById('registrationForm');
     var loginForm = document.getElementById('loginForm');
-
-    if (loginForm.style.display === 'none' || loginForm.style.display === '') {
-        loginForm.style.display = 'block';
-        registrationForm.style.display = 'none';
-    } else {
-        loginForm.style.display = 'none';
-        registrationForm.style.display = 'block';
-    }
+    registrationForm.style.display = registrationForm.style.display === 'none' ? 'block' : 'none';
+    loginForm.style.display = loginForm.style.display === 'none' ? 'block' : 'none';
 }
 
-// A togglePasswordVisibility függvény definiálása
 function togglePasswordVisibility(fieldId, toggleId) {
     var field = document.getElementById(fieldId);
     var toggle = document.getElementById(toggleId);
-
     if (field.type === "password") {
         field.type = "text";
         toggle.innerHTML = '<i class="bi bi-eye-slash"></i>';
