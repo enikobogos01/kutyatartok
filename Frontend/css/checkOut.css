@@ -1,0 +1,42 @@
+input{
+    height: 45px;
+    width: 100%;
+    outline: none;
+    font-size: 16px;
+    border-radius: 5px;
+    padding-left: 15px;
+    border: 1px solid #ccc;
+    border-bottom-width: 2px;
+    transition: all 0.3s ease;
+}
+
+.btn-check:hover + .btn-secondary{
+    background-color: gray;
+}
+
+.btn-secondary{
+    opacity: 0.5;
+}
+
+.btn-check:checked + .btn-secondary {
+    opacity: 1;
+    background-color: rgb(0, 123, 255);
+    border-color: rgb(0, 123, 255);
+}
+
+.productImage{
+    width: 100px;
+}
+
+.price{
+font-size: 14px;
+}
+
+.productName{
+    font-size: 14px;
+}
+
+.quantity{
+    height: 25px;
+    width: 50px;
+}
