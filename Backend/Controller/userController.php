@@ -39,9 +39,10 @@ class UserController {
             $result = $this->userModel->loginUser($email, $password);
     
             if ($result['success']) {
-                // Sikeres bejelentkezés esetén vissza kell adni a felhasználó teljes nevét is
+                // Sikeres bejelentkezés esetén vissza kell adni a felhasználó teljes nevét és szerepkörét is
                 $fullname = $this->userModel->getUserFullnameByEmail($email);
-                return json_encode(['success' => true, 'msg' => 'Sikeres bejelentkezés.', 'fullname' => $fullname, 'userId' => $result['userId']]);
+                // Itt adtuk hozzá a 'role' kulcsot a válaszhoz
+                return json_encode(['success' => true, 'msg' => 'Sikeres bejelentkezés.', 'fullname' => $fullname, 'userId' => $result['userId'], 'role' => $result['role']]);
             } elseif ($result['msg'] == 'Hibás email-cím vagy jelszó.') {
                 return json_encode(['success' => false, 'msg' => 'Helyes email-cím, de hibás jelszó.']);
             } elseif ($result['msg'] == 'A felhasználó nem található.') {
@@ -51,6 +52,7 @@ class UserController {
             return json_encode(['success' => false, 'msg' => 'Rendszerhiba: ' . $e->getMessage()]);
         }
     }
+    
     
     public function getUserFullnameByEmail($email) {
         return $this->userModel->getUserFullnameByEmail($email);
@@ -122,7 +124,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Ha az email vagy a jelszó hiányzik
             echo json_encode(['success' => false, 'msg' => 'Hiányzó email vagy jelszó.']);
         }
-    }
-    
+    }   
 }
-?>

@@ -119,11 +119,16 @@ function handleLoginResponse(responseText) {
     try {
         var data = JSON.parse(responseText);
         if (data.success) {
+            console.log("Felhasználó szerepköre: " + data.role); // Itt írjuk ki a szerepkört
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('userStatus', 'loggedIn');
             localStorage.setItem('fullname', data.fullname);
-            checkLoginState();
-            // További logika...
+            // Szerepkör ellenőrzése és átirányítás
+            if (data.role === 'admin') {
+                window.location.href = '../Admin/mainAdmin.html'; // Admin szerepkör esetén
+            } else {
+                checkLoginState(); // Nem admin felhasználók számára
+            }
         } else {
             alert(data.msg);
         }
@@ -131,6 +136,9 @@ function handleLoginResponse(responseText) {
         console.error("Error parsing JSON: ", e.message);
     }
 }
+
+
+
 
 
 function logout() {

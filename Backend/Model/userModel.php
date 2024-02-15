@@ -49,16 +49,14 @@ class UserModel {
     }
     
     public function loginUser($email, $password) {
-        $sql = "SELECT id, password FROM users WHERE email = ?";
+        $sql = "SELECT id, password, role FROM users WHERE email = ?"; // Módosítva: role hozzáadva
         $stmt = $this->conn->prepare($sql);
         if (!$stmt) {
-            // SQL előkészítési hiba kezelése
             return ['success' => false, 'msg' => 'Adatbázis előkészítési hiba.'];
         }
     
         $stmt->bind_param("s", $email);
         if (!$stmt->execute()) {
-            // SQL végrehajtási hiba kezelése
             return ['success' => false, 'msg' => 'Adatbázis végrehajtási hiba.'];
         }
     
@@ -67,20 +65,15 @@ class UserModel {
             $row = $result->fetch_assoc();
             $userId = $row['id'];
             $hashedPassword = $row['password'];
+            $userRole = $row['role']; // A felhasználó szerepkörének lekérése
     
-            // Ellenőrizd a jelszót
             if (password_verify($password, $hashedPassword)) {
-                // Sikeres bejelentkezés
-                return ['success' => true, 'msg' => 'Sikeres bejelentkezés.', 'userId' => $userId];
+                return ['success' => true, 'msg' => 'Sikeres bejelentkezés.', 'userId' => $userId, 'role' => $userRole];
             } else {
-                // Sikertelen bejelentkezés, hibás jelszó
                 return ['success' => false, 'msg' => 'Hibás email-cím vagy jelszó.'];
-            }            
+            }
         } else {
-            // A felhasználó nem található
             return ['success' => false, 'msg' => 'A felhasználó nem található.'];
         }
     }
-       
 }
-?>
