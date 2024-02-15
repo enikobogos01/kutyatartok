@@ -29,6 +29,7 @@ class UserModel {
     
             try {
                 if ($stmt->execute()) {
+                    $this->sendWelcomeEmail($fullname, $email); // Email küldése
                     return array('msg' => 'Sikeres regisztráció! Most már be tudsz jelentkezni.');
                 } else {
                     return array('msg' => 'Hiba történt a regisztráció közben!');
@@ -37,6 +38,12 @@ class UserModel {
                 $stmt->close();
             }
         }
+    }
+    private function sendWelcomeEmail($fullname, $email) {
+        $subject = "Üdvözlünk a Kutyatartók Webáruházában!";
+        $message = "Kedves $fullname,\n\nKöszönjük, hogy regisztráltál a Kutyatartók Webáruházához. Sikeresen létrehoztad a fiókodat.\n\nÜdvözlettel,\nA Kutyatartók Webáruháza Csapata";
+        $headers = "From: kutyatartokwebaruhaza@gmail.com";
+        mail($email, $subject, $message, $headers);
     }
     public function getUserFullnameByEmail($email) {
         $sql = "SELECT fullname FROM users WHERE email = ?";
@@ -47,6 +54,15 @@ class UserModel {
         $row = $result->fetch_assoc();
         return $row['fullname'];
     }
+    public function getUserCount() {
+        $sql = "SELECT COUNT(*) AS count FROM users";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        return $row['count'];
+    }
+    
     
     public function loginUser($email, $password) {
         $sql = "SELECT id, password, role FROM users WHERE email = ?"; // Módosítva: role hozzáadva

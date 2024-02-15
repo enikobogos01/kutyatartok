@@ -57,7 +57,11 @@ class UserController {
     public function getUserFullnameByEmail($email) {
         return $this->userModel->getUserFullnameByEmail($email);
     }
-    
+    public function getUserCount() {
+        $userCount = $this->userModel->getUserCount();
+        header('Content-Type: application/json');
+        echo json_encode(['userCount' => $userCount]);
+    }
     
     // Email validáció
     private function isValidEmail($email) {
@@ -125,4 +129,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo json_encode(['success' => false, 'msg' => 'Hiányzó email vagy jelszó.']);
         }
     }   
+    
+} elseif ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["action"]) && $_GET["action"] == "getUserCount") {
+    $userController->getUserCount();
+    exit;
 }

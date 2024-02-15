@@ -1,126 +1,52 @@
-/* Add general styling for the admin content */
-.adminContent {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #ffffff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .adminContent h2 {
-    color: #333;
-  }
-  
-  /* Style form elements */
-  .adminContent form {
-    display: grid;
-    gap: 10px;
-  }
-  
-  .adminContent label {
-    font-weight: bold;
-  }
-  
-  .adminContent input[type="text"],
-  .adminContent input[type="number"],
-  .adminContent textarea,
-  .adminContent select {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-  }
-  
-  .adminContent input[type="file"] {
-    width: auto;
-    padding: 8px 0;
-  }
-  
-  .adminContent input[type="submit"] {
-    background-color: #4caf50;
-    color: #fff;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .adminContent input[type="submit"]:hover {
-    background-color: #45a049;
-  }
-  body {
-    margin: 0;
-    font-family: "Lato", sans-serif;
-    background-color: #ffffff;
-  }
-  .content{
-    margin: 0;
-    background-color: #fff;
-  }
-  
-  .sidebar {
-    margin: 0;
-    padding: 0;
-    width: 210px;
-    background-color: #2A3F54;
-    position: fixed;
-    height: 100%;
-    overflow: auto;
-  }
-  
-  .sidebar a {
-    display: block;
-    color: rgb(255, 255, 255);
-    padding: 16px;
-    text-decoration: none;
-    margin-left: auto;
-    margin-right: auto;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-  }
-   
-  .sidebar a.active {
-    background-color: #1a50ba;
-    color: white;
-  }
-  
-  .sidebar a:hover:not(.active) {
-    background-color: #555;
-    color: white;
-  }
-  
-  div.content {
-    margin-left: 200px;
-    padding: 1px 16px;
-    height: 1000px;
-  }
-  
-  @media screen and (max-width: 700px) {
-    .sidebar {
-      width: 100%;
-      height: auto;
-      position: relative;
-    }
-    .sidebar a {float: left;}
-    div.content {margin-left: 0;}
-  }
-  
-  @media screen and (max-width: 400px) {
-    .sidebar a {
-      text-align: center;
-      float: none;
-    }
-  }
-.adminImg{
-    width: 2vw;
-    display: block; /* Blokkként való megjelenítés */
-    margin: 0 auto;
-    padding: 2px;
+.content {
+  background-color: #f8f9fa; /* Világos háttér */
+  border-radius: 1vw; /* Kerekített sarkok */
+  box-shadow: 0 0.4vw 0.6vw rgba(0,0,0,0.1); /* Enyhe árnyék */
+  padding: 2vw; /* Belső térköz */
+  margin: 2vw auto; /* Automatikus margó középre igazításhoz */
+  width: 80vw; /* Szélesség */
+  max-width: 90%; /* Maximális szélesség a nagy képernyőkön */
+  height: 60%;
 }
-.admin-item{
-  background-color: #bcbcbc;
+
+.admin-item {
+  background-color: #ffffff; /* Fehér háttér az egyes elemeknek */
+  border-radius: 1vw; /* Kerekített sarkok */
+  box-shadow: 0 0.2vw 0.4vw rgba(0,0,0,0.1); /* Enyhe árnyék */
+  margin: 1vw 0; /* Margó az elemek között */
+  padding: 1.5vw; /* Belső térköz */
+  transition: transform 0.3s ease-in-out; /* Animáció a hover effekthez */
   text-align: center;
-  width: 70%;
-  padding: 10px;
-  color: #333;
-  margin-top: 2vw;
+}
+
+.admin-item:hover {
+  transform: translateY(-0.5vw); /* Enyhe emelkedés hoverkor */
+}
+
+.admin-item i {
+  font-size: 2.4vw; /* Ikon méretezése */
+  margin-bottom: 1vw; /* Margó az ikon alatt */
+}
+
+.admin-item p {
+  font-size: 2vw; /* Szöveg méretezése */
+  font-weight: bold; /* Félkövér szöveg */
+}
+
+.admin-item span {
+  display: block; /* Új sor a szövegnek */
+  margin-top: 0.5vw; /* Margó a szöveg felett */
+  color: #6c757d; /* Szürke szövegszín */
+}
+
+/* Reszponzív módosítások kisebb képernyőkre */
+@media (max-width: 600px) {
+  .content, .admin-item {
+    padding: 4vw; /* Nagyobb térköz a kisebb képernyőkön */
+    border-radius: 2vw; /* Nagyobb kerekített sarkok */
+  }
+
+  .admin-item i, .admin-item p, .admin-item span {
+    font-size: 4vw; /* Nagyobb betűméret */
+  }
 }
