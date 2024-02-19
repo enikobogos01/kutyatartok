@@ -32,6 +32,8 @@ function showCartSummary() {
         cartSummaryElement.appendChild(div);
     });
     calculateSubtotal();
+    calculateShippingCost();
+    calculateTotal();
 }
 
 function removeFromCartSummary(index, newQuantity) {
@@ -71,4 +73,33 @@ function calculateSubtotal() {
     }
 
     subtotalElement.innerHTML = subtotal.toFixed(0) + " Ft";
+}
+
+// Lehet nem kell a későbbiekben
+function calculateShippingCost(){
+    var shippingCostElement = document.getElementById("shippingCost");
+    var shippingCost = 0;
+
+    shippingCostElement.innerHTML = shippingCost + " Ft";
+}
+
+function calculateTotal() {
+    var totalElement = document.getElementById("total");
+    var total = subtotal + shippingCost;
+    var quantities = document.getElementsByClassName("quantity");
+    var prices = document.getElementsByClassName("price");
+    var subtotal = 0;
+    var shippingCost = 0;
+
+    for (var i = 0; i < prices.length; i++) {
+        // Extract quantity and price from their respective elements
+        var quantity = parseInt(quantities[i].value);
+        var itemPrice = parseFloat(prices[i].textContent.replace(' Ft', ''));
+
+        // Calculate the subtotal for each item
+        subtotal += itemPrice * quantity;
+    }
+
+    total = subtotal + shippingCost;
+    totalElement.innerHTML = total + " Ft";
 }
