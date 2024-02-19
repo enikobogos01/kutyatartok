@@ -90,18 +90,32 @@
                     </div>
                     <div class="collapse" id="creditCardContent">
                         <!--Bankkártyás Fizetés-->
-                        <h1>Teszt Fizetés</h1>
                         <iframe name="hiddenFrame" width="0" height="0" style="display: none;"></iframe>
                         <form action="../../Backend/Controller/Payment/checkOutProcess.php" method="post" id="payment-form" target="hiddenFrame">
-                            <div id="card-element">
+                            <div class="row p-5">
                                 <!-- A fizetési űrlap elemei -->
+                                <div class="col-12 mb-4">
+                                    <label for="card-number" class="ps-2">Kártya szám</label>
+                                    <div id="card-number" class="border border-secondary p-2"></div>
+                                </div>
+                                <div class="col-6">
+                                    <label for="card-expiry" class="ps-2">Kártya lejárata</label>
+                                    <div id="card-expiry" class="border border-secondary p-2"></div>
+                                </div>
+                                <div class="col-6 mb-4">
+                                    <label for="card-cvc" class="ps-2">CVC kód</label>
+                                    <div id="card-cvc" class="border border-secondary p-2"></div>
+                                </div>
+                                <!-- Input mezők a név és email cím bekéréséhez -->
+                                <div class="col-6">
+                                    <label for="customerName">Név:</label>
+                                    <input type="text" id="customerName" name="customerName" required><br>
+                                </div>
+                                <div class="col-6">
+                                    <label for="customerEmail">Email cím:</label>
+                                    <input type="email" id="customerEmail" name="customerEmail" required><br>
+                                </div>
                             </div>
-                            <!-- Input mezők a név és email cím bekéréséhez -->
-                            <label for="customerName">Név:</label>
-                            <input type="text" id="customerName" name="customerName" required><br>
-                            <label for="customerEmail">Email cím:</label>
-                            <input type="email" id="customerEmail" name="customerEmail" required><br>
-                            <button type="submit">Fizetés</button>
                         </form>
                         <!--
                         <div id="payment-result">
@@ -146,7 +160,7 @@
                     <h6 class="pb-2">Szállítási díj: <span class="float-end">10000 Ft</span></h6>
                     <h6 class="pt-2 border-top">Végösszeg: <span class="float-end">10000 Ft</span></h6>
                     <div class="text-center">
-                        <button type="button" class="btn btn-primary btn-lg btn-block mt-3">Megerősítés és fizetés</button>
+                        <button type="button" id="submitFormBtn" class="btn btn-primary btn-lg btn-block mt-3">Megerősítés és fizetés</button>
                     </div>
                 </div>
             </div>
@@ -162,7 +176,18 @@
     <script src="../js/showCartSummary.js"></script>
     <script src="../js/deliveryOptionsToggle.js"></script>
     <script src="../js/paymentOptionsToggle.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var form = document.getElementById('payment-form');
+            var submitFormBtn = document.getElementById('submitFormBtn');
+    
+            submitFormBtn.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent the default button click behavior
+                form.submit(); // Manually trigger the form submission
+            });
+        });
+    </script>
     <script src="../js/stripeFormSubmission.js"></script>
-    <script src="checkOutProcess.php"></script>
 </body>
 </html>

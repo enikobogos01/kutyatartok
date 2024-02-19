@@ -1,19 +1,30 @@
 document.addEventListener("DOMContentLoaded", function () {
-    var stripe = Stripe('pk_test_51OjIVcFKfMSlBuhVNoM1Szow8nytCWPgV8diFnS9ESg1J2E4XzEaLLoIfoEr7MhtxJGpwp0dJdXM7oHlWUbFDaOY00gzVQ6hQ8'); // Cseréld le a saját publikus kulcsodra
+    var stripe = Stripe('pk_test_51OjIVcFKfMSlBuhVNoM1Szow8nytCWPgV8diFnS9ESg1J2E4XzEaLLoIfoEr7MhtxJGpwp0dJdXM7oHlWUbFDaOY00gzVQ6hQ8');
     var elements = stripe.elements();
 
-    var card = elements.create('card');
-    card.mount('#card-element');
+    // Create and mount the card number element
+    var cardNumber = elements.create('cardNumber');
+    cardNumber.mount('#card-number');
+
+    // Create and mount the card expiry element
+    var cardExpiry = elements.create('cardExpiry');
+    cardExpiry.mount('#card-expiry');
+
+    // Create and mount the card CVC element
+    var cardCvc = elements.create('cardCvc');
+    cardCvc.mount('#card-cvc');
 
     var form = document.getElementById('payment-form');
     var paymentResult = document.getElementById('payment-result');
+    var confirmAndPayButton = document.getElementById("submitFormBtn");
 
-    form.addEventListener('submit', function(event) {
+    confirmAndPayButton.addEventListener('click', function (event) {
         event.preventDefault();
 
-        stripe.createToken(card).then(function(result) {
+        stripe.createToken(cardNumber, cardExpiry, cardCvc).then(function (result) {
             if (result.error) {
-                // Hiba kezelése
+                // Handle errors
+                console.error('Stripe token creation error:', result.error.message);
                 paymentResult.textContent = result.error.message;
             } else {
                 var tokenInput = document.createElement('input');
@@ -22,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 tokenInput.value = result.token.id;
                 form.appendChild(tokenInput);
 
-                // Elküldjük az űrlapot a szervernek
+                // Submit the form to the server
                 form.submit();
             }
         });
