@@ -92,26 +92,26 @@
                         <!--Bankkártyás Fizetés-->
                         <iframe name="hiddenFrame" width="0" height="0" style="display: none;"></iframe>
                         <form action="../../Backend/Controller/Payment/checkOutProcess.php" method="post" id="payment-form" target="hiddenFrame">
-                            <div class="row p-5">
+                            <div class="row pt-2 p-md-5">
                                 <!-- A fizetési űrlap elemei -->
-                                <div class="col-12 mb-4">
+                                <div class="col-md-12 mb-2 mb-md-4">
                                     <label for="card-number" class="ps-2">Kártya szám</label>
                                     <div id="card-number" class="border border-secondary p-2"></div>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-md-6 mb-2 mb-md-4">
                                     <label for="card-expiry" class="ps-2">Kártya lejárata</label>
                                     <div id="card-expiry" class="border border-secondary p-2"></div>
                                 </div>
-                                <div class="col-6 mb-4">
+                                <div class="col-md-6 mb-2 mb-md-4">
                                     <label for="card-cvc" class="ps-2">CVC kód</label>
                                     <div id="card-cvc" class="border border-secondary p-2"></div>
                                 </div>
                                 <!-- Input mezők a név és email cím bekéréséhez -->
-                                <div class="col-6">
+                                <div class="col-md-6 mb-2 mb-md-4">
                                     <label for="customerName">Név:</label>
                                     <input type="text" id="customerName" name="customerName" required><br>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-md-6">
                                     <label for="customerEmail">Email cím:</label>
                                     <input type="email" id="customerEmail" name="customerEmail" required><br>
                                 </div>
