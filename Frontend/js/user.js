@@ -168,3 +168,19 @@ function togglePasswordVisibility(fieldId, toggleId) {
         toggle.innerHTML = '<i class="bi bi-eye"></i>';
     }
 }
+document.addEventListener('DOMContentLoaded', function() {
+    var termsModal = document.getElementById('termsModal');
+    termsModal.addEventListener('show.bs.modal', function (event) {
+        // A .txt fájl elérési útvonala
+        var filePath = '../txt/terms_and_conditions.txt';
+        
+        // Fetch API használata a fájl tartalmának betöltéséhez
+        fetch(filePath)
+            .then(response => response.text())
+            .then(data => {
+                // A modális ablak .modal-body elemének kiválasztása és tartalmának frissítése
+                termsModal.querySelector('.modal-body').innerText = data;
+            })
+            .catch(error => console.error('Hiba történt a fájl betöltése közben:', error));
+    });
+});
