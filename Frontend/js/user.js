@@ -168,19 +168,3 @@ function togglePasswordVisibility(fieldId, toggleId) {
         toggle.innerHTML = '<i class="bi bi-eye"></i>';
     }
 }
-document.addEventListener('DOMContentLoaded', function () {
-    fetch('../../Backend/Controller/userController.php?action=getUserCount') // Módosítsd az URL-t a valós elérési útra
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('userCount').textContent = data.userCount;
-        })
-        .catch(error => console.error('Hiba történt:', error));
-});
-function fetchUserCount() {
-    fetch('UserController.php?action=getUserCount')
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('userCount').textContent = data.userCount;
-        })
-        .catch(error => console.error('Hiba történt:', error));
-}
