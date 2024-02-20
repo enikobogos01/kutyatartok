@@ -1,0 +1,112 @@
+.start{
+    height: fit-content;
+    background-color: #faf7f0;
+    width: fit-content;
+    color: #2F3B49;
+    margin-bottom: 2.8vw;
+}
+  
+.start h1{
+    padding-bottom: 1.5vw;
+    font-family: 'DM Serif Display', serif;
+    font-family: 'Josefin Sans', sans-serif;
+    font-family: 'Ultra', serif;
+}
+  
+.start h5{
+    text-align: justify;
+    line-height: 1.4;
+}
+.mostPopularProducts, .newestProducts {
+    padding: 2vw;
+    border-radius: 10px;
+    min-width: 100%;
+    margin: 0 auto;
+    margin-bottom: 2vw;
+    overflow: hidden;
+  }
+  
+  .mostPopularProducts .card, .newestProducts .card {
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin: 10px;
+    padding-bottom: 2vw;
+  }
+  
+  .mostPopularProducts h2, .newestProducts h2 {
+    margin-left: 1vw;
+  }
+  
+  .swiper-container {
+    position: relative;
+    overflow: hidden;
+    margin-left: 2vh;
+    margin-right: 2vh;
+  }
+  
+  .swiper-wrapper {
+    display: flex;
+  }
+  
+  .swiper-slide {
+    border: 1px solid #ddd;
+    padding: 1vw;
+    border-radius: 8px;
+    background-color: #ffffff;
+    height: fit-content;
+  }
+  
+  .swiper-slide img {
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  
+  div.swiper-slide>.card-body {
+    text-align: center;
+    height: fit-content; 
+    min-height: 10vw;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between;
+  }
+  
+.swiper-button-next,
+.swiper-button-prev {
+  position: absolute;
+  top: 35.5%;
+  width: 40px;
+  height: 60px;
+  margin-top: -15px;
+  color: #ffffff;
+  background-color: grey;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.zoom {
+    transition: transform .9s;
+    margin: 0 auto;
+  }
+  
+  .zoom:hover {
+    -ms-transform: scale(1.04);
+    -webkit-transform: scale(1.04);
+    transform: scale(1.04); 
+  }
+  .productType{
+    width: 94%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .productType p{
+    text-align: center; 
+    font-size: 1.9vw; 
+    font-weight: bold; 
+    transform: translate(0%, -50%); 
+    opacity: 0; 
+    transition: opacity 0.3s;
+    margin-top: 5vw;
+    -webkit-text-stroke: 1px #000000;
+  }
