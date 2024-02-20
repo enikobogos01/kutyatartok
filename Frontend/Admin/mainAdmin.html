@@ -30,9 +30,12 @@
         </div>
     </nav>
     <div class="content">
+        <div class="logout-container">
+            <button id="logOutButton" onclick="logout()">Kijelentkezés <i class="bi bi-box-arrow-right"></i></button>
+        </div>
         <div class="row justify-content-center align-items-stretch">
             <div class="col-md-6 mb-4">
-                <div class="admin-item">
+                <div class="admin-item" id="users">
                     <i class="bi bi-person"></i>
                     <h3>Felhasználók száma: <span id="userCount">Betöltés...</span></h3>
                 </div>

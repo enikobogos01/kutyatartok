@@ -55,13 +55,14 @@ class UserModel {
         return $row['fullname'];
     }
     public function getUserCount() {
-        $sql = "SELECT COUNT(*) AS count FROM users";
+        $sql = "SELECT COUNT(*) AS count FROM users WHERE role = 'user'";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
         return $row['count'];
     }
+    
     
     
     public function loginUser($email, $password) {
