@@ -109,3 +109,50 @@ form .text h3 a:hover{
   top: 50%;
   transform: translateY(-50%);
 }
+
+/* A #profileInfo konténer általános formázása */
+#profileInfo {
+  display: none; 
+  position: relative; /* Abszolút pozícionált elemek alapja */
+  padding: 20px; /* Belülről való távolság */
+  box-sizing: border-box; /* A padding is beleértendő a szélességbe és magasságba */
+  min-height: 100%;
+  /* Az oldal tartalmának magasságát a lábléc magasságával csökkentjük */
+  padding-bottom: 80px; /* A lábléc magasságának megfelelően állítsd be */
+  box-sizing: border-box;
+}
+
+/* A kijelentkezés gomb formázása */
+/* A kijelentkezés gomb alap formázása */
+#profileInfo button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Árnyék hozzáadása */
+  transition: all 0.3s ease; /* Átmeneti animáció */
+}
+
+/* A gombra való egérrel történő rámutatáskor aktiválódó effektus */
+#profileInfo button:hover {
+  background-color: #0056b3; /* Sötétebb háttérszín */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Nagyobb árnyék */
+  transform: translateY(-2px); /* Enyhe felugrás */
+}
+
+/* Reszponzív formázás mobil eszközökön */
+@media (max-width: 768px) {
+  #profileInfo button {
+      padding: 5px 10px;
+      font-size: 14px;
+  }
+}
+#profileInfo h2{
+  text-align: center;
+}
