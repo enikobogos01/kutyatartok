@@ -18,8 +18,10 @@ class StripePayment {
             ]);
 
             $charge = \Stripe\Charge::create([
-                'amount' => 100, // 1 USD (centben)
-                'currency' => 'usd',
+                // min összeg amit stripe elfogad HUF-ban: 175 HUF
+                // az 'amount' összegét elosztja 100-al ezért a min. összeg amit ide lehet írni a 17500.
+                'amount' => 17500,
+                'currency' => 'huf',
                 'description' => 'Fizetés teszt céllal',
                 'customer' => $customer->id,
             ]);
@@ -31,8 +33,3 @@ class StripePayment {
     }
 }
 ?>
-
-
-
-
-
