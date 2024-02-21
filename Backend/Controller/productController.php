@@ -1,6 +1,7 @@
 <?php
 
 require_once '../Model/productModel.php';
+require_once '../Config/database.php';
 
 class ProductController {
     private $productModel;
@@ -80,4 +81,5 @@ if (isset($_GET['swiper']) && $_GET['swiper'] == 'swiper1') {
     // Default behavior, get all products
     $productController->getAllProducts();
 }
+
 ?>
