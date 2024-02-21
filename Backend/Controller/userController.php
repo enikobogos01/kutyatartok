@@ -42,7 +42,14 @@ class UserController {
                 // Sikeres bejelentkezés esetén vissza kell adni a felhasználó teljes nevét és szerepkörét is
                 $fullname = $this->userModel->getUserFullnameByEmail($email);
                 // Itt adtuk hozzá a 'role' kulcsot a válaszhoz
-                return json_encode(['success' => true, 'msg' => 'Sikeres bejelentkezés.', 'fullname' => $fullname, 'userId' => $result['userId'], 'role' => $result['role']]);
+                return json_encode([
+                    'success' => true,
+                    'msg' => 'Sikeres bejelentkezés.',
+                    'fullname' => $fullname,
+                    'userId' => $result['userId'],
+                    'role' => $result['role'],
+                    'email' => $email // Ezt a sort adtuk hozzá
+                ]);
             } elseif ($result['msg'] == 'Hibás email-cím vagy jelszó.') {
                 return json_encode(['success' => false, 'msg' => 'Helyes email-cím, de hibás jelszó.']);
             } elseif ($result['msg'] == 'A felhasználó nem található.') {

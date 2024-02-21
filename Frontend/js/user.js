@@ -1,6 +1,5 @@
 window.onload = function () {
     checkLoginState();
-
     // Regisztráció űrlap elküldése
     var registrationForm = document.getElementById("registrationForm");
     if (registrationForm) {
@@ -9,7 +8,6 @@ window.onload = function () {
             submitRegistrationForm();
         });
     }
-
     // Űrlap mezők formázása
     var inputElement = document.getElementById('fullname');
     if (inputElement) {
@@ -44,10 +42,6 @@ function checkLoginState() {
         document.getElementById('profileInfo').style.display = 'block';
         document.getElementById('profileFullname').textContent = fullname;
         document.getElementById('profileEmail').textContent = email;
-        console.log('checkLoginState lefutott', { isLoggedIn, fullname, email });
-
-
-
         // Az ikon osztályának cseréje, ha az elem létezik
         if (userIcon) {
             userIcon.className = 'bi bi-person-circle';
@@ -64,7 +58,6 @@ function checkLoginState() {
         }
     }
 }
-
 
 function submitRegistrationForm() {
     var xhr = new XMLHttpRequest();
@@ -140,15 +133,16 @@ function handleLoginResponse(responseText) {
     try {
         var data = JSON.parse(responseText);
         if (data.success) {
-            console.log("Felhasználó szerepköre: " + data.role); // Itt írjuk ki a szerepkört
             localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('role', data.role); // Beállítjuk a szerepkört
             localStorage.setItem('userStatus', 'loggedIn');
+            localStorage.setItem('role', data.role); // Beállítjuk a szerepkört
             localStorage.setItem('fullname', data.fullname);
+            localStorage.setItem('email', data.email);
             // Ellenőrizzük a szerepkört, és indítsuk el a visszaszámlálót, ha 'user'
             if (data.role === 'user') {
                 setupCountdown(); // Ezt hozzáadtuk
             }
+
             // Szerepkör ellenőrzése és átirányítás
             if (data.role === 'admin') {
                 window.location.href = '../Admin/mainAdmin.html';
@@ -169,7 +163,7 @@ function logout() {
     localStorage.removeItem('userStatus');
     localStorage.removeItem('fullname');
     checkLoginState();
-    // További logika...
+    window.location.reload();
 }
 
 function toggleForm() {
@@ -208,6 +202,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Hiba történt a fájl betöltése közben:', error));
     });
 });
+
 // Visszaszámláló kezdeti beállítása
 function setupCountdown() {
     // Ellenőrizzük, hogy a felhasználó szerepköre 'user'-e
@@ -233,7 +228,6 @@ function startCountdown(duration = 1800) {
             logout();
         }
     }
-
     updateCountdown();
     var interval = setInterval(updateCountdown, 1000);
 
@@ -243,14 +237,45 @@ function startCountdown(duration = 1800) {
         startCountdown(duration); // Újraindítjuk a visszaszámlálót
     });
 }
-
-// Kijelentkezés funkció
-function logout() {
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('role');
-    localStorage.removeItem('fullname');
-    window.location.reload(); // Újratöltjük az oldalt, hogy a változások érvénybe lépjenek
-}
-
 // Az oldal betöltődésekor meghívjuk a setupCountdown funkciót
 document.addEventListener('DOMContentLoaded', setupCountdown);
+
+////////////////////////////////////////////////////////////////////////////////////////
+function editPhoneNumber() {
+    document.getElementById('editPhoneForm').style.display = 'block';
+}
+
+function savePhoneNumber() {
+    var phoneNumber = document.getElementById('phoneInput').value;
+    // Itt lehet hozzáadni a logikát az adatbázis frissítéséhez
+    document.getElementById('phoneNumber').innerText = phoneNumber;
+    document.getElementById('editPhoneForm').style.display = 'none';
+}
+
+function editAddress() {
+    document.getElementById('editAddressForm').style.display = 'block';
+}
+
+function saveAddress() {
+    var zipcode = document.getElementById('zipcodeInput').value;
+    var county = document.getElementById('countyInput').value;
+    var streetName = document.getElementById('streetNameInput').value;
+    var streetType = document.getElementById('streetTypeInput').value;
+    var houseNumber = document.getElementById('houseNumberInput').value;
+
+    // Itt lehet hozzáadni a logikát az adatbázis frissítéséhez
+    var fullAddress = `${zipcode} ${county}, ${streetName} ${streetType}, ${houseNumber}`;
+    document.getElementById('address').innerText = fullAddress;
+    document.getElementById('editAddressForm').style.display = 'none';
+}
+
+function editBirthdate() {
+    document.getElementById('editBirthdateForm').style.display = 'block';
+}
+
+function saveBirthdate() {
+    var birthdate = document.getElementById('birthdateInput').value;
+    // Itt lehet hozzáadni a logikát az adatbázis frissítéséhez
+    document.getElementById('birthdate').innerText = birthdate;
+    document.getElementById('editBirthdateForm').style.display = 'none';
+}
