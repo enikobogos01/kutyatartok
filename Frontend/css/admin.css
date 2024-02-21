@@ -48,34 +48,3 @@
     font-size: 4vw; /* Nagyobb betűméret */
   }
 }
-#logOutButton {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  margin: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Árnyék hozzáadása */
-  transition: all 0.3s ease; /* Átmeneti animáció */
-}
-
-#logOutButton:hover{
-  background-color: #0056b3; /* Sötétebb háttérszín */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Nagyobb árnyék */
-  transform: translateY(-2px); /* Enyhe felugrás */
-}
-
-@media (max-width: 768px) {
-  #logOutButton {
-      display: block;
-      margin: 10px auto;
-      width: 80%; /* Gomb szélességének beállítása mobil nézetben */
-  }
-  .logout-container {
-      text-align: center; /* Gomb középre igazítása mobil nézetben */
-  }
-}
-.logout-container{
-  text-align: right; 
-}

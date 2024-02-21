@@ -23,7 +23,7 @@
                     <a class="nav-link" href="main.html">Főoldal</a>
                     <a class="nav-link" href="products.html">Termékeink</a>
                     <a class="nav-link" href="aboutUs.html">Rólunk</a>
-                    <a class="nav-link" aria-current="page" href="#"><i class="bi bi-person"></i></a>
+                    <a class="nav-link" aria-current="page" href="#"><i id="userIcon" class="bi bi-person"></i></a>
                     <a class="nav-link" href="basket.html"><i class="bi bi-basket2-fill"></i></a>
                 </div>
             </div>
@@ -153,22 +153,27 @@
                 <button onclick="logout()">Kijelentkezés <i class="bi bi-box-arrow-right"></i></button>
             </div>
         </div>        
-        <h2>Profil Információk</h2>
-        <p id="welcomeMessage">Üdvözlünk, [Felhasználó Név]!</p>
-        <div class="row ms-2 me-2">
-            <div class="col">
-                <img src="../../imgs/profile1.webp" class="img-fluid p-1" alt="">
+        <h2 id="welcomeMessage">Üdvözlünk, [Felhasználó Név]!</h2>
+        <div class="profileContent">
+            <div class="profileHeader">Profil Információk</div>
+            <div class="profileRow"><strong>Teljes Név:</strong> <span id="profileFullname"></span></div>
+            <div class="profileRow"><strong>Email:</strong> <span id="profileEmail"></span></div>
+            <div class="profileRow">
+                <strong>Telefonszám:</strong> <span id="phoneNumber"></span>
+                <i class="bi bi-pencil editIcon" onclick="editPhoneNumber()"></i>
             </div>
-            <div class="col">
-                <img src="../../imgs/profile2.webp" class="img-fluid p-1" alt="">
+            <div class="profileRow">
+                <strong>Lakcím:</strong> <span id="address"></span>
+                <i class="bi bi-pencil editIcon" onclick="editAddress()"></i>
             </div>
-            <div class="col">
-                <img src="../../imgs/profile3.webp" class="img-fluid p-1" alt="">
-            </div>
-            <div class="col">
-                <img src="../../imgs/profile4.webp" class="img-fluid p-1" alt="">
+            <div class="profileRow">
+                <strong>Születési dátum:</strong> <span id="birthdate"></span>
+                <i class="bi bi-pencil editIcon" onclick="editBirthdate()"></i>
             </div>
         </div>
+        
+        
+        
     </div>
         
     <footer class="text-center">

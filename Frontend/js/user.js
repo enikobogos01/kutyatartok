@@ -35,15 +35,36 @@ window.onload = function () {
 function checkLoginState() {
     var isLoggedIn = localStorage.getItem('isLoggedIn');
     var fullname = localStorage.getItem('fullname');
+    var email = localStorage.getItem('email'); // Email cím lekérése
+    var userIcon = document.getElementById('userIcon'); // Az ikon elem lekérése
+
     if (isLoggedIn === 'true') {
         document.getElementById('content').style.display = 'none';
         document.getElementById('welcomeMessage').textContent = `Üdvözlünk, ${fullname}!`;
         document.getElementById('profileInfo').style.display = 'block';
+        document.getElementById('profileFullname').textContent = fullname;
+        document.getElementById('profileEmail').textContent = email;
+        console.log('checkLoginState lefutott', { isLoggedIn, fullname, email });
+
+
+
+        // Az ikon osztályának cseréje, ha az elem létezik
+        if (userIcon) {
+            userIcon.className = 'bi bi-person-circle';
+        }
+        document.getElementById('fullname').textContent = fullname;
+        document.getElementById('email').textContent = email;
     } else {
         document.getElementById('content').style.display = 'block';
         document.getElementById('profileInfo').style.display = 'none';
+
+        // Visszaállítjuk az eredeti ikont, ha szükséges
+        if (userIcon) {
+            userIcon.className = 'bi bi-person';
+        }
     }
 }
+
 
 function submitRegistrationForm() {
     var xhr = new XMLHttpRequest();
