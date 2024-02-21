@@ -113,35 +113,15 @@
                             <label for="terms">Elfogadom a <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Feltételek</a>.</label>
                             <!-- Modális Ablak -->
                             <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
+                                <div class="modal-dialog modal-xl">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                     <h5 class="modal-title" id="termsModalLabel">Felhasználási Feltételek és Adatvédelmi Irányelvek</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <div class="modal-body">
-                                        A regisztrációval és a "Kutyatartók Webáruháza" weboldal használatával Ön elfogadja az alábbi feltételeket:
-
-                                        Korhatár: A regisztrációhoz Önnek legalább 18 évesnek kell lennie, vagy rendelkeznie kell szülői/gondviselői engedéllyel.
-
-                                        Személyes Adatok: Ön beleegyezik, hogy a regisztráció során megadott személyes adatokat (név, e-mail cím, stb.) a "Kutyatartók Webáruháza" tárolja és feldolgozza az Ön számára nyújtott szolgáltatások érdekében.
-
-                                        Adatvédelem: Kötelezzük magunkat az Ön személyes adatainak biztonságos kezelésére. Adatvédelmi irányelveink részletezik, hogyan védjük és használjuk fel az Ön adatait.
-
-                                        Felhasználói Felelősség: Ön felelős minden tevékenységért, amely a fiókján keresztül történik. Gondoskodnia kell a bejelentkezési adatainak biztonságáról, és értesítenie kell minket, ha bármilyen illetéktelen hozzáférést észlel.
-
-                                        Tartalomhasználat: A weboldalon található tartalmak (szövegek, képek, videók stb.) szerzői jog által védettek. Ezeket a tartalmakat kizárólag személyes és nem kereskedelmi célokra használhatja fel.
-
-                                        Tilos Tevékenységek: Tilos a weboldal használata bármilyen jogellenes tevékenységhez, beleértve, de nem korlátozva a szerzői jogok megsértésére, zaklatásra vagy káros szoftverek terjesztésére.
-
-                                        Módosítások: Fenntartjuk a jogot, hogy bármikor módosítsuk a felhasználási feltételeket és az adatvédelmi irányelveket. A weboldal használatával Ön elfogadja ezeket a módosításokat.
-
-                                        Felmondás: Fenntartjuk a jogot, hogy bármikor, előzetes értesítés nélkül felfüggesszük vagy megszüntessük fiókját, amennyiben úgy ítéljük meg, hogy megsértette a felhasználási feltételeket.
-
-                                    A "Kutyatartók Webáruháza" weboldal használatával Ön kijelenti és garantálja, hogy elfogadja és betartja ezeket a feltételeket.
-                                    </div>
+                                    <div class="modal-body"></div>
                                     <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bezár</button>
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Bezár</button>
                                     </div>
                                 </div>
                                 </div>
@@ -165,6 +145,14 @@
         </div>
     </div>
     <div id="profileInfo">
+        <div class="first-row justify-content-between">
+            <div class="col-auto">
+                <div id="countdown" class="countdown-display">30:00</div>
+            </div>
+            <div class="col-auto">
+                <button onclick="logout()">Kijelentkezés <i class="bi bi-box-arrow-right"></i></button>
+            </div>
+        </div>        
         <h2>Profil Információk</h2>
         <p id="welcomeMessage">Üdvözlünk, [Felhasználó Név]!</p>
         <div class="row ms-2 me-2">
@@ -181,8 +169,6 @@
                 <img src="../../imgs/profile4.webp" class="img-fluid p-1" alt="">
             </div>
         </div>
-        <!-- További profilinformációk ide -->
-        <button onclick="logout()">Kijelentkezés <i class="bi bi-box-arrow-right"></i></button>
     </div>
         
     <footer class="text-center">

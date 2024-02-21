@@ -121,11 +121,16 @@ function handleLoginResponse(responseText) {
         if (data.success) {
             console.log("Felhasználó szerepköre: " + data.role); // Itt írjuk ki a szerepkört
             localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('role', data.role); // Beállítjuk a szerepkört
             localStorage.setItem('userStatus', 'loggedIn');
             localStorage.setItem('fullname', data.fullname);
+            // Ellenőrizzük a szerepkört, és indítsuk el a visszaszámlálót, ha 'user'
+            if (data.role === 'user') {
+                setupCountdown(); // Ezt hozzáadtuk
+            }
             // Szerepkör ellenőrzése és átirányítás
             if (data.role === 'admin') {
-                window.location.href = '../Admin/mainAdmin.html'; // Admin szerepkör esetén
+                window.location.href = '../Admin/mainAdmin.html';
             } else {
                 checkLoginState(); // Nem admin felhasználók számára
             }
@@ -138,9 +143,6 @@ function handleLoginResponse(responseText) {
 }
 
 
-
-
-
 function logout() {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('userStatus');
@@ -148,7 +150,6 @@ function logout() {
     checkLoginState();
     // További logika...
 }
-
 
 function toggleForm() {
     var registrationForm = document.getElementById('registrationForm');
@@ -168,3 +169,67 @@ function togglePasswordVisibility(fieldId, toggleId) {
         toggle.innerHTML = '<i class="bi bi-eye"></i>';
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    setupCountdown();
+    var termsModal = document.getElementById('termsModal');
+    termsModal.addEventListener('show.bs.modal', function (event) {
+        // A .txt fájl elérési útvonala
+        var filePath = '../txt/terms_and_conditions.txt';
+        
+        // Fetch API használata a fájl tartalmának betöltéséhez
+        fetch(filePath)
+            .then(response => response.text())
+            .then(data => {
+                // A modális ablak .modal-body elemének kiválasztása és tartalmának frissítése
+                termsModal.querySelector('.modal-body').innerText = data;
+            })
+            .catch(error => console.error('Hiba történt a fájl betöltése közben:', error));
+    });
+});
+// Visszaszámláló kezdeti beállítása
+function setupCountdown() {
+    // Ellenőrizzük, hogy a felhasználó szerepköre 'user'-e
+    var role = localStorage.getItem('role'); // Tegyük fel, hogy a szerepkört így tároljuk
+    if (role !== 'user') return; // Ha nem 'user', akkor nem csinálunk semmit
+    // Visszaszámláló indítása
+    startCountdown();
+}
+
+// Visszaszámláló funkció
+function startCountdown(duration = 1800) {
+    var countdownElement = document.getElementById('countdown');
+    var targetTime = new Date().getTime() + duration * 1000;
+    function updateCountdown() {
+        var now = new Date().getTime();
+        var distance = targetTime - now;
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        countdownElement.innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+        if (distance < 0) {
+            clearInterval(interval);
+            logout();
+        }
+    }
+
+    updateCountdown();
+    var interval = setInterval(updateCountdown, 1000);
+
+    // Az újraindításhoz eseményfigyelő hozzáadása
+    document.addEventListener('click', function() {
+        clearInterval(interval);
+        startCountdown(duration); // Újraindítjuk a visszaszámlálót
+    });
+}
+
+// Kijelentkezés funkció
+function logout() {
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('role');
+    localStorage.removeItem('fullname');
+    window.location.reload(); // Újratöltjük az oldalt, hogy a változások érvénybe lépjenek
+}
+
+// Az oldal betöltődésekor meghívjuk a setupCountdown funkciót
+document.addEventListener('DOMContentLoaded', setupCountdown);
