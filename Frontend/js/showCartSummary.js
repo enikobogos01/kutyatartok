@@ -9,7 +9,6 @@ function showCartSummary() {
     cartSummaryElement.innerHTML = "";
 
     cartSummary.forEach(function (product, index) {
-        var itemPrice = product.price * product.quantity;
         var div = document.createElement("div");
         div.innerHTML = `<div class="row">
                             <div class="col-lg-8 col-sm-12">
@@ -31,9 +30,11 @@ function showCartSummary() {
                         </div>`;
         cartSummaryElement.appendChild(div);
     });
-    calculateSubtotal();
+
+    //calculateSubtotal();
+    updateElementWithAmount("subtotal", calculateSubtotal());
+    updateElementWithAmount("total", calculateTotal());
     calculateShippingCost();
-    calculateTotal();
 }
 
 function removeFromCartSummary(index, newQuantity) {
@@ -57,8 +58,12 @@ function removeFromCartSummary(index, newQuantity) {
     }
 }
 
+function updateElementWithAmount(elementId, amount){
+    var element = document.getElementById(elementId);
+    element.innerHTML = amount.toFixed(0) + " Ft";
+}
+
 function calculateSubtotal() {
-    var subtotalElement = document.getElementById("subtotal");
     var quantities = document.getElementsByClassName("quantity");
     var prices = document.getElementsByClassName("price");
     var subtotal = 0;
@@ -71,35 +76,18 @@ function calculateSubtotal() {
         // Calculate the subtotal for each item
         subtotal += itemPrice * quantity;
     }
-
-    subtotalElement.innerHTML = subtotal.toFixed(0) + " Ft";
+    return subtotal;
 }
 
 // Lehet nem kell a későbbiekben
 function calculateShippingCost(){
-    var shippingCostElement = document.getElementById("shippingCost");
     var shippingCost = 0;
-
-    shippingCostElement.innerHTML = shippingCost + " Ft";
+    return shippingCost;
 }
 
 function calculateTotal() {
-    var totalElement = document.getElementById("total");
     var total = subtotal + shippingCost;
-    var quantities = document.getElementsByClassName("quantity");
-    var prices = document.getElementsByClassName("price");
-    var subtotal = 0;
     var shippingCost = 0;
-
-    for (var i = 0; i < prices.length; i++) {
-        // Extract quantity and price from their respective elements
-        var quantity = parseInt(quantities[i].value);
-        var itemPrice = parseFloat(prices[i].textContent.replace(' Ft', ''));
-
-        // Calculate the subtotal for each item
-        subtotal += itemPrice * quantity;
-    }
-
-    total = subtotal + shippingCost;
-    totalElement.innerHTML = total + " Ft";
+    total = calculateSubtotal() + shippingCost;
+    return total;
 }

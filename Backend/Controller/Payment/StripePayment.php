@@ -25,7 +25,6 @@ class StripePayment {
                 'description' => 'Fizetés teszt céllal',
                 'customer' => $customer->id,
             ]);
-
             return 'Fizetés sikeresen teljesítve!';
         } catch (\Stripe\Exception\CardException $e) {
             return 'Fizetés sikertelen: ' . $e->getError()->message;
