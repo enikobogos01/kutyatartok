@@ -258,13 +258,12 @@ function editAddress() {
 
 function saveAddress() {
     var zipcode = document.getElementById('zipcodeInput').value;
-    var county = document.getElementById('countyInput').value;
     var streetName = document.getElementById('streetNameInput').value;
     var streetType = document.getElementById('streetTypeInput').value;
     var houseNumber = document.getElementById('houseNumberInput').value;
 
     // Itt lehet hozzáadni a logikát az adatbázis frissítéséhez
-    var fullAddress = `${zipcode} ${county}, ${streetName} ${streetType}, ${houseNumber}`;
+    var fullAddress = `${zipcode}, ${streetName} ${streetType}, ${houseNumber}`;
     document.getElementById('address').innerText = fullAddress;
     document.getElementById('editAddressForm').style.display = 'none';
 }

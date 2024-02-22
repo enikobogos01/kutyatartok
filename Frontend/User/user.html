@@ -173,11 +173,6 @@
                 <!-- Lakcím Szerkesztése Form -->
                 <div id="editAddressForm" class="editForm" style="display:none;">
                     <input type="text" id="zipcodeInput" placeholder="Irányítószám" maxlength="4">
-                    <select id="countyInput">
-                        <option value="">Válassz megyét</option>
-                        <option value="Bács-Kiskun">Bács-Kiskun</option>
-                        <!-- További megyék hozzáadása -->
-                    </select>
                     <input type="text" id="streetNameInput" placeholder="Utcanév">
                     <select id="streetTypeInput">
                         <option value="">Válassz utca típust</option>
@@ -197,6 +192,9 @@
                     <button onclick="saveBirthdate()">Mentés</button>
                 </div>
             </div>
+            <div class="profileRow">
+                <strong>Regisztrációs dátum:</strong> <span id="registrationDate"></span>
+            </div>            
         </div>
     </div>
     <footer class="text-center">
