@@ -66,7 +66,7 @@ class UserModel {
     
     
     public function loginUser($email, $password) {
-        $sql = "SELECT id, password, role FROM users WHERE email = ?"; // Módosítva: role hozzáadva
+        $sql = "SELECT id, password, role, registration_date FROM users WHERE email = ?";
         $stmt = $this->conn->prepare($sql);
         if (!$stmt) {
             return ['success' => false, 'msg' => 'Adatbázis előkészítési hiba.'];
@@ -80,12 +80,14 @@ class UserModel {
         $result = $stmt->get_result();
         if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
-            $userId = $row['id'];
-            $hashedPassword = $row['password'];
-            $userRole = $row['role']; // A felhasználó szerepkörének lekérése
-    
-            if (password_verify($password, $hashedPassword)) {
-                return ['success' => true, 'msg' => 'Sikeres bejelentkezés.', 'userId' => $userId, 'role' => $userRole];
+            if (password_verify($password, $row['password'])) {
+                return [
+                    'success' => true, 
+                    'msg' => 'Sikeres bejelentkezés.', 
+                    'userId' => $row['id'], 
+                    'role' => $row['role'],
+                    'registrationDate' => $row['registration_date'] // Itt használjuk fel a változót
+                ];
             } else {
                 return ['success' => false, 'msg' => 'Hibás email-cím vagy jelszó.'];
             }

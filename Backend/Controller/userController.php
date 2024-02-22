@@ -48,7 +48,8 @@ class UserController {
                     'fullname' => $fullname,
                     'userId' => $result['userId'],
                     'role' => $result['role'],
-                    'email' => $email // Ezt a sort adtuk hozzá
+                    'email' => $email,
+                    'registrationDate' => $result['registrationDate']
                 ]);
             } elseif ($result['msg'] == 'Hibás email-cím vagy jelszó.') {
                 return json_encode(['success' => false, 'msg' => 'Helyes email-cím, de hibás jelszó.']);

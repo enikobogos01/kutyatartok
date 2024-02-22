@@ -135,19 +135,21 @@ function handleLoginResponse(responseText) {
         if (data.success) {
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('userStatus', 'loggedIn');
-            localStorage.setItem('role', data.role); // Beállítjuk a szerepkört
+            localStorage.setItem('role', data.role);
             localStorage.setItem('fullname', data.fullname);
             localStorage.setItem('email', data.email);
-            // Ellenőrizzük a szerepkört, és indítsuk el a visszaszámlálót, ha 'user'
-            if (data.role === 'user') {
-                setupCountdown(); // Ezt hozzáadtuk
-            }
+            localStorage.setItem('registrationDate', data.registrationDate);
 
-            // Szerepkör ellenőrzése és átirányítás
+            // Itt adjuk hozzá a regisztrációs dátumot a DOM-hoz
+            document.getElementById('registrationDate').textContent = data.registrationDate;
+
+            if (data.role === 'user') {
+                setupCountdown();
+            }
             if (data.role === 'admin') {
                 window.location.href = '../Admin/mainAdmin.html';
             } else {
-                checkLoginState(); // Nem admin felhasználók számára
+                checkLoginState();
             }
         } else {
             alert(data.msg);
@@ -156,6 +158,7 @@ function handleLoginResponse(responseText) {
         console.error("Error parsing JSON: ", e.message);
     }
 }
+
 
 
 function logout() {
