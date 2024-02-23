@@ -210,7 +210,7 @@ form .text h3 a:hover{
   background-color: #ffffff;
   border-radius: 8px;
   padding: 20px;
-  max-width: 600px;
+  width: 60vw;
   margin: auto;
   border: 1px solid black;
 }
@@ -266,4 +266,34 @@ form .text h3 a:hover{
     color: #029be5;
 }
 
+}
+.buttonContainer{
+  text-align: right;
+}
+.profileRow {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Elemek közötti térköz */
+}
+
+.editForm {
+  display: flex;
+  gap: 10px; /* Input mezők közötti térköz */
+  flex-wrap: wrap; /* Több sorra törik, ha szükséges */
+}
+
+#zipcodeInput {
+  width: 60px; /* Irányítószám mező szélessége */
+}
+
+#streetNameInput {
+  flex-grow: 1; /* Utcanév mező kitölti a rendelkezésre álló teret */
+}
+
+#streetTypeInput {
+  width: 100px; /* Utca típusa mező szélessége */
+}
+
+#houseNumberInput {
+  width: 80px; /* Házszám mező szélessége */
 }
