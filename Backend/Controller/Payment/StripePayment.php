@@ -1,5 +1,6 @@
 <?php
 require_once 'vendor/autoload.php'; // Composer autoload
+require_once '../Payment/processTotalForStripePayment.php';
 
 class StripePayment {
     private $stripeSecretKey;
@@ -16,15 +17,19 @@ class StripePayment {
                 'email' => $customerEmail,
                 'source' => $token,
             ]);
-
+    
+            $amount = $_SESSION['cart_total'];
+    
             $charge = \Stripe\Charge::create([
-                // min összeg amit stripe elfogad HUF-ban: 175 HUF
-                // az 'amount' összegét elosztja 100-al ezért a min. összeg amit ide lehet írni a 17500.
-                'amount' => 17500,
+                'amount' => $amount,
                 'currency' => 'huf',
                 'description' => 'Fizetés teszt céllal',
                 'customer' => $customer->id,
             ]);
+    
+            // Clear the stored total after processing payment
+            unset($_SESSION['cart_total']);
+    
             return 'Fizetés sikeresen teljesítve!';
         } catch (\Stripe\Exception\CardException $e) {
             return 'Fizetés sikertelen: ' . $e->getError()->message;

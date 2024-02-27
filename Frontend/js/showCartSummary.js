@@ -33,7 +33,10 @@ function showCartSummary() {
 
     //calculateSubtotal();
     updateElementWithAmount("subtotal", calculateSubtotal());
-    updateElementWithAmount("total", calculateTotal());
+    updateElementWithAmount("total", calculateTotal(() => {
+        // Callback to send the total to the server after it's calculated
+        sendTotalToServer();
+    }));
     calculateShippingCost();
 }
 
@@ -85,9 +88,33 @@ function calculateShippingCost(){
     return shippingCost;
 }
 
-function calculateTotal() {
-    var total = subtotal + shippingCost;
-    var shippingCost = 0;
-    total = calculateSubtotal() + shippingCost;
+function calculateTotal(callback) {
+    var subtotal = calculateSubtotal();  // Calculate subtotal first
+    var shippingCost = 0;  // Initialize shippingCost
+    var total = subtotal + shippingCost;  // Calculate total
+
+    // Execute the callback with the calculated total
+    if (callback && typeof callback === 'function') {
+        callback(total);
+    }
+
     return total;
+}
+
+function sendTotalToServer() {
+    // * 100 azért kell mert Stripe az adott összeget mindig elosztja 100-al
+    var total = calculateTotal() * 100;
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "../../Backend/Controller/Payment/processTotalForStripePayment.php", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            console.log(response); // You can handle the server response here if needed
+        }
+    };
+
+    var data = JSON.stringify({ total: total });
+    xhr.send(data);
 }
