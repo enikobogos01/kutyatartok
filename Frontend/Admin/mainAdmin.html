@@ -25,14 +25,13 @@
                     <a class="nav-link" href="productUpdate.html">Termékek mósoítása</a>
                     <a class="nav-link" href="users.html">Felhasználók</a>
                     <a class="nav-link" href="orders.html">Rendelések</a>
+                    <a class="nav-link" id="logOut" onclick="logout()"><i class="bi bi-box-arrow-right"></i></a>
+
                 </div>
             </div>
         </div>
     </nav>
     <div class="content">
-        <div class="logout-container">
-            <button id="logOutButton" onclick="logout()">Kijelentkezés <i class="bi bi-box-arrow-right"></i></button>
-        </div>
         <div class="row justify-content-center align-items-stretch">
             <div class="col-md-6 mb-4">
                 <div class="admin-item" id="users">
@@ -40,28 +39,25 @@
                     <h3>Felhasználók száma: <span id="userCount">Betöltés...</span></h3>
                 </div>
             </div>
-        
             <div class="col-md-6 mb-4">
                 <div class="admin-item">
                     <i class="bi bi-box"></i>
-                    <p id="productCount">0</p>
-                    <span>Termékek</span>
+                    <h3>Termékek száma: <span id="productCount">Betöltés...</span></h3>
                 </div>
             </div>
-        
             <div class="col-md-6 mb-4">
                 <div class="admin-item">
                     <i class="bi bi-cart3"></i>
-                    <p id="orderCount">0</p>
-                    <span>Rendelések</span>
+                    <h3>Rendelések száma: <span id="productCount">Betöltés...</span></h3>
+
                 </div>
             </div>
         
             <div class="col-md-6 mb-4">
                 <div class="admin-item">
                     <i class="bi bi-cash"></i>
-                    <p id="totalRevenue">0</p>
-                    <span>Összes rendelés értéke</span>
+                    <h3>Rendelések összege: <span id="productCount">Betöltés...</span></h3>
+
                 </div>
             </div>
         </div>

@@ -23,7 +23,7 @@
                     <a class="nav-link" href="main.html">Főoldal</a>
                     <a class="nav-link" href="products.html">Termékeink</a>
                     <a class="nav-link" href="aboutUs.html">Rólunk</a>
-                    <a class="nav-link" aria-current="page" href="#"><i class="bi bi-person"></i></a>
+                    <a class="nav-link" aria-current="page" href="#"><i id="userIcon" class="bi bi-person"></i></a>
                     <a class="nav-link" href="basket.html"><i class="bi bi-basket2-fill"></i></a>
                 </div>
             </div>
@@ -153,24 +153,55 @@
                 <button onclick="logout()">Kijelentkezés <i class="bi bi-box-arrow-right"></i></button>
             </div>
         </div>        
-        <h2>Profil Információk</h2>
-        <p id="welcomeMessage">Üdvözlünk, [Felhasználó Név]!</p>
-        <div class="row ms-2 me-2">
-            <div class="col">
-                <img src="../../imgs/profile1.webp" class="img-fluid p-1" alt="">
+        <h2 id="welcomeMessage">Üdvözlünk, [Felhasználó Név]!</h2>
+        <div class="profileContent">
+            <div class="profileHeader">Profil Információk</div>
+            <div class="profileRow"><strong>Teljes Név:</strong> <span id="profileFullname"></span></div>
+            <div class="profileRow"><strong>Email:</strong> <span id="profileEmail"></span></div>
+            <div class="profileRow">
+                <strong>Telefonszám:</strong> <span id="phoneNumber"></span>
+                <!-- Telefonszám Szerkesztése Form -->
+                <div id="editPhoneForm" class="editForm" style="display:none;">
+                    <input type="tel" id="phoneInput" placeholder="Pl.: 06 12 345 6789 / +36 12 345 6789" oninput="formatAndValidatePhone()">
+                </div>
+                <i class="bi bi-pencil editIcon" onclick="editPhoneNumber()" style="cursor: pointer;"></i>
+            </div>       
+            <div class="profileRow" style="display: flex; align-items: center; gap: 10px;">
+                <strong>Lakcím:</strong> <span id="address"></span>
+                <i class="bi bi-pencil editIcon" onclick="editAddress()"></i>
+                <i class="bi bi-floppy saveIcon" onclick="saveAddress()" style="display:none;"></i>
+                <!-- Lakcím Szerkesztése Form -->
+                <div id="editAddressForm" class="editForm" style="display:none; flex-grow: 1;">
+                    <input type="text" id="zipcodeInput" placeholder="Irányítószám" style="width: 60px;" maxlength="4">
+                    <input type="text" id="streetNameInput" placeholder="Utcanév" style="flex-grow: 1;">
+                    <input list="street-types" id="streetTypeInput" placeholder="Utca típus" style="width: 100px;">
+                    <datalist id="street-types">
+                        <option value="utca">utca</option>
+                        <option value="tér">tér</option>
+                        <!-- További utca típusok hozzáadása -->
+                    </datalist>
+                    <input type="text" id="houseNumberInput" placeholder="Házszám" style="width: 80px;" maxlength="6">
+                </div>
             </div>
-            <div class="col">
-                <img src="../../imgs/profile2.webp" class="img-fluid p-1" alt="">
-            </div>
-            <div class="col">
-                <img src="../../imgs/profile3.webp" class="img-fluid p-1" alt="">
-            </div>
-            <div class="col">
-                <img src="../../imgs/profile4.webp" class="img-fluid p-1" alt="">
-            </div>
+            
+            
+            <div class="profileRow">
+                <strong>Születési dátum:</strong> <span id="birthdate"></span>
+                <!-- Születésnap Szerkesztése Form -->
+                <div id="editBirthdateForm" class="editForm" style="display:none;">
+                    <input type="date" id="birthdateInput">
+                </div>
+                <i class="bi bi-pencil editIcon" onclick="editBirthdate()" style="cursor: pointer;"></i>
+                <i class="bi bi-floppy saveIcon" onclick="saveBirthdate()" style="display:none; cursor: pointer;"></i>
+            </div>       
+            <div class="profileRow">
+                <strong>Regisztrációs dátum:</strong> <span id="registrationDate"></span>
+            </div>  
+            <div class="buttonContainer">
+                <button id="saveButton">Mentés</button>
+            </div>                      
         </div>
     </div>
-        
     <footer class="text-center">
         <p class="p-2 pb-0">
             Telefonszám: +36 1 234 5678<br>
