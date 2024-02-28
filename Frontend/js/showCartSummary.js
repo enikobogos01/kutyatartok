@@ -91,7 +91,8 @@ function calculateShippingCost(){
 function calculateTotal(callback) {
     var subtotal = calculateSubtotal();  // Calculate subtotal first
     var shippingCost = 0;  // Initialize shippingCost
-    var total = subtotal + shippingCost;  // Calculate total
+    // "subtotal * 0.27" = áfa kiszámolása
+    var total = subtotal * 0.27 + subtotal + shippingCost;  // Calculate total
 
     // Execute the callback with the calculated total
     if (callback && typeof callback === 'function') {
