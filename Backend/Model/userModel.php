@@ -66,7 +66,7 @@ class UserModel {
     
     
     public function loginUser($email, $password) {
-        $sql = "SELECT id, password, role, registration_date FROM users WHERE email = ?";
+        $sql = "SELECT id, password, role, registration_date, phone_number, birth_date FROM users WHERE email = ?";
         $stmt = $this->conn->prepare($sql);
         if (!$stmt) {
             return ['success' => false, 'msg' => 'Adatbázis előkészítési hiba.'];
@@ -86,7 +86,9 @@ class UserModel {
                     'msg' => 'Sikeres bejelentkezés.', 
                     'userId' => $row['id'], 
                     'role' => $row['role'],
-                    'registrationDate' => $row['registration_date'] // Itt használjuk fel a változót
+                    'registrationDate' => $row['registration_date'],
+                    'phoneNumber' => $row['phone_number'],
+                    'birthDate' => $row['birth_date']
                 ];
             } else {
                 return ['success' => false, 'msg' => 'Hibás email-cím vagy jelszó.'];
@@ -95,4 +97,19 @@ class UserModel {
             return ['success' => false, 'msg' => 'A felhasználó nem található.'];
         }
     }
+    public function updateUserPhoneNumber($userId, $phoneNumber) {
+        $sql = "UPDATE users SET phone_number = ? WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        if (!$stmt) {
+            return ['success' => false, 'msg' => 'Adatbázis előkészítési hiba.'];
+        }
+    
+        $stmt->bind_param("si", $phoneNumber, $userId);
+        if ($stmt->execute()) {
+            return ['success' => true, 'msg' => 'Telefonszám sikeresen frissítve.'];
+        } else {
+            return ['success' => false, 'msg' => 'Adatbázis végrehajtási hiba.'];
+        }
+    }
+    
 }

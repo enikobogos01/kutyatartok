@@ -39,9 +39,7 @@ class UserController {
             $result = $this->userModel->loginUser($email, $password);
     
             if ($result['success']) {
-                // Sikeres bejelentkezés esetén vissza kell adni a felhasználó teljes nevét és szerepkörét is
                 $fullname = $this->userModel->getUserFullnameByEmail($email);
-                // Itt adtuk hozzá a 'role' kulcsot a válaszhoz
                 return json_encode([
                     'success' => true,
                     'msg' => 'Sikeres bejelentkezés.',
@@ -49,7 +47,9 @@ class UserController {
                     'userId' => $result['userId'],
                     'role' => $result['role'],
                     'email' => $email,
-                    'registrationDate' => $result['registrationDate']
+                    'registrationDate' => $result['registrationDate'],
+                    'phoneNumber' => $result['phoneNumber'],
+                    'birthDate' => $result['birthDate']
                 ]);
             } elseif ($result['msg'] == 'Hibás email-cím vagy jelszó.') {
                 return json_encode(['success' => false, 'msg' => 'Helyes email-cím, de hibás jelszó.']);
@@ -87,6 +87,16 @@ class UserController {
         }
         return true;
     }
+    public function updatePhoneNumber($userId, $phoneNumber) {
+        if (empty($phoneNumber)) {
+            return json_encode(['success' => false, 'msg' => 'A telefonszám megadása kötelező.']);
+        }
+    
+        // Itt hozzáadhatnál további validációkat a telefonszám formátumára
+    
+        return json_encode($this->userModel->updateUserPhoneNumber($userId, $phoneNumber));
+    }
+    
 }
 
 $userController = new UserController();
@@ -136,6 +146,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Ha az email vagy a jelszó hiányzik
             echo json_encode(['success' => false, 'msg' => 'Hiányzó email vagy jelszó.']);
         }
+    } elseif ($_POST["method"] == "updatePhoneNumber" && isset($_POST["userId"], $_POST["phoneNumber"])) {
+        $userId = trim($_POST["userId"]);
+        $phoneNumber = trim($_POST["phoneNumber"]);
+        
+        echo $userController->updatePhoneNumber($userId, $phoneNumber);
+        exit;
     }   
     
 } elseif ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["action"]) && $_GET["action"] == "getUserCount") {
