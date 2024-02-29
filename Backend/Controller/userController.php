@@ -40,6 +40,7 @@ class UserController {
     
             if ($result['success']) {
                 $fullname = $this->userModel->getUserFullnameByEmail($email);
+                $address = $this->userModel->getUserAddressByEmail($email); // Lakcím lekérése
                 return json_encode([
                     'success' => true,
                     'msg' => 'Sikeres bejelentkezés.',
@@ -49,7 +50,8 @@ class UserController {
                     'email' => $email,
                     'registrationDate' => $result['registrationDate'],
                     'phoneNumber' => $result['phoneNumber'],
-                    'birthDate' => $result['birthDate']
+                    'birthDate' => $result['birthDate'],
+                    'address' => $address
                 ]);
             } elseif ($result['msg'] == 'Hibás email-cím vagy jelszó.') {
                 return json_encode(['success' => false, 'msg' => 'Helyes email-cím, de hibás jelszó.']);
@@ -59,9 +61,8 @@ class UserController {
         } catch (Exception $e) {
             return json_encode(['success' => false, 'msg' => 'Rendszerhiba: ' . $e->getMessage()]);
         }
-    }
-    
-    
+    }    
+
     public function getUserFullnameByEmail($email) {
         return $this->userModel->getUserFullnameByEmail($email);
     }

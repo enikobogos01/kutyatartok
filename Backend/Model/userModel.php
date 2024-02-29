@@ -54,6 +54,16 @@ class UserModel {
         $row = $result->fetch_assoc();
         return $row['fullname'];
     }
+    public function getUserAddressByEmail($email) {
+        $sql = "SELECT zipcode, street_name, street_type, house_number FROM users WHERE email = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        return $row;
+    }
+    
     public function getUserCount() {
         $sql = "SELECT COUNT(*) AS count FROM users WHERE role = 'user'";
         $stmt = $this->conn->prepare($sql);
@@ -63,10 +73,8 @@ class UserModel {
         return $row['count'];
     }
     
-    
-    
     public function loginUser($email, $password) {
-        $sql = "SELECT id, password, role, registration_date, phone_number, birth_date FROM users WHERE email = ?";
+        $sql = "SELECT id, password, role, registration_date, phone_number, birth_date, zipcode, street_name, street_type, house_number FROM users WHERE email = ?";
         $stmt = $this->conn->prepare($sql);
         if (!$stmt) {
             return ['success' => false, 'msg' => 'Adatbázis előkészítési hiba.'];
@@ -88,7 +96,13 @@ class UserModel {
                     'role' => $row['role'],
                     'registrationDate' => $row['registration_date'],
                     'phoneNumber' => $row['phone_number'],
-                    'birthDate' => $row['birth_date']
+                    'birthDate' => $row['birth_date'],
+                    'address' => [
+                        'zipcode' => $row['zipcode'],
+                        'street_name' => $row['street_name'],
+                        'street_type' => $row['street_type'],
+                        'house_number' => $row['house_number']
+                    ]
                 ];
             } else {
                 return ['success' => false, 'msg' => 'Hibás email-cím vagy jelszó.'];
@@ -97,6 +111,7 @@ class UserModel {
             return ['success' => false, 'msg' => 'A felhasználó nem található.'];
         }
     }
+    
     public function updateUserPhoneNumber($userId, $phoneNumber) {
         $sql = "UPDATE users SET phone_number = ? WHERE id = ?";
         $stmt = $this->conn->prepare($sql);

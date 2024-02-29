@@ -38,6 +38,7 @@ function checkLoginState() {
     var registrationDate = localStorage.getItem('registrationDate');
     var phoneNumber = localStorage.getItem('phoneNumber'); // Telefonszám lekérése
     var birthDate = localStorage.getItem('birthDate');
+    var address = localStorage.getItem('address');
 
     if (isLoggedIn === 'true') {
         document.getElementById('content').style.display = 'none';
@@ -46,16 +47,16 @@ function checkLoginState() {
         document.getElementById('profileFullname').textContent = fullname;
         document.getElementById('profileEmail').textContent = email;
         document.getElementById('registrationDate').textContent = registrationDate;
+        document.getElementById('phoneNumber').textContent = (phoneNumber && phoneNumber !== 'null') ? phoneNumber : 'Még nincs megadva telefonszám!';
+        document.getElementById('birthDate').textContent = (birthDate && birthDate !== 'null') ? birthDate : 'Születési dátum nincs megadva';
+        var address = JSON.parse(localStorage.getItem('address'));
+        var addressText = address ? address.zipcode + ', ' + address.street_name + ' ' + address.street_type + ' ' + address.house_number : 'Lakcím nincs megadva';
+        if (!address || (address.zipcode === null && address.street_name === null && address.street_type === null && address.house_number === null)) {
+    addressText = 'Lakcím nincs megadva';
+}
+document.getElementById('address').textContent = addressText;
 
-        var phoneNumberElement = document.getElementById('phoneNumber');
-        if (phoneNumberElement) {
-            phoneNumberElement.textContent = (phoneNumber && phoneNumber !== 'null') ? phoneNumber : 'Még nincs megadva telefonszám!';
-        }
-        var birthDateElement = document.getElementById('birthDate');
-        if (birthDateElement) {
-            // Ellenőrizzük, hogy a birthDate nem null-e és nem üres string-e
-            birthDateElement.textContent = (birthDate && birthDate !== 'null') ? birthDate : 'Születési dátum nincs megadva';
-        }
+
 
         // Az ikon osztályának cseréje, ha az elem létezik
         if (userIcon) {
@@ -156,6 +157,9 @@ function handleLoginResponse(responseText) {
             localStorage.setItem('registrationDate', data.registrationDate);
             localStorage.setItem('phoneNumber', data.phoneNumber);
             localStorage.setItem('birthDate', data.birthDate);
+            // Lakcím hozzáadása a localStorage-hoz
+            localStorage.setItem('address', JSON.stringify(data.address)); // data.address az a backend válaszból kapott lakcím objektum
+
             if (data.role === 'user') {
                 setupCountdown();
             }
@@ -171,6 +175,7 @@ function handleLoginResponse(responseText) {
         console.error("Error parsing JSON: ", e.message);
     }
 }
+
 
 function logout() {
     localStorage.removeItem('isLoggedIn');
