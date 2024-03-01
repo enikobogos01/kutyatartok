@@ -31,14 +31,14 @@ window.onload = function () {
 };
 
 function checkLoginState() {
-    var isLoggedIn = localStorage.getItem('isLoggedIn');
-    var fullname = localStorage.getItem('fullname');
-    var email = localStorage.getItem('email'); // Email cím lekérése
-    var userIcon = document.getElementById('userIcon'); // Az ikon elem lekérése
-    var registrationDate = localStorage.getItem('registrationDate');
-    var phoneNumber = localStorage.getItem('phoneNumber'); // Telefonszám lekérése
-    var birthDate = localStorage.getItem('birthDate');
-    var address = localStorage.getItem('address');
+    var isLoggedIn = sessionStorage.getItem('isLoggedIn');
+    var fullname = sessionStorage.getItem('fullname');
+    var email = sessionStorage.getItem('email');
+    var registrationDate = sessionStorage.getItem('registrationDate');
+    var phoneNumber = sessionStorage.getItem('phoneNumber');
+    var birthDate = sessionStorage.getItem('birthDate');
+    var address = sessionStorage.getItem('address');
+    var userIcon = document.getElementById('userIcon');
 
     if (isLoggedIn === 'true') {
         document.getElementById('content').style.display = 'none';
@@ -48,11 +48,11 @@ function checkLoginState() {
         document.getElementById('profileEmail').textContent = email;
         document.getElementById('registrationDate').textContent = registrationDate;
         document.getElementById('phoneNumber').textContent = (phoneNumber && phoneNumber !== 'null') ? phoneNumber : 'Még nincs megadva telefonszám!';
-        document.getElementById('birthDate').textContent = (birthDate && birthDate !== 'null') ? birthDate : 'Születési dátum nincs megadva';
+        document.getElementById('birthDate').textContent = (birthDate && birthDate !== 'null') ? birthDate : 'Még nincs megadva születési dátum!';
         var address = JSON.parse(localStorage.getItem('address'));
-        var addressText = address ? address.zipcode + ', ' + address.street_name + ' ' + address.street_type + ' ' + address.house_number : 'Lakcím nincs megadva';
+        var addressText = address ? address.zipcode + ', ' + address.street_name + ' ' + address.street_type + ' ' + address.house_number : 'Még nincs megadva lakcím!';
         if (!address || (address.zipcode === null && address.street_name === null && address.street_type === null && address.house_number === null)) {
-    addressText = 'Lakcím nincs megadva';
+    addressText = 'Még nincs megadva lakcím!';
 }
 document.getElementById('address').textContent = addressText;
 
@@ -149,16 +149,15 @@ function handleLoginResponse(responseText) {
     try {
         var data = JSON.parse(responseText);
         if (data.success) {
-            localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('userStatus', 'loggedIn');
-            localStorage.setItem('role', data.role);
-            localStorage.setItem('fullname', data.fullname);
-            localStorage.setItem('email', data.email);
-            localStorage.setItem('registrationDate', data.registrationDate);
-            localStorage.setItem('phoneNumber', data.phoneNumber);
-            localStorage.setItem('birthDate', data.birthDate);
-            // Lakcím hozzáadása a localStorage-hoz
-            localStorage.setItem('address', JSON.stringify(data.address)); // data.address az a backend válaszból kapott lakcím objektum
+            sessionStorage.setItem('isLoggedIn', 'true');
+            sessionStorage.setItem('userStatus', 'loggedIn');
+            sessionStorage.setItem('role', data.role);
+            sessionStorage.setItem('fullname', data.fullname);
+            sessionStorage.setItem('email', data.email);
+            sessionStorage.setItem('registrationDate', data.registrationDate);
+            sessionStorage.setItem('phoneNumber', data.phoneNumber);
+            sessionStorage.setItem('birthDate', data.birthDate);
+            sessionStorage.setItem('address', JSON.stringify(data.address));
 
             if (data.role === 'user') {
                 setupCountdown();
@@ -178,9 +177,14 @@ function handleLoginResponse(responseText) {
 
 
 function logout() {
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('userStatus');
-    localStorage.removeItem('fullname');
+    sessionStorage.removeItem('isLoggedIn');
+    sessionStorage.removeItem('userStatus');
+    sessionStorage.removeItem('fullname');
+    sessionStorage.removeItem('email');
+    sessionStorage.removeItem('registrationDate');
+    sessionStorage.removeItem('phoneNumber');
+    sessionStorage.removeItem('birthDate');
+    sessionStorage.removeItem('address');
     checkLoginState();
     window.location.reload();
 }
