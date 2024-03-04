@@ -84,15 +84,20 @@ function submitRegistrationForm() {
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
     xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            handleRegistrationResponse(xhr.responseText);
-        } else {
-            console.error("Server response (error): " + xhr.status);
+        if (xhr.readyState == 4) { // Ha a kérés befejeződött
+            if (xhr.status == 200) {
+                // Sikeres válasz esetén a válasz kezelése
+                handleRegistrationResponse(xhr.responseText);
+            } else {
+                // Csak akkor logolunk hibát, ha a kérés befejeződött, de a válasz nem sikeres
+                console.error("Server response (error): " + xhr.status + " " + xhr.statusText);
+            }
         }
     };
 
     xhr.send(params);
 }
+
 
 function buildRegistrationParams() {
     var fullname = document.getElementById("fullname").value;

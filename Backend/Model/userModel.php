@@ -29,7 +29,7 @@ class UserModel {
     
             try {
                 if ($stmt->execute()) {
-                    $this->sendWelcomeEmail($fullname, $email); // Email küldése
+                    // $this->sendWelcomeEmail($fullname, $email); 
                     return array('msg' => 'Sikeres regisztráció! Most már be tudsz jelentkezni.');
                 } else {
                     return array('msg' => 'Hiba történt a regisztráció közben!');
@@ -39,12 +39,12 @@ class UserModel {
             }
         }
     }
-    private function sendWelcomeEmail($fullname, $email) {
-        $subject = "Üdvözlünk a Kutyatartók Webáruházában!";
-        $message = "Kedves $fullname,\n\nKöszönjük, hogy regisztráltál a Kutyatartók Webáruházához. Sikeresen létrehoztad a fiókodat.\n\nÜdvözlettel,\nA Kutyatartók Webáruháza Csapata";
-        $headers = "From: kutyatartokwebaruhaza@gmail.com";
-        mail($email, $subject, $message, $headers);
-    }
+    // private function sendWelcomeEmail($fullname, $email) {
+    //     $subject = "Üdvözlünk a Kutyatartók Webáruházában!";
+    //     $message = "Kedves $fullname,\n\nKöszönjük, hogy regisztráltál a Kutyatartók Webáruházához. Sikeresen létrehoztad a fiókodat.\n\nÜdvözlettel,\nA Kutyatartók Webáruháza Csapata";
+    //     $headers = "From: kutyatartokwebaruhaza@gmail.com";
+    //     mail($email, $subject, $message, $headers);
+    // }
     public function getUserFullnameByEmail($email) {
         $sql = "SELECT fullname FROM users WHERE email = ?";
         $stmt = $this->conn->prepare($sql);
