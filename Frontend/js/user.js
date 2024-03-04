@@ -84,12 +84,10 @@ function submitRegistrationForm() {
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
     xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) { // Ha a kérés befejeződött
+        if (xhr.readyState == 4) {
             if (xhr.status == 200) {
-                // Sikeres válasz esetén a válasz kezelése
                 handleRegistrationResponse(xhr.responseText);
             } else {
-                // Csak akkor logolunk hibát, ha a kérés befejeződött, de a válasz nem sikeres
                 console.error("Server response (error): " + xhr.status + " " + xhr.statusText);
             }
         }
@@ -116,6 +114,8 @@ function handleRegistrationResponse(responseText) {
     try {
         var data = JSON.parse(responseText);
         if (data.msg === 'Sikeres regisztráció! Most már be tudsz jelentkezni.') {
+            var registrationDate = new Date().toISOString().slice(0, 10);
+            sessionStorage.setItem('registrationDate', registrationDate);
             alert(data.msg);
             toggleForm();
         } else {
@@ -190,8 +190,7 @@ function logout() {
     sessionStorage.removeItem('phoneNumber');
     sessionStorage.removeItem('birthDate');
     sessionStorage.removeItem('address');
-    checkLoginState();
-    window.location.reload();
+    window.location.href = '../User/user.html';
 }
 
 function toggleForm() {
@@ -267,6 +266,3 @@ function startCountdown(duration = 1800) {
 }
 // Az oldal betöltődésekor meghívjuk a setupCountdown funkciót
 document.addEventListener('DOMContentLoaded', setupCountdown);
-
-////////////////////////////////////////////////////////////////////////////////////////
-

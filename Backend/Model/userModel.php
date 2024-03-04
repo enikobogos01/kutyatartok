@@ -22,10 +22,11 @@ class UserModel {
         } else {
             // Helyes hashelés
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $registrationDate = date('Y-m-d'); // Regisztrációs dátum hozzáadása
     
-            $insertQuery = "INSERT INTO users (fullname, email, password) VALUES (?, ?, ?)";
+            $insertQuery = "INSERT INTO users (fullname, email, password, registration_date) VALUES (?, ?, ?, ?)";
             $stmt = $this->conn->prepare($insertQuery);
-            $stmt->bind_param("sss", $fullname, $email, $hashedPassword);
+            $stmt->bind_param("ssss", $fullname, $email, $hashedPassword, $registrationDate);
     
             try {
                 if ($stmt->execute()) {
@@ -39,6 +40,7 @@ class UserModel {
             }
         }
     }
+    
     // private function sendWelcomeEmail($fullname, $email) {
     //     $subject = "Üdvözlünk a Kutyatartók Webáruházában!";
     //     $message = "Kedves $fullname,\n\nKöszönjük, hogy regisztráltál a Kutyatartók Webáruházához. Sikeresen létrehoztad a fiókodat.\n\nÜdvözlettel,\nA Kutyatartók Webáruháza Csapata";
