@@ -13,18 +13,21 @@ class ProductModel {
         $sql = "SELECT * FROM products";
         $whereConditions = [];
         $params = [];
+        $types = '';
 
         // Add category filter
         if ($categoryFilter != 'all') {
             $whereConditions[] = "category = ?";
             $params[] = $categoryFilter;
+            $types .= 's'; // String típus, mivel a kategória szöveges érték
         }
 
         // Add price range filter
         if ($minPrice !== null && $maxPrice !== null) {
             $whereConditions[] = "price BETWEEN ? AND ?";
-            $params[] = $minPrice;
-            $params[] = $maxPrice;
+            $params[] = (float)$minPrice; // Konvertálás float-ra, ha szükséges
+            $params[] = (float)$maxPrice; // Konvertálás float-ra, ha szükséges
+            $types .= 'dd'; // Double típus, mivel az árak numerikus értékek
         }
 
         if (!empty($whereConditions)) {
@@ -43,15 +46,17 @@ class ProductModel {
         $stmt = $this->conn->prepare($sql);
 
         if (!empty($params)) {
-            $stmt->bind_param(str_repeat('s', count($params)), ...$params);
+            $stmt->bind_param($types, ...$params);
         }
 
         $stmt->execute();
         $result = $stmt->get_result();
 
         $products = [];
-        while ($row = $result->fetch_assoc()) {
-            $products[] = $row;
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $products[] = $row;
+            }
         }
 
         $stmt->close();
