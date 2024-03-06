@@ -1,32 +1,25 @@
-let currentSortOption = 'default';
-let currentCategoryFilter = 'all';
-let currentPriceRange = [0, 7000];
-
 document.addEventListener("DOMContentLoaded", () => {
+    // Eseménykezelő a legördülő menüpontok kattintásaira
+    const handleDropdownItemClick = (event) => {
+        event.preventDefault();
+        const { sort, filter } = event.currentTarget.dataset;
+        const priceSlider = document.getElementById('priceSlider').noUiSlider;
+        const priceRange = priceSlider.get();
+        // Aktív szűrő frissítése
+        document.querySelectorAll('.dropdown-item').forEach(item => item.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+        fetchAndDisplayProducts(sort, filter, priceRange);
+    };
 
+    // Eseménykezelők hozzáadása a legördülő menüpontokhoz
     document.querySelectorAll('.dropdown-item').forEach(item => {
-        item.addEventListener('click', function(event) {
-            event.preventDefault();
-            const { sort, filter } = this.dataset;
-
-            if (sort !== undefined) {
-                currentSortOption = sort;
-            }
-            if (filter !== undefined) {
-                currentCategoryFilter = filter;
-            }
-
-            // Nem szükséges újra deklarálni a priceRange változót, használja a globális állapotot
-            document.querySelectorAll('.dropdown-item').forEach(item => item.classList.remove('active'));
-            this.classList.add('active');
-
-            // Közvetlenül hívja a globális állapotot használó fetchAndDisplayProducts funkciót
-            fetchAndDisplayProducts();
-        });
+        item.addEventListener('click', handleDropdownItemClick);
     });
 
-    initializePriceSlider();
+    // Termékek betöltése és megjelenítése az oldal betöltésekor
     fetchAndDisplayProducts();
+
+    initializePriceSlider();
 });
 
 // Ár tartomány csúszka inicializálása és eseménykezelők beállítása
@@ -56,27 +49,23 @@ function initializePriceSlider() {
     });
 
     priceSliderDiv.noUiSlider.on('set', function (values, handle) {
-        currentPriceRange = values.map(Number); // Frissíti az árszűrő aktuális értékeit
-        // Itt már nem használjuk a 'default' és a 'currentFilter' változót közvetlenül
-        fetchAndDisplayProducts(); // Az aktuális állapotok alapján hívjuk meg a funkciót
+        const currentFilter = document.querySelector('.dropdown-item.active')?.dataset.filter || 'all';
+        fetchAndDisplayProducts('default', currentFilter, values);
     });
-   
 }
 
-async function fetchAndDisplayProducts() {
-    const url = `http://localhost/kutyatartok/Backend/Controller/productController.php?sort=${currentSortOption}&filter=${currentCategoryFilter}&minPrice=${currentPriceRange[0]}&maxPrice=${currentPriceRange[1]}`;
+async function fetchAndDisplayProducts(sortBy = 'default', filterBy = 'all', priceRange = [0, 7000]) {
+    const url = `../../Backend/Controller/productController.php?sort=${sortBy}&filter=${filterBy}&minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}`;
 
     try {
         const response = await fetch(url);
         const products = await response.json();
-        console.log(products); // Ellenőrzés céljából
-        if (Array.isArray(products)) { // Ellenőrizzük, hogy tömb-e
-            const cardContainer = document.getElementById('cardContainer');
-            cardContainer.innerHTML = '';
-            products.forEach(product => cardContainer.appendChild(createProductCard(product)));
-        } else {
-            console.error('A válasz nem tömb.');
-        }
+        const cardContainer = document.getElementById('cardContainer');
+        cardContainer.innerHTML = '';
+        products.forEach(product => {
+            const card = createProductCard(product);
+            cardContainer.appendChild(card);
+        });
     } catch (error) {
         console.error('Error fetching products:', error);
     }
@@ -91,10 +80,15 @@ function createProductCard(product) {
             <img src="${product.image_path}" class="card-img-top" alt="${product.name}">
             <div class="card-body">
                 <h5 class="card-title">${product.name}</h5>
-                <p class="card-text">Ár: ${formatCurrency(product.price)}</p> <!-- Itt eltávolítottuk a " Ft" részt -->
+                <p class="card-text">Ár: ${product.price} Ft</p>
             </div>
         </div>
     `;
+
+    card.addEventListener('click', () => {
+        localStorage.setItem('selectedProduct', JSON.stringify(product));
+        window.location.href = 'productInfo.html';
+    });
 
     return card;
 }
@@ -107,5 +101,4 @@ function formatCurrency(amount) {
         maximumFractionDigits: 0
     }).format(amount);
 }
-
 
