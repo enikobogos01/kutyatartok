@@ -232,13 +232,13 @@ form .text h3 a:hover{
   margin-right: 10px;
 }
 
-.editIcon {
+.editIcon, .saveIcon {
   margin-left: auto;
   color: #000000;
   cursor: pointer;
 }
 
-.editIcon:hover {
+.editIcon:hover, .saveIcon:hover {
   color: #029be5;
 }
 
@@ -256,16 +256,6 @@ form .text h3 a:hover{
       display: block;
   }
 
-  .editIcon {
-    margin-left: auto;
-    color: black;
-    cursor: pointer;
-}
-
-.editIcon:hover {
-    color: #029be5;
-}
-
 }
 .buttonContainer{
   text-align: right;
@@ -275,25 +265,11 @@ form .text h3 a:hover{
   align-items: center;
   gap: 10px; /* Elemek közötti térköz */
 }
-
-.editForm {
-  display: flex;
-  gap: 10px; /* Input mezők közötti térköz */
-  flex-wrap: wrap; /* Több sorra törik, ha szükséges */
+.phoneNumberInput {
+  width: 70%;
+  border-radius: 8px;
+  padding-left: 5px;
+  margin: 0;
+  display: block;
 }
 
-#zipcodeInput {
-  width: 60px; /* Irányítószám mező szélessége */
-}
-
-#streetNameInput {
-  flex-grow: 1; /* Utcanév mező kitölti a rendelkezésre álló teret */
-}
-
-#streetTypeInput {
-  width: 100px; /* Utca típusa mező szélessége */
-}
-
-#houseNumberInput {
-  width: 80px; /* Házszám mező szélessége */
-}

@@ -156,6 +156,7 @@ function handleLoginResponse(responseText) {
         if (data.success) {
             sessionStorage.setItem('isLoggedIn', 'true');
             sessionStorage.setItem('userStatus', 'loggedIn');
+            sessionStorage.setItem('userId', data.userId);
             sessionStorage.setItem('role', data.role);
             sessionStorage.setItem('fullname', data.fullname);
             sessionStorage.setItem('email', data.email);
@@ -233,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // Visszaszámláló kezdeti beállítása
 function setupCountdown() {
     // Ellenőrizzük, hogy a felhasználó szerepköre 'user'-e
-    var role = localStorage.getItem('role'); // Tegyük fel, hogy a szerepkört így tároljuk
+    var role = sessionStorage.getItem('role'); // Módosítás: 'localStorage' helyett 'sessionStorage'
     if (role !== 'user') return; // Ha nem 'user', akkor nem csinálunk semmit
     // Visszaszámláló indítása
     startCountdown();
@@ -264,5 +265,199 @@ function startCountdown(duration = 1800) {
         startCountdown(duration); // Újraindítjuk a visszaszámlálót
     });
 }
+
 // Az oldal betöltődésekor meghívjuk a setupCountdown funkciót
 document.addEventListener('DOMContentLoaded', setupCountdown);
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+function showEditForm(fieldId) {
+    var existingForm = document.querySelector('.editForm');
+    if (existingForm) {
+        existingForm.remove();
+    }
+
+    var phoneNumberElement = document.getElementById(fieldId);
+    var editIcon = phoneNumberElement.nextElementSibling;
+    var saveIcon = editIcon.nextElementSibling;
+
+    toggleIcons(editIcon, saveIcon);
+
+    var phoneNumber = phoneNumberElement.textContent.trim();
+    if (phoneNumber === "Még nincs megadva telefonszám!") {
+        phoneNumber = "";
+    }
+    var form = document.createElement('form');
+    form.className = 'editForm';
+    form.innerHTML = `<input type="text" class="phoneNumberInput" id="newPhoneNumber" value="${phoneNumber}" autofocus maxlength="11">`;
+    form.onsubmit = function(e) { e.preventDefault(); savePhoneNumber(fieldId, saveIcon); };
+
+    phoneNumberElement.style.display = 'none';
+    phoneNumberElement.parentElement.insertBefore(form, saveIcon);
+
+    saveIcon.style.display = 'inline-block';
+    saveIcon.onclick = function() { savePhoneNumber(fieldId, saveIcon); };
+}
+
+function savePhoneNumber(fieldId) {
+    var inputElement = document.getElementById('newPhoneNumber');
+    var newPhoneNumber = inputElement.value.trim();
+
+    if (newPhoneNumber === "") {
+        alert("A telefonszám nem lehet üres.");
+        return;
+    }
+
+    if (!validatePhoneNumber(inputElement)) {
+        alert("Helytelen telefonszám formátum.\nHelyes telefonszám formátum: 06 12 345 6789 / +36 12 345 6789");
+        return;
+    }
+
+    var userId = sessionStorage.getItem('userId');
+
+    if (!userId) {
+        console.error('Felhasználó nincs bejelentkezve!');
+        return;
+    }
+
+    sessionStorage.setItem('phoneNumber', newPhoneNumber);
+    console.log('Telefonszám sikeresen mentve: ' + newPhoneNumber);
+
+    var phoneNumberElement = document.getElementById(fieldId);
+    var editIcon = phoneNumberElement.nextElementSibling;
+
+    toggleIcons(editIcon, editIcon.previousElementSibling);
+
+    phoneNumberElement.textContent = newPhoneNumber;
+    phoneNumberElement.style.display = 'inline';
+
+    var form = document.querySelector('.editForm');
+    form.remove();
+
+    var saveIcon = editIcon.nextElementSibling;
+    saveIcon.style.display = 'none';
+}
+
+function toggleIcons(iconToHide, iconToShow) {
+    if (iconToHide.style.display !== 'none') {
+        iconToHide.style.display = 'none';
+    } else {
+        iconToShow.style.display = 'none';
+        iconToHide.style.display = 'inline-block';
+    }
+}
+
+function validatePhoneNumber(inputElement) {
+    let phoneNumber = inputElement.value.trim();
+    let validPatternPlus36 = /^\+36[0-9]{8,9}$/;
+    let validPattern06 = /^06[0-9]{8,9}$/;
+
+    let validFormats = "Helyes telefonszám formátum:\n06 12 345 6789\n+36 12 345 6789";
+
+    if (!phoneNumber.match(/^\d+$/)) {
+        alert("Helytelen telefonszám formátum. Csak számjegyeket tartalmazhat.\n" + validFormats);
+        return false;
+    }
+
+    if (!(validPatternPlus36.test(phoneNumber) || validPattern06.test(phoneNumber))) {
+        alert("Helytelen telefonszám formátum!\n" + validFormats);
+        return false;
+    }
+
+    return true;
+}
+function showEditBirthDateForm(fieldId) {
+    var existingForm = document.querySelector('.editForm');
+    if (existingForm) {
+        existingForm.remove();
+    }
+
+    var birthDateElement = document.getElementById(fieldId);
+    var editIcon = birthDateElement.nextElementSibling;
+    var saveIcon = editIcon.nextElementSibling;
+
+    toggleIcons(editIcon, saveIcon);
+
+    var birthDate = birthDateElement.textContent.trim();
+    var form = document.createElement('form');
+    form.className = 'editForm';
+    var inputDate = document.createElement('input');
+    inputDate.type = 'date';
+    inputDate.className = 'birthDateInput';
+    inputDate.id = 'newBirthDate';
+    inputDate.value = ""; // Üres string érték
+    inputDate.autofocus = true;
+    form.appendChild(inputDate);
+
+    form.onsubmit = function(e) { e.preventDefault(); saveBirthDate(fieldId, saveIcon); };
+
+    birthDateElement.style.display = 'none';
+    birthDateElement.parentElement.insertBefore(form, saveIcon);
+
+    saveIcon.style.display = 'inline-block';
+    saveIcon.onclick = function() { saveBirthDate(fieldId, saveIcon); };
+}
+
+
+function saveBirthDate(fieldId) {
+    var inputElement = document.getElementById('newBirthDate');
+    var newBirthDate = inputElement.value.trim();
+
+    if (!validateBirthDate(inputElement)) {
+        alert("Helytelen születési dátum formátum. Helyes formátum: YYYY-MM-DD");
+        return;
+    }
+
+    var userId = sessionStorage.getItem('userId');
+
+    if (!userId) {
+        console.error('Felhasználó nincs bejelentkezve!');
+        return;
+    }
+
+    sessionStorage.setItem('birthDate', newBirthDate);
+    console.log('Születési dátum sikeresen mentve: ' + newBirthDate);
+
+    var birthDateElement = document.getElementById(fieldId);
+    var editIcon = birthDateElement.nextElementSibling;
+
+    toggleIcons(editIcon, editIcon.previousElementSibling);
+
+    birthDateElement.textContent = newBirthDate;
+    birthDateElement.style.display = 'inline';
+
+    var form = document.querySelector('.editForm');
+    form.remove();
+
+    var saveIcon = editIcon.nextElementSibling;
+    saveIcon.style.display = 'none';
+}
+
+function toggleIcons(iconToHide, iconToShow) {
+    if (iconToHide.style.display !== 'none') {
+        iconToHide.style.display = 'none';
+    } else {
+        iconToShow.style.display = 'none';
+        iconToHide.style.display = 'inline-block';
+    }
+}
+
+function validateBirthDate(inputElement) {
+    let birthDate = inputElement.value.trim();
+    let validFormat = /^\d{4}-\d{2}-\d{2}$/; // YYYY-MM-DD formátum ellenőrzése
+
+    if (!validFormat.test(birthDate)) {
+        return false;
+    }
+
+    // Ellenőrizzük, hogy a dátum nem lehet jövőbeli és nem lehet több mint 120 évvel ezelőtti
+    let currentDate = new Date();
+    let inputDate = new Date(birthDate);
+    let minDate = new Date();
+    minDate.setFullYear(minDate.getFullYear() - 125);
+
+    if (inputDate >= currentDate || inputDate < minDate) {
+        return false;
+    }
+
+    return true;
+}
