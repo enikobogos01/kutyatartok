@@ -19,7 +19,7 @@ function showCartSummary() {
                                     <div class="col-sm-6 col-md-3 align-self-center">
                                         <p class="productName">${product.name} ${(product.size).toUpperCase()}</p>
                                     </div>
-                                    <div class="col-sm-6 col-md-3 align-self-center">
+                                    <div class="col-sm-6 col-md-3 align-self-center d-flex justify-content-center">
                                         <p  class="quantity">${product.quantity} db</p>
                                     </div>
                                     <div class="col-sm-6 col-md-3 align-self-center">
