@@ -8,7 +8,7 @@ function showCartSummary() {
 
     cartSummaryElement.innerHTML = "";
 
-    cartSummary.forEach(function (product, index) {
+    cartSummary.forEach(function (product) {
         var div = document.createElement("div");
         div.innerHTML = `<div class="row">
                             <div class="col-lg-8 col-sm-12">
