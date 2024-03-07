@@ -20,7 +20,7 @@ function showCartSummary() {
                                         <p class="productName">${product.name} ${(product.size).toUpperCase()}</p>
                                     </div>
                                     <div class="col-sm-6 col-md-3 align-self-center">
-                                        <input class="quantity" type="number" value="${product.quantity}" min="0" onchange="removeFromCartSummary(${index}, this.value)">
+                                        <p  class="quantity">${product.quantity} db</p>
                                     </div>
                                     <div class="col-sm-6 col-md-3 align-self-center">
                                         <p class="price">${product.price} Ft</p>
@@ -40,27 +40,6 @@ function showCartSummary() {
     calculateShippingCost();
 }
 
-function removeFromCartSummary(index, newQuantity) {
-    var cartSummary = JSON.parse(localStorage.getItem("cart")) || [];
-
-    // index validálás
-    if (index >= 0 && index < cartSummary.length) {
-        // quantity frissítése
-        cartSummary[index].quantity = parseInt(newQuantity);
-
-        // item törlése, ha a quantity-ja 0
-        if (cartSummary[index].quantity === 0) {
-            cartSummary.splice(index, 1);
-        }
-
-        // cart frissítése localStorage-ban
-        localStorage.setItem("cart", JSON.stringify(cartSummary));
-
-        // A cartSummary frissítése
-        showCartSummary();
-    }
-}
-
 function updateElementWithAmount(elementId, amount){
     var element = document.getElementById(elementId);
     element.innerHTML = amount.toFixed(0) + " Ft";
@@ -73,7 +52,7 @@ function calculateSubtotal() {
 
     for (var i = 0; i < prices.length; i++) {
         // Extract quantity and price from their respective elements
-        var quantity = parseInt(quantities[i].value);
+        var quantity = parseInt(quantities[i].textContent);
         var itemPrice = parseFloat(prices[i].textContent.replace(' Ft', ''));
 
         // Calculate the subtotal for each item
