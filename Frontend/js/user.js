@@ -319,7 +319,6 @@ function savePhoneNumber(fieldId) {
     }
 
     sessionStorage.setItem('phoneNumber', newPhoneNumber);
-    console.log('Telefonszám sikeresen mentve: ' + newPhoneNumber);
 
     var phoneNumberElement = document.getElementById(fieldId);
     var editIcon = phoneNumberElement.nextElementSibling;
@@ -414,7 +413,6 @@ function saveBirthDate(fieldId) {
     }
 
     sessionStorage.setItem('birthDate', newBirthDate);
-    console.log('Születési dátum sikeresen mentve: ' + newBirthDate);
 
     var birthDateElement = document.getElementById(fieldId);
     var editIcon = birthDateElement.nextElementSibling;
@@ -528,7 +526,6 @@ function saveAddress(fieldId, saveIcon) {
 
     // Az objektum JSON formátumra konvertálása és tárolása a sessionStorage-ben
     sessionStorage.setItem('address', JSON.stringify(fullAddress));
-    console.log('Lakcím sikeresen mentve: ' + JSON.stringify(fullAddress));
 
     var addressElement = document.getElementById(fieldId);
     var addressText = `${newZipcode} ${newCity}, ${newStreetName} ${newStreetType} ${newHouseNumber}`.trim();

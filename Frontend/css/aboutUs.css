@@ -1,89 +1,40 @@
-.aboutUsContainer .aboutUsHeading {
-    width: 80%;
-    margin: auto;
-    text-align: center;
-
-}
-
-.aboutUsContainer .aboutUsHeading h1 {
-    margin: 10px auto;
-    padding: 1vw 4vw 1vw 4vw;
-    font-weight: bold;
-    font-style: italic;
-    font-size: 2.4vh;
-    text-align: left;
-}
-
-
-.wrapper {
-    width: 95%;
-    margin: 10px auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5%; /* Ez a gap hozzáad egy 20px-es távolságot a wrapper elemek között */
-}
-
-.image {
-    width: 100%;
-    margin-top: 20px; /* Ez a margin hozzáad egy 20px-es távolságot a képek felett */
-}
-
 .content {
-    width: 100%; /* Teljes szélesség a mobil nézetben */
-    margin-top: 20px;
-    box-sizing: border-box;
-    margin-bottom: 20px;
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    color: #333;
 }
-
-.content h2 {
-    font-size: 25px;
-    color: #2F3B49;
-    margin-top: 20px;
+.aboutTop{
+    background-image: url(../../imgs/aboutUs2.jpg);
+    min-height: 30vw;
 }
-
-.content p {
-    color: #666;
-    font-size: 16px;
-    margin-top: 10px;
-    text-align: justify;
-}
-
-.image {
-    width: 100%; /* Teljes szélesség a mobil nézetben */
-}
-
-.image img {
-    height: auto;
-    border-radius: 10px;
-    width: 100%;
-}
-
-@media screen and (min-width: 768px) {
-    .wrapper {
-        flex-direction: row;
-        justify-content: space-between;
-    }
-
-    .content,
-    .image {
-        width: 48%; /* Két oszlopos elrendezés */
-    }
-
-    .content h2 {
-        font-size: 24px;
-    }
-    .image {
-        margin-top: 0; /* Ne legyen margin a képek felett desktop nézetben */
-    }
-
-}
-
-.bye h3{
-    font-size: 20px;
+h1{
+    color: #ffffff;
+    font-size: 4vw;
     font-weight: bold;
-    font-style: italic;
     text-align: center;
-    margin: auto;
-    margin-bottom: 30px;
+    padding-top: 6vw;
+}
+.aboutContainer {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.imageGallery img {
+    width: 100%;
+    max-width: 300px;
+    margin: 10px;
+    border-radius: 8px;
+}
+
+.joinUsButton {
+    display: inline-block;
+    background-color: #ff9900;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-top: 20px;
 }
