@@ -6,7 +6,7 @@ html, body {
 }
 
 .content {
-  min-height: 100%;
+  min-height: calc(100vh - 160px);
   padding-bottom: 80px; /* A lábléc magasságának megfelelően állítsd be */
   box-sizing: border-box;
   background-color: #faf7f0;
@@ -18,17 +18,16 @@ html, body {
 
 footer {
   position: relative;
-  margin-top: -80px; /* A lábléc magasságának negatív értéke */
-  height: 80px;
+  min-height: 80px;
   clear: both;
   width: 100%;
   background-color: #2F3B49;
   color: #fff;
-  align-items: center;
-  width: 100%;
+  text-align: center;
   font-size: 1.8vh;
-  padding: 1px;
+  padding: 1vh 0; /* Biztosítja, hogy legyen függőleges térköz */
 }
+
 
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -39,6 +38,7 @@ body {
   margin-bottom: 0px;
   color: #2F3B49;
   min-height: 100vh;
+  height: 100%;
 }
 
 nav{

@@ -7,34 +7,108 @@
 .aboutTop{
     background-image: url(../../imgs/aboutUs2.jpg);
     min-height: 30vw;
+    text-align: center;
 }
-h1{
+h1 {
     color: #ffffff;
     font-size: 4vw;
     font-weight: bold;
     text-align: center;
     padding-top: 6vw;
+    text-shadow: 1px 1px 2px #4a2b03;
 }
-.aboutContainer {
+.aboutTop button {
+    border-radius: 20px;
+    font-size: 1.6vw;
+    padding: 0.2vw 1vw;
+    margin-top: 1vw;
+    background-color: #a5640f;
+    border: 2px solid #ffffff;
+    color: #fff;
+}
+
+.aboutTop button:hover {
     background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
+    color: #a5640f;
+    border: 2px solid #fff;
+}
+
+.aboutContainer {
+    max-width: 80vw;
+    margin: 0 auto;
+    padding: 2vw;
+    font-family: 'Arial', sans-serif;
+}
+
+.aboutContainer p {
+    text-align: justify;
+    line-height: 1.6;
+    margin-bottom: 2vw;
+}
+
+.imageGallery {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 4vw;
+    text-align: center;
 }
 
 .imageGallery img {
-    width: 100%;
-    max-width: 300px;
-    margin: 10px;
-    border-radius: 8px;
+    max-width: 100%;
+    height: auto;
+    border-radius: 1vw;
 }
 
 .joinUsButton {
-    display: inline-block;
-    background-color: #ff9900;
-    color: #fff;
-    padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: bold;
-    margin-top: 20px;
+    border-radius: 20px;
+    font-size: 1.6vw; 
+    padding: 0.3vw 1vw;
+    background-color: #a5640f;
+    border: 2px solid #fff;
+    color: #ffffff;
+    text-align: center;
+    margin-top: 2vw;
+}
+
+.joinUsButton:hover {
+    background-color: #fff;
+    color: #a5640f;
+    border: 2px solid #a5640f;
+}
+@media (max-width: 768px) {
+    .aboutContainer {
+        padding: 5vw;
+    }
+    .imageGallery img {
+        max-width: 70%;
+        margin-bottom: 2vw;
+    }
+    .joinUsButton {
+        font-size: 4vw;
+        padding: 1.5vw 3vw;
+        margin-top: 1vw;
+    }
+    .aboutTop {
+        background-image: url(../../imgs/aboutUs2.jpg);
+        background-size: cover;
+        background-position: center center;
+        min-height: 50vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    .aboutTop h1 {
+        font-size: 7vw;
+        padding-top: 0;
+        padding-bottom: 2vw;
+    }
+    .aboutTop button {
+        font-size: 3vw;
+        padding: 1.5vw 3vw;
+        margin-top: 1vw;
+    }    
 }
