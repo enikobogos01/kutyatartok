@@ -86,7 +86,7 @@
 
                     <div class="collapse show" id="cashOnDeliveryContent">
                         <!--Készpénzes Fizetés-->
-                        <h1>KÉSZPÉNZ</h1>
+                        <p>Készpénzes fizetés a csomag átvételekor</p>
                     </div>
                     <div class="collapse" id="creditCardContent">
                         <!--Bankkártyás Fizetés-->
@@ -133,11 +133,47 @@
                     </div>
 
                     <div class="collapse show" id="homeDeliveryContent">
-                        <h1>HÁZHOZ</h1>
+                        <p>Házhoz szállítás</p>
                     </div>
                     <div class="collapse" id="packageLockerContent">
-                        <div id="map" style="height: 500px;">
-                            <iframe class="w-100 h-100" src="https://maps.google.com/maps?q=pecs&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0"></iframe>
+                        <div class="row">
+                            <!--Csomagautomata helyek-->
+                            <div class="col-12 col-lg-6 p-1">
+                                <input class="btn-check" type="radio" name="packageLockerAddress" id="lockerAddress1">
+                                <label class="btn btn-outline-primary w-100" for="lockerAddress1">
+                                    7655 Pécs, János utca 6.
+                                </label>
+                            </div>
+                            <div class="col-12 col-lg-6 p-1">
+                                <input class="btn-check" type="radio" name="packageLockerAddress" id="lockerAddress2">
+                                <label class="btn btn-outline-primary w-100" for="lockerAddress2">
+                                    1211 Budapest, Major utca 10.
+                                </label>
+                            </div>
+                            <div class="col-12 col-lg-6 p-1">
+                                <input class="btn-check" type="radio" name="packageLockerAddress" id="lockerAddress3">
+                                <label class="btn btn-outline-primary w-100" for="lockerAddress3">
+                                    2376 Debrecen, Kisfaludi utca 40.
+                                </label>
+                            </div>
+                            <div class="col-12 col-lg-6 p-1">
+                                <input class="btn-check" type="radio" name="packageLockerAddress" id="lockerAddress4">
+                                <label class="btn btn-outline-primary w-100" for="lockerAddress4">
+                                    6677 Győr, Mihályfi út 52.
+                                </label>
+                            </div>
+                            <div class="col-12 col-lg-6 p-1">
+                                <input class="btn-check" type="radio" name="packageLockerAddress" id="lockerAddress5">
+                                <label class="btn btn-outline-primary w-100" for="lockerAddress5">
+                                    1124 Szeged, Mánfa út 31.
+                                </label>
+                            </div>
+                            <div class="col-12 col-lg-6 p-1">
+                                <input class="btn-check" type="radio" name="packageLockerAddress" id="lockerAddress6">
+                                <label class="btn btn-outline-primary w-100" for="lockerAddress6">
+                                    3232 Miskolc, Halom utca 23.
+                                </label>
+                            </div>
                         </div>
                     </div>
 
