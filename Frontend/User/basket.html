@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="../css/basket.css">
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg sticky-top">
       <div class="container-fluid">
           <a class="navbar-brand" href="fooldal.html"><img src="../../imgs/logo.png" alt="Logo" class="logo"></a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,22 +55,24 @@
             </div>
             <div class="col-3">
                 <!--fizetés fül-->
-                <div class="bg-body shadow rounded" id="totalField">
-                    <div class="row m-0 rounded-top" id="totalTitle">
-                        <h4>Összesítés</h4>
-                    </div>
-                    <div class="row m-0">
-                        <!--fizetés adatok-->
-                        <div class="row m-0 pt-3 pb-2">
-                            <h6>Részösszeg: <span class="float-end" id="subtotal"></span></h6>
+                <div id="summary">
+                    <div class="bg-body shadow rounded" id="totalField">
+                        <div class="row m-0 rounded-top" id="totalTitle">
+                            <h4>Összesítés</h4>
                         </div>
-                        <div class="row m-0 pt-3 pb-2 border-top">
-                            <h6>Végösszeg: <span class="float-end" id="total"></span></h6>
-                            <p style="font-size: small;">Áfa a végösszegbe beleszámítva</p>
+                        <div class="row m-0">
+                            <!--fizetés adatok-->
+                            <div class="row m-0 pt-3 pb-2">
+                                <h6>Részösszeg: <span class="float-end" id="subtotal"></span></h6>
+                            </div>
+                            <div class="row m-0 pt-3 pb-2 border-top">
+                                <h6>Végösszeg: <span class="float-end" id="total"></span></h6>
+                                <p style="font-size: small;">Áfa a végösszegbe beleszámítva</p>
+                            </div>
                         </div>
+                        <!--fizetés gomb-->
+                        <div class="row m-0"><a href="checkOut.html" class="rounded-bottom" id="buyButton" style="text-decoration: none;"><p>Fizetés</p></a></div>
                     </div>
-                    <!--fizetés gomb-->
-                    <div class="row m-0"><a href="checkOut.html" class="rounded-bottom" id="buyButton" style="text-decoration: none;"><p>Fizetés</p></a></div>
                 </div>
             </div>
         </div>
