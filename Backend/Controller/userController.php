@@ -87,16 +87,6 @@ class UserController {
         }
         return true;
     }
-    public function updatePhoneNumber($userId, $phoneNumber) {
-        if (empty($phoneNumber)) {
-            return json_encode(['success' => false, 'msg' => 'A telefonszám megadása kötelező.']);
-        }
-    
-        // Itt hozzáadhatnál további validációkat a telefonszám formátumára
-    
-        return json_encode($this->userModel->updateUserPhoneNumber($userId, $phoneNumber));
-    }
-    
 }
 
 $userController = new UserController();
@@ -146,14 +136,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Ha az email vagy a jelszó hiányzik
             echo json_encode(['success' => false, 'msg' => 'Hiányzó email vagy jelszó.']);
         }
-    } elseif ($_POST["method"] == "updatePhoneNumber" && isset($_POST["userId"], $_POST["phoneNumber"])) {
-        $userId = trim($_POST["userId"]);
-        $phoneNumber = trim($_POST["phoneNumber"]);
-        
-        echo $userController->updatePhoneNumber($userId, $phoneNumber);
-        exit;
     }   
-    
 } elseif ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["action"]) && $_GET["action"] == "getUserCount") {
     $userController->getUserCount();
     exit;

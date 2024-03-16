@@ -113,20 +113,4 @@ class UserModel {
             return ['success' => false, 'msg' => 'A felhasználó nem található.'];
         }
     }
-    
-    public function updateUserPhoneNumber($userId, $phoneNumber) {
-        $sql = "UPDATE users SET phone_number = ? WHERE id = ?";
-        $stmt = $this->conn->prepare($sql);
-        if (!$stmt) {
-            return ['success' => false, 'msg' => 'Adatbázis előkészítési hiba.'];
-        }
-    
-        $stmt->bind_param("si", $phoneNumber, $userId);
-        if ($stmt->execute()) {
-            return ['success' => true, 'msg' => 'Telefonszám sikeresen frissítve.'];
-        } else {
-            return ['success' => false, 'msg' => 'Adatbázis végrehajtási hiba.'];
-        }
-    }
-    
 }
