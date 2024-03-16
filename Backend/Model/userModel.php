@@ -41,12 +41,22 @@ class UserModel {
         }
     }
     
-    // private function sendWelcomeEmail($fullname, $email) {
-    //     $subject = "Üdvözlünk a Kutyatartók Webáruházában!";
-    //     $message = "Kedves $fullname,\n\nKöszönjük, hogy regisztráltál a Kutyatartók Webáruházához. Sikeresen létrehoztad a fiókodat.\n\nÜdvözlettel,\nA Kutyatartók Webáruháza Csapata";
-    //     $headers = "From: kutyatartokwebaruhaza@gmail.com";
-    //     mail($email, $subject, $message, $headers);
-    // }
+    public function updateUserContactInfo($userId, $phoneNumber, $address) {
+        $sql = "UPDATE users SET phone_number = ?, zipcode = ?, city = ?, street_name = ?, street_type = ?, house_number = ? WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+    
+        if ($stmt === false) {
+            return ['success' => false, 'msg' => 'Adatbázis hiba: nem lehet előkészíteni a lekérdezést.'];
+        }
+    
+        $stmt->bind_param("ssssssi", $phoneNumber, $address['zipcode'], $address['city'], $address['street_name'], $address['street_type'], $address['house_number'], $userId);
+    
+        if ($stmt->execute()) {
+            return ['success' => true, 'msg' => 'A felhasználói adatok sikeresen frissítve.'];
+        } else {
+            return ['success' => false, 'msg' => 'Nem sikerült frissíteni a felhasználói adatokat.'];
+        }
+    }
     public function getUserFullnameByEmail($email) {
         $sql = "SELECT fullname FROM users WHERE email = ?";
         $stmt = $this->conn->prepare($sql);
@@ -76,7 +86,7 @@ class UserModel {
     }
     
     public function loginUser($email, $password) {
-        $sql = "SELECT id, password, role, registration_date, phone_number, birth_date, zipcode, city, street_name, street_type, house_number FROM users WHERE email = ?";
+        $sql = "SELECT id, password, role, registration_date, phone_number, zipcode, city, street_name, street_type, house_number FROM users WHERE email = ?";
         $stmt = $this->conn->prepare($sql);
         if (!$stmt) {
             return ['success' => false, 'msg' => 'Adatbázis előkészítési hiba.'];
@@ -98,7 +108,6 @@ class UserModel {
                     'role' => $row['role'],
                     'registrationDate' => $row['registration_date'],
                     'phoneNumber' => $row['phone_number'],
-                    'birthDate' => $row['birth_date'],
                     'address' => [
                         'zipcode' => $row['zipcode'],
                         'city' => $row['city'],
@@ -114,20 +123,4 @@ class UserModel {
             return ['success' => false, 'msg' => 'A felhasználó nem található.'];
         }
     }
-    
-    public function updateUserPhoneNumber($userId, $phoneNumber) {
-        $sql = "UPDATE users SET phone_number = ? WHERE id = ?";
-        $stmt = $this->conn->prepare($sql);
-        if (!$stmt) {
-            return ['success' => false, 'msg' => 'Adatbázis előkészítési hiba.'];
-        }
-    
-        $stmt->bind_param("si", $phoneNumber, $userId);
-        if ($stmt->execute()) {
-            return ['success' => true, 'msg' => 'Telefonszám sikeresen frissítve.'];
-        } else {
-            return ['success' => false, 'msg' => 'Adatbázis végrehajtási hiba.'];
-        }
-    }
-    
 }

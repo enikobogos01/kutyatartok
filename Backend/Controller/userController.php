@@ -50,7 +50,6 @@ class UserController {
                     'email' => $email,
                     'registrationDate' => $result['registrationDate'],
                     'phoneNumber' => $result['phoneNumber'],
-                    'birthDate' => $result['birthDate'],
                     'address' => $address
                 ]);
             } elseif ($result['msg'] == 'Hibás email-cím vagy jelszó.') {
@@ -63,6 +62,10 @@ class UserController {
         }
     }    
 
+    public function updateContactInfo($userId, $phoneNumber, $address) {
+        return $this->userModel->updateUserContactInfo($userId, $phoneNumber, $address);
+    }
+
     public function getUserFullnameByEmail($email) {
         return $this->userModel->getUserFullnameByEmail($email);
     }
@@ -72,7 +75,6 @@ class UserController {
         echo json_encode(['userCount' => $userCount]);
     }
     
-    // Email validáció
     private function isValidEmail($email) {
         $emailPattern = '/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/';
         return preg_match($emailPattern, $email);
@@ -88,73 +90,64 @@ class UserController {
         }
         return true;
     }
-    public function updatePhoneNumber($userId, $phoneNumber) {
-        if (empty($phoneNumber)) {
-            return json_encode(['success' => false, 'msg' => 'A telefonszám megadása kötelező.']);
-        }
-    
-        // Itt hozzáadhatnál további validációkat a telefonszám formátumára
-    
-        return json_encode($this->userModel->updateUserPhoneNumber($userId, $phoneNumber));
-    }
-    
 }
 
 $userController = new UserController();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if ($_POST["method"] == "registration") {
-        if (isset($_POST["fullname"], $_POST["email"], $_POST["password"], $_POST["confirmPassword"])) {
-            $fullname = trim($_POST["fullname"]);
-            $email = trim($_POST["email"]);
-            $password = trim($_POST["password"]);
-            $confirmPassword = trim($_POST["confirmPassword"]);
-
-            $result = $userController->registerUser($fullname, $email, $password, $confirmPassword);
-            echo json_encode($result);
-        } else {
-            $missingFields = [];
-            if (empty($_POST["fullname"])) {
-                $missingFields[] = 'Teljes név';
-            }
-            if (empty($_POST["email"])) {
-                $missingFields[] = 'Email cím';
-            }
-            if (empty($_POST["password"])) {
-                $missingFields[] = 'Jelszó';
-            }
-            if (empty($_POST["confirmPassword"])) {
-                $missingFields[] = 'Jelszó megerősítése';
-            }
-            
-            $result = ['msg' => 'A következő mezők nincsenek kitöltve vagy hiányzik az adat: ' . implode(", ", $missingFields)];
-            echo json_encode($result);
-        }
-    } elseif ($_POST["method"] == "login") {
-        if (isset($_POST["email"], $_POST["password"])) {
-            $email = trim($_POST["email"]);
-            $password = trim($_POST["password"]);
-    
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                // Ha az email formátuma érvénytelen
-                echo json_encode(['success' => false, 'msg' => 'Érvénytelen email formátum.']);
-            } else {
-                // Ellenőrizd a bejelentkezési adatokat a UserModel segítségével
-                $result = $userController->loginUser($email, $password);
-                echo $result; // A loginUser metódus visszaadja a JSON választ
-            }
-        } else {
-            // Ha az email vagy a jelszó hiányzik
-            echo json_encode(['success' => false, 'msg' => 'Hiányzó email vagy jelszó.']);
-        }
-    } elseif ($_POST["method"] == "updatePhoneNumber" && isset($_POST["userId"], $_POST["phoneNumber"])) {
-        $userId = trim($_POST["userId"]);
-        $phoneNumber = trim($_POST["phoneNumber"]);
+    $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+    if ($contentType === "application/json") {
+        $data = json_decode(file_get_contents('php://input'), true);
         
-        echo $userController->updatePhoneNumber($userId, $phoneNumber);
-        exit;
-    }   
-    
+        if ($data["action"] == "updateContactInfo") {
+            $result = $userController->updateContactInfo($data["userId"], $data["phoneNumber"], $data["address"]);
+            echo json_encode($result);
+            exit;
+        }
+    } else {
+        if ($_POST["method"] == "registration") {
+            if (isset($_POST["fullname"], $_POST["email"], $_POST["password"], $_POST["confirmPassword"])) {
+                $fullname = trim($_POST["fullname"]);
+                $email = trim($_POST["email"]);
+                $password = trim($_POST["password"]);
+                $confirmPassword = trim($_POST["confirmPassword"]);
+
+                $result = $userController->registerUser($fullname, $email, $password, $confirmPassword);
+                echo json_encode($result);
+            } else {
+                $missingFields = [];
+                if (empty($_POST["fullname"])) {
+                    $missingFields[] = 'Teljes név';
+                }
+                if (empty($_POST["email"])) {
+                    $missingFields[] = 'Email cím';
+                }
+                if (empty($_POST["password"])) {
+                    $missingFields[] = 'Jelszó';
+                }
+                if (empty($_POST["confirmPassword"])) {
+                    $missingFields[] = 'Jelszó megerősítése';
+                }
+                
+                $result = ['msg' => 'A következő mezők nincsenek kitöltve vagy hiányzik az adat: ' . implode(", ", $missingFields)];
+                echo json_encode($result);
+            }
+        } elseif ($_POST["method"] == "login") {
+            if (isset($_POST["email"], $_POST["password"])) {
+                $email = trim($_POST["email"]);
+                $password = trim($_POST["password"]);
+        
+                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    echo json_encode(['success' => false, 'msg' => 'Érvénytelen email formátum.']);
+                } else {
+                    $result = $userController->loginUser($email, $password);
+                    echo $result;
+                }
+            } else {
+                echo json_encode(['success' => false, 'msg' => 'Hiányzó email vagy jelszó.']);
+            }
+        }  
+    }
 } elseif ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["action"]) && $_GET["action"] == "getUserCount") {
     $userController->getUserCount();
     exit;
