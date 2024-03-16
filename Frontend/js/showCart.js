@@ -68,6 +68,9 @@ function removeFromCart(index) {
     // showCart() újra lefuttatása, hogy azonnal eltünjenek a kiválasztott termékek, ne csak akkor ha
     // frissítjük az oldalt
     showCart();
+
+    // validateCart() meghívása, hogy a validáció termékek törlése után is lefusson az oldal frissítése nélkül
+    validateCart();
 }
 
 // mennyiség csökkentése 1-el
