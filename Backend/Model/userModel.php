@@ -57,7 +57,7 @@ class UserModel {
         return $row['fullname'];
     }
     public function getUserAddressByEmail($email) {
-        $sql = "SELECT zipcode, street_name, street_type, house_number FROM users WHERE email = ?";
+        $sql = "SELECT zipcode, city, street_name, street_type, house_number FROM users WHERE email = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("s", $email);
         $stmt->execute();
@@ -76,7 +76,7 @@ class UserModel {
     }
     
     public function loginUser($email, $password) {
-        $sql = "SELECT id, password, role, registration_date, phone_number, birth_date, zipcode, street_name, street_type, house_number FROM users WHERE email = ?";
+        $sql = "SELECT id, password, role, registration_date, phone_number, birth_date, zipcode, city, street_name, street_type, house_number FROM users WHERE email = ?";
         $stmt = $this->conn->prepare($sql);
         if (!$stmt) {
             return ['success' => false, 'msg' => 'Adatbázis előkészítési hiba.'];
@@ -101,6 +101,7 @@ class UserModel {
                     'birthDate' => $row['birth_date'],
                     'address' => [
                         'zipcode' => $row['zipcode'],
+                        'city' => $row['city'],
                         'street_name' => $row['street_name'],
                         'street_type' => $row['street_type'],
                         'house_number' => $row['house_number']

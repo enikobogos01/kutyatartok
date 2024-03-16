@@ -1,89 +1,114 @@
-.aboutUsContainer .aboutUsHeading {
-    width: 80%;
-    margin: auto;
-    text-align: center;
-
-}
-
-.aboutUsContainer .aboutUsHeading h1 {
-    margin: 10px auto;
-    padding: 1vw 4vw 1vw 4vw;
-    font-weight: bold;
-    font-style: italic;
-    font-size: 2.4vh;
-    text-align: left;
-}
-
-
-.wrapper {
-    width: 95%;
-    margin: 10px auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5%; /* Ez a gap hozzáad egy 20px-es távolságot a wrapper elemek között */
-}
-
-.image {
-    width: 100%;
-    margin-top: 20px; /* Ez a margin hozzáad egy 20px-es távolságot a képek felett */
-}
-
 .content {
-    width: 100%; /* Teljes szélesség a mobil nézetben */
-    margin-top: 20px;
-    box-sizing: border-box;
-    margin-bottom: 20px;
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    color: #333;
 }
-
-.content h2 {
-    font-size: 25px;
-    color: #2F3B49;
-    margin-top: 20px;
-}
-
-.content p {
-    color: #666;
-    font-size: 16px;
-    margin-top: 10px;
-    text-align: justify;
-}
-
-.image {
-    width: 100%; /* Teljes szélesség a mobil nézetben */
-}
-
-.image img {
-    height: auto;
-    border-radius: 10px;
-    width: 100%;
-}
-
-@media screen and (min-width: 768px) {
-    .wrapper {
-        flex-direction: row;
-        justify-content: space-between;
-    }
-
-    .content,
-    .image {
-        width: 48%; /* Két oszlopos elrendezés */
-    }
-
-    .content h2 {
-        font-size: 24px;
-    }
-    .image {
-        margin-top: 0; /* Ne legyen margin a képek felett desktop nézetben */
-    }
-
-}
-
-.bye h3{
-    font-size: 20px;
-    font-weight: bold;
-    font-style: italic;
+.aboutTop{
+    background-image: url(../../imgs/aboutUs2.jpg);
+    min-height: 30vw;
     text-align: center;
-    margin: auto;
-    margin-bottom: 30px;
+}
+h1 {
+    color: #ffffff;
+    font-size: 4vw;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 6vw;
+    text-shadow: 1px 1px 2px #4a2b03;
+}
+.aboutTop button {
+    border-radius: 20px;
+    font-size: 1.6vw;
+    padding: 0.2vw 1vw;
+    margin-top: 1vw;
+    background-color: #a5640f;
+    border: 2px solid #ffffff;
+    color: #fff;
+}
+
+.aboutTop button:hover {
+    background-color: #fff;
+    color: #a5640f;
+    border: 2px solid #fff;
+}
+
+.aboutContainer {
+    max-width: 80vw;
+    margin: 0 auto;
+    padding: 2vw;
+    font-family: 'Arial', sans-serif;
+}
+
+.aboutContainer p {
+    text-align: justify;
+    line-height: 1.6;
+    margin-bottom: 2vw;
+}
+
+.imageGallery {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 4vw;
+    text-align: center;
+}
+
+.imageGallery img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 1vw;
+}
+
+.joinUsButton {
+    border-radius: 20px;
+    font-size: 1.6vw; 
+    padding: 0.3vw 1vw;
+    background-color: #a5640f;
+    border: 2px solid #fff;
+    color: #ffffff;
+    text-align: center;
+    margin-top: 2vw;
+}
+
+.joinUsButton:hover {
+    background-color: #fff;
+    color: #a5640f;
+    border: 2px solid #a5640f;
+}
+@media (max-width: 768px) {
+    .aboutContainer {
+        padding: 5vw;
+    }
+    .imageGallery img {
+        max-width: 70%;
+        margin-bottom: 2vw;
+    }
+    .joinUsButton {
+        font-size: 4vw;
+        padding: 1.5vw 3vw;
+        margin-top: 1vw;
+    }
+    .aboutTop {
+        background-image: url(../../imgs/aboutUs2.jpg);
+        background-size: cover;
+        background-position: center center;
+        min-height: 50vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    .aboutTop h1 {
+        font-size: 7vw;
+        padding-top: 0;
+        padding-bottom: 2vw;
+    }
+    .aboutTop button {
+        font-size: 3vw;
+        padding: 1.5vw 3vw;
+        margin-top: 1vw;
+    }    
 }

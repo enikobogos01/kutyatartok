@@ -169,8 +169,11 @@
                 <i class="bi bi-floppy saveIcon" style="display: none;" onclick="editOrSaveField('phoneNumber', this)"></i>
             </div>                        
             <div class="profileRow">
-                <strong>Lakcím:</strong> <span id="address"></span>
-            </div>
+                <strong>Lakcím:</strong> 
+                <span id="address"></span>
+                <i class="bi bi-pencil editIcon" onclick="showEditAddressForm('address')" style="display: inline-block;"></i>
+                <i class="bi bi-floppy saveIcon" style="display: none;" onclick="saveAddress('address', this)"></i>
+            </div>            
             <div class="profileRow">
                 <strong>Születési dátum:</strong> <span id="birthDate"></span>
                 <i class="bi bi-pencil editIcon" onclick="showEditBirthDateForm('birthDate')" style="display: inline-block;"></i>

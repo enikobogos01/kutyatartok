@@ -37,7 +37,9 @@ function checkLoginState() {
     var registrationDate = sessionStorage.getItem('registrationDate');
     var phoneNumber = sessionStorage.getItem('phoneNumber');
     var birthDate = sessionStorage.getItem('birthDate');
-    var address = sessionStorage.getItem('address');
+    var address = JSON.parse(sessionStorage.getItem('address') || "{}");
+    var addressText = address && address.zipcode ? `${address.zipcode} ${address.city}, ${address.street_name} ${address.street_type} ${address.house_number}` : 'Még nincs megadva lakcím!';
+
     var userIcon = document.getElementById('userIcon');
 
     if (isLoggedIn === 'true') {
@@ -49,13 +51,12 @@ function checkLoginState() {
         document.getElementById('registrationDate').textContent = registrationDate;
         document.getElementById('phoneNumber').textContent = (phoneNumber && phoneNumber !== 'null') ? phoneNumber : 'Még nincs megadva telefonszám!';
         document.getElementById('birthDate').textContent = (birthDate && birthDate !== 'null') ? birthDate : 'Még nincs megadva születési dátum!';
-        var address = JSON.parse(localStorage.getItem('address'));
-        var addressText = address ? address.zipcode + ', ' + address.street_name + ' ' + address.street_type + ' ' + address.house_number : 'Még nincs megadva lakcím!';
+        var address = JSON.parse(sessionStorage.getItem('address'));
+        var addressText = address ? address.zipcode + ' ' + address.city + ', ' + address.street_name + ' ' + address.street_type + ' ' + address.house_number : 'Még nincs megadva lakcím!';
         if (!address || (address.zipcode === null && address.street_name === null && address.street_type === null && address.house_number === null)) {
     addressText = 'Még nincs megadva lakcím!';
 }
 document.getElementById('address').textContent = addressText;
-
 
 
         // Az ikon osztályának cseréje, ha az elem létezik
@@ -72,8 +73,6 @@ document.getElementById('address').textContent = addressText;
         }
     }
 }
-
-
 
 function submitRegistrationForm() {
     var xhr = new XMLHttpRequest();
@@ -288,7 +287,7 @@ function showEditForm(fieldId) {
     }
     var form = document.createElement('form');
     form.className = 'editForm';
-    form.innerHTML = `<input type="text" class="phoneNumberInput" id="newPhoneNumber" value="${phoneNumber}" autofocus maxlength="11">`;
+    form.innerHTML = `<input type="text" class="phoneNumberInput profileInput" id="newPhoneNumber" value="${phoneNumber}" autofocus required maxlength="11">`;
     form.onsubmit = function(e) { e.preventDefault(); savePhoneNumber(fieldId, saveIcon); };
 
     phoneNumberElement.style.display = 'none';
@@ -320,7 +319,6 @@ function savePhoneNumber(fieldId) {
     }
 
     sessionStorage.setItem('phoneNumber', newPhoneNumber);
-    console.log('Telefonszám sikeresen mentve: ' + newPhoneNumber);
 
     var phoneNumberElement = document.getElementById(fieldId);
     var editIcon = phoneNumberElement.nextElementSibling;
@@ -382,7 +380,7 @@ function showEditBirthDateForm(fieldId) {
     form.className = 'editForm';
     var inputDate = document.createElement('input');
     inputDate.type = 'date';
-    inputDate.className = 'birthDateInput';
+    inputDate.className = 'birthDateInput profileInput';
     inputDate.id = 'newBirthDate';
     inputDate.value = ""; // Üres string érték
     inputDate.autofocus = true;
@@ -403,7 +401,7 @@ function saveBirthDate(fieldId) {
     var newBirthDate = inputElement.value.trim();
 
     if (!validateBirthDate(inputElement)) {
-        alert("Helytelen születési dátum formátum. Helyes formátum: YYYY-MM-DD");
+        alert("Helytelen születési dátum, vagy formátum. Helyes formátum: YYYY-MM-DD");
         return;
     }
 
@@ -415,7 +413,6 @@ function saveBirthDate(fieldId) {
     }
 
     sessionStorage.setItem('birthDate', newBirthDate);
-    console.log('Születési dátum sikeresen mentve: ' + newBirthDate);
 
     var birthDateElement = document.getElementById(fieldId);
     var editIcon = birthDateElement.nextElementSibling;
@@ -460,4 +457,98 @@ function validateBirthDate(inputElement) {
     }
 
     return true;
+}
+function showEditAddressForm(fieldId) {
+    var existingForm = document.querySelector('.editForm');
+    if (existingForm) {
+        existingForm.remove();
+    }
+
+    var addressElement = document.getElementById(fieldId);
+    var editIcon = addressElement.nextElementSibling;
+    var saveIcon = editIcon.nextElementSibling;
+
+    toggleIcons(editIcon, saveIcon);
+
+    // Ellenőrizzük, hogy az elem tartalma a "Még nincs megadva lakcím!" szöveg-e
+    var currentAddress = addressElement.textContent.trim() === "Még nincs megadva lakcím!" ? "" : addressElement.textContent;
+
+    // Csak a város után vessző formázás
+    var addressParts = currentAddress.split(", ");
+    var address = addressParts.length > 1 ? addressParts.join(", ") : addressParts[0];
+
+    var form = document.createElement('form');
+    form.className = 'editForm';
+    form.innerHTML = `
+        <input type="text" class="zipcodeInput profileInput" id="newZipcode" placeholder="Irányítószám" value="${addressParts[0] || ''}" maxlength="4" required autofocus>
+        <input type="text" class="cityInput profileInput" id="newCity" placeholder="Város" value="${addressParts[1] || ''}" required>
+        <input type="text" class="streetNameInput profileInput" id="newStreetName" placeholder="Utcanév" value="${addressParts[2] || ''}" required>
+        <input type="text" class="streetTypeInput profileInput" id="newStreetType" placeholder="Utca típusa" value="${addressParts[3] || ''}">
+        <input type="text" class="houseNumberInput profileInput" id="newHouseNumber" placeholder="Házszám" value="${addressParts[4] || ''}" pattern="[0-9]+" required>
+        <button type="submit" style="display: none;"></button>
+    `;
+    form.onsubmit = function(e) { e.preventDefault(); saveAddress(fieldId, saveIcon); };
+
+    addressElement.parentElement.insertBefore(form, saveIcon);
+    addressElement.style.display = 'none'; // Elrejtjük a szöveges részt szerkesztés közben
+
+    saveIcon.style.display = 'inline-block';
+    saveIcon.onclick = function() { saveAddress(fieldId, saveIcon); };
+}
+
+function saveAddress(fieldId, saveIcon) {
+    var newZipcode = document.getElementById('newZipcode').value.trim();
+    var newCity = document.getElementById('newCity').value.trim();
+    var newStreetName = document.getElementById('newStreetName').value.trim();
+    var newStreetType = document.getElementById('newStreetType').value.trim();
+    var newHouseNumber = document.getElementById('newHouseNumber').value.trim();
+
+    // Ellenőrizzük, hogy minden mező ki van-e töltve
+    if (newCity === "" || newStreetName === "" || newHouseNumber === "") {
+        alert("Kérjük, töltse ki az összes mezőt.");
+        return;
+    }
+
+    // Validáció: ZIP-kód csak szám lehet
+    if (!/^\d+$/.test(newZipcode)) {
+        alert("Az irányítószám csak számokat tartalmazhat.");
+        return;
+    }
+
+    // Objektum létrehozása az új cím tárolására
+    var fullAddress = {
+        zipcode: newZipcode,
+        city: newCity,
+        street_name: newStreetName,
+        street_type: newStreetType,
+        house_number: newHouseNumber
+    };
+
+    // Az objektum JSON formátumra konvertálása és tárolása a sessionStorage-ben
+    sessionStorage.setItem('address', JSON.stringify(fullAddress));
+
+    var addressElement = document.getElementById(fieldId);
+    var addressText = `${newZipcode} ${newCity}, ${newStreetName} ${newStreetType} ${newHouseNumber}`.trim();
+
+    addressElement.textContent = addressText !== "" ? addressText : "Még nincs megadva lakcím!";
+    addressElement.style.display = 'inline';
+
+    var form = document.querySelector('.editForm');
+    if (form) form.remove();
+
+    var editIcon = saveIcon.previousElementSibling;
+    toggleIcons(saveIcon, editIcon);
+
+    saveIcon.style.display = 'none';
+    editIcon.style.display = 'inline-block';
+}
+
+
+function toggleIcons(iconToHide, iconToShow) {
+    if (iconToHide.style.display !== 'none') {
+        iconToHide.style.display = 'none';
+    } else {
+        iconToShow.style.display = 'none';
+        iconToHide.style.display = 'inline-block';
+    }
 }
