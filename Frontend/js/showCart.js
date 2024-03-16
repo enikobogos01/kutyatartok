@@ -128,7 +128,6 @@ function calculateSubtotal() {
 
 // áfa kiszámítása
 function calculateVat(){
-    var vatElement = document.getElementById("vat");
     var prices = document.getElementsByClassName("price");
     var subtotal = 0;
     var totalVat = 0;
@@ -140,7 +139,7 @@ function calculateVat(){
     }
     totalVat = subtotal * 0.27;
 
-    vatElement.innerHTML = totalVat.toFixed(0) + " Ft";
+    return totalVat;
 }
 
 // végösszeg kiszámítása
