@@ -463,3 +463,31 @@ function toggleIcons(iconToHide, iconToShow) {
         iconToHide.style.display = 'inline-block';
     }
 }
+function updateUserInfo() {
+    const userId = sessionStorage.getItem('userId'); // Feltételezve, hogy a userId is tárolásra került
+    const phoneNumber = sessionStorage.getItem('phoneNumber');
+    const address = JSON.parse(sessionStorage.getItem('address'));
+
+    fetch('../../Backend/Controller/userController.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            action: 'updateContactInfo',
+            userId: userId,
+            phoneNumber: phoneNumber,
+            address: address
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.msg); // Sikeres vagy hibás művelet esetén értesítés
+    })
+    .catch((error) => {
+        console.error('Hiba:', error);
+    });
+}
+
+// Hozzáad egy eseménykezelőt a "Mentés" gombhoz
+document.getElementById('saveButton').addEventListener('click', updateUserInfo);
