@@ -50,7 +50,6 @@ class UserController {
                     'email' => $email,
                     'registrationDate' => $result['registrationDate'],
                     'phoneNumber' => $result['phoneNumber'],
-                    'birthDate' => $result['birthDate'],
                     'address' => $address
                 ]);
             } elseif ($result['msg'] == 'Hibás email-cím vagy jelszó.') {

@@ -36,7 +36,6 @@ function checkLoginState() {
     var email = sessionStorage.getItem('email');
     var registrationDate = sessionStorage.getItem('registrationDate');
     var phoneNumber = sessionStorage.getItem('phoneNumber');
-    var birthDate = sessionStorage.getItem('birthDate');
     var address = JSON.parse(sessionStorage.getItem('address') || "{}");
     var addressText = address && address.zipcode ? `${address.zipcode} ${address.city}, ${address.street_name} ${address.street_type} ${address.house_number}` : 'Még nincs megadva lakcím!';
 
@@ -50,7 +49,6 @@ function checkLoginState() {
         document.getElementById('profileEmail').textContent = email;
         document.getElementById('registrationDate').textContent = registrationDate;
         document.getElementById('phoneNumber').textContent = (phoneNumber && phoneNumber !== 'null') ? phoneNumber : 'Még nincs megadva telefonszám!';
-        document.getElementById('birthDate').textContent = (birthDate && birthDate !== 'null') ? birthDate : 'Még nincs megadva születési dátum!';
         var address = JSON.parse(sessionStorage.getItem('address'));
         var addressText = address ? address.zipcode + ' ' + address.city + ', ' + address.street_name + ' ' + address.street_type + ' ' + address.house_number : 'Még nincs megadva lakcím!';
         if (!address || (address.zipcode === null && address.street_name === null && address.street_type === null && address.house_number === null)) {
@@ -161,7 +159,6 @@ function handleLoginResponse(responseText) {
             sessionStorage.setItem('email', data.email);
             sessionStorage.setItem('registrationDate', data.registrationDate);
             sessionStorage.setItem('phoneNumber', data.phoneNumber);
-            sessionStorage.setItem('birthDate', data.birthDate);
             sessionStorage.setItem('address', JSON.stringify(data.address));
 
             if (data.role === 'user') {
@@ -188,7 +185,6 @@ function logout() {
     sessionStorage.removeItem('email');
     sessionStorage.removeItem('registrationDate');
     sessionStorage.removeItem('phoneNumber');
-    sessionStorage.removeItem('birthDate');
     sessionStorage.removeItem('address');
     window.location.href = '../User/user.html';
 }
@@ -363,71 +359,6 @@ function validatePhoneNumber(inputElement) {
 
     return true;
 }
-function showEditBirthDateForm(fieldId) {
-    var existingForm = document.querySelector('.editForm');
-    if (existingForm) {
-        existingForm.remove();
-    }
-
-    var birthDateElement = document.getElementById(fieldId);
-    var editIcon = birthDateElement.nextElementSibling;
-    var saveIcon = editIcon.nextElementSibling;
-
-    toggleIcons(editIcon, saveIcon);
-
-    var birthDate = birthDateElement.textContent.trim();
-    var form = document.createElement('form');
-    form.className = 'editForm';
-    var inputDate = document.createElement('input');
-    inputDate.type = 'date';
-    inputDate.className = 'birthDateInput profileInput';
-    inputDate.id = 'newBirthDate';
-    inputDate.value = ""; // Üres string érték
-    inputDate.autofocus = true;
-    form.appendChild(inputDate);
-
-    form.onsubmit = function(e) { e.preventDefault(); saveBirthDate(fieldId, saveIcon); };
-
-    birthDateElement.style.display = 'none';
-    birthDateElement.parentElement.insertBefore(form, saveIcon);
-
-    saveIcon.style.display = 'inline-block';
-    saveIcon.onclick = function() { saveBirthDate(fieldId, saveIcon); };
-}
-
-
-function saveBirthDate(fieldId) {
-    var inputElement = document.getElementById('newBirthDate');
-    var newBirthDate = inputElement.value.trim();
-
-    if (!validateBirthDate(inputElement)) {
-        alert("Helytelen születési dátum, vagy formátum. Helyes formátum: YYYY-MM-DD");
-        return;
-    }
-
-    var userId = sessionStorage.getItem('userId');
-
-    if (!userId) {
-        console.error('Felhasználó nincs bejelentkezve!');
-        return;
-    }
-
-    sessionStorage.setItem('birthDate', newBirthDate);
-
-    var birthDateElement = document.getElementById(fieldId);
-    var editIcon = birthDateElement.nextElementSibling;
-
-    toggleIcons(editIcon, editIcon.previousElementSibling);
-
-    birthDateElement.textContent = newBirthDate;
-    birthDateElement.style.display = 'inline';
-
-    var form = document.querySelector('.editForm');
-    form.remove();
-
-    var saveIcon = editIcon.nextElementSibling;
-    saveIcon.style.display = 'none';
-}
 
 function toggleIcons(iconToHide, iconToShow) {
     if (iconToHide.style.display !== 'none') {
@@ -438,26 +369,6 @@ function toggleIcons(iconToHide, iconToShow) {
     }
 }
 
-function validateBirthDate(inputElement) {
-    let birthDate = inputElement.value.trim();
-    let validFormat = /^\d{4}-\d{2}-\d{2}$/; // YYYY-MM-DD formátum ellenőrzése
-
-    if (!validFormat.test(birthDate)) {
-        return false;
-    }
-
-    // Ellenőrizzük, hogy a dátum nem lehet jövőbeli és nem lehet több mint 120 évvel ezelőtti
-    let currentDate = new Date();
-    let inputDate = new Date(birthDate);
-    let minDate = new Date();
-    minDate.setFullYear(minDate.getFullYear() - 125);
-
-    if (inputDate >= currentDate || inputDate < minDate) {
-        return false;
-    }
-
-    return true;
-}
 function showEditAddressForm(fieldId) {
     var existingForm = document.querySelector('.editForm');
     if (existingForm) {

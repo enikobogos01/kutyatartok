@@ -76,7 +76,7 @@ class UserModel {
     }
     
     public function loginUser($email, $password) {
-        $sql = "SELECT id, password, role, registration_date, phone_number, birth_date, zipcode, city, street_name, street_type, house_number FROM users WHERE email = ?";
+        $sql = "SELECT id, password, role, registration_date, phone_number, zipcode, city, street_name, street_type, house_number FROM users WHERE email = ?";
         $stmt = $this->conn->prepare($sql);
         if (!$stmt) {
             return ['success' => false, 'msg' => 'Adatbázis előkészítési hiba.'];
@@ -98,7 +98,6 @@ class UserModel {
                     'role' => $row['role'],
                     'registrationDate' => $row['registration_date'],
                     'phoneNumber' => $row['phone_number'],
-                    'birthDate' => $row['birth_date'],
                     'address' => [
                         'zipcode' => $row['zipcode'],
                         'city' => $row['city'],
