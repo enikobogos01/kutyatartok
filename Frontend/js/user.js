@@ -39,8 +39,6 @@ function checkLoginState() {
     var address = JSON.parse(sessionStorage.getItem('address') || "{}");
     var addressText = address && address.zipcode ? `${address.zipcode} ${address.city}, ${address.street_name} ${address.street_type} ${address.house_number}` : 'Még nincs megadva lakcím!';
 
-    var userIcon = document.getElementById('userIcon');
-
     if (isLoggedIn === 'true') {
         document.getElementById('content').style.display = 'none';
         document.getElementById('welcomeMessage').textContent = `Üdvözlünk, ${fullname}!`;
@@ -56,19 +54,9 @@ function checkLoginState() {
 }
 document.getElementById('address').textContent = addressText;
 
-
-        // Az ikon osztályának cseréje, ha az elem létezik
-        if (userIcon) {
-            userIcon.className = 'bi bi-person-circle';
-        }
     } else {
         document.getElementById('content').style.display = 'block';
         document.getElementById('profileInfo').style.display = 'none';
-
-        // Visszaállítjuk az eredeti ikont, ha szükséges
-        if (userIcon) {
-            userIcon.className = 'bi bi-person';
-        }
     }
 }
 
