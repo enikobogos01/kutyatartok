@@ -2,8 +2,13 @@ document.addEventListener("DOMContentLoaded", function () {
     var cartButton = document.getElementById("cartButton");
 
     cartButton.addEventListener("click", function () {
-        // addToCart() függvény elinditása, ha a cartButtonra nyomunk
-        addToCart();
+        // addToCart() függvény elinditása, ha a cartButtonra nyomunk és be vagyunk jelentkezve
+        if(sessionStorage.getItem('isLoggedIn') === 'true'){
+            addToCart();
+        }
+        else{
+            alert("A termék kosárba rakásához jelentkezzen be vagy hozzon létre új fiókot!");
+        }
     });
 });
 

@@ -1,6 +1,12 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // oldal betöltésénél kosárba rakott termékek megjelenítése
-    showCart();
+    // oldal betöltésénél kosárba rakott termékek megjelenítése, ha be vagyunk jelentkezve
+    if(sessionStorage.getItem('isLoggedIn') === 'true'){
+        showCart();
+    }
+    else{
+        // ha nem vagyunk bejelentkezve a kosár törlése
+        localStorage.removeItem("cart");
+    }
 });
 
 // kosár megjelenítése
