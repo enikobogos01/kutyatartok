@@ -25,6 +25,15 @@ document.addEventListener("DOMContentLoaded", function() {
     if (isUsersPage) {
         fetchUsers();
     }
+    fetch('../../Backend/Controller/productController.php?action=getProductCount')
+    .then(handleResponse)
+    .then(data => {
+        var productCountElement = document.getElementById('productCount');
+        if (productCountElement) {
+            productCountElement.textContent = data.productCount;
+        }
+    })
+    .catch(error => console.error('Hiba történt a termékek számának lekérésekor', error));
 });
 
 function logout() {

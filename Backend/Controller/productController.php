@@ -33,6 +33,18 @@ class ProductController {
             exit();
         }
     }
+    public function getProductCount() {
+        try {
+            $count = $this->productModel->getProductCount();
+            header('Content-Type: application/json');
+            echo json_encode(['productCount' => $count]);
+            exit();
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['error' => $e->getMessage()]);
+            exit();
+        }
+    }
 
     public function getProductsForSwiper($sortBy, $limit) {
         try {
@@ -67,19 +79,20 @@ class ProductController {
         }
     }
 }
-
 // Instantiate classes and execute the method
 $database = new Database();
 $productController = new ProductController($database);
 
-// Determine which swiper to load
-if (isset($_GET['swiper']) && $_GET['swiper'] == 'swiper1') {
-    $productController->getProductsForSwiper('upload_date', 8); // Latest products
-} elseif (isset($_GET['swiper']) && $_GET['swiper'] == 'swiper2') {
-    $productController->getProductsForSwiper('quantity', 8); // Most popular products
-} else {
-    // Default behavior, get all products
+// Helyezd ide az új feltételt
+if (isset($_GET['action']) && $_GET['action'] == 'getProductCount') {
+    $productController->getProductCount();
+} 
+elseif (isset($_GET['swiper']) && $_GET['swiper'] == 'swiper1') {
+    $productController->getProductsForSwiper('upload_date', 8); 
+} 
+elseif (isset($_GET['swiper']) && $_GET['swiper'] == 'swiper2') {
+    $productController->getProductsForSwiper('quantity', 8); 
+} 
+else {
     $productController->getAllProducts();
 }
-
-?>
