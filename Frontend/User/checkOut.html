@@ -47,9 +47,15 @@
                 <hr>
                 <!--Szállítási adatok form-->
                 <div class="row pt-2 pb-3">
-                    <h4>Szállítási adatok</h4>
+                    <h4>Számlázási adatok</h4>
                     <form action="" method="POST">
                         <div class="row">
+                            <div class="col-12 col-md-6">
+                                <input class="mb-1" type="text" placeholder="Vezetéknév" name="lastName" id="lastName">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <input class="mb-1" type="text" placeholder="Keresztnév" name="firstName" id="firstName">
+                            </div>
                             <div class="col-12 col-md-6">
                                 <input class="mb-1" type="text" value="Magyarország" name="country" id="country" readonly>
                             </div>
@@ -64,6 +70,9 @@
                             </div>
                             <div class="col-12 col-md-6">
                                 <input type="tel" placeholder="Telefonszám" name="phoneNumber" id="phoneNumber">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <input type="tel" placeholder="E-mail cím" name="email" id="email">
                             </div>
                         </div>
                     </form>
