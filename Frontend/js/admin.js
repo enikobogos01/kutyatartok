@@ -1,36 +1,67 @@
 document.addEventListener("DOMContentLoaded", function() {
     fetch('../../Backend/Controller/userController.php?action=getUserCount')
-    .then(response => response.json())
+    .then(handleResponse)
     .then(data => {
-        document.getElementById('userCount').textContent = data.userCount;
+        var userCountElement = document.getElementById('userCount');
+        if (userCountElement) {
+            userCountElement.textContent = data.userCount;
+        }
     })
     .catch(error => console.error('Hiba történt a felhasználók számának lekérésekor', error));
 
     var logoutButton = document.getElementById('logoutButton');
     if (logoutButton) {
-        logoutButton.addEventListener('click', function() {
-            logout();
-        });
+        logoutButton.addEventListener('click', logout);
     }
 
     var usersDiv = document.getElementById('users');
     if (usersDiv) {
-        usersDiv.onclick = function() {
+        usersDiv.addEventListener('click', function() {
             var role = sessionStorage.getItem('role');
-            if (role === 'admin') {
-                window.location.href = '../Admin/admin.html';
-            } else {
-                window.location.href = '../User/user.html';
-            }
-        };
+            window.location.href = role === 'admin' ? '../Admin/admin.html' : '../User/user.html';
+        });
+    }
+    var isUsersPage = document.getElementById('usersPageIndicator') !== null;
+    if (isUsersPage) {
+        fetchUsers();
     }
 });
 
 function logout() {
-    sessionStorage.removeItem('isLoggedIn');
-    sessionStorage.removeItem('userStatus');
-    sessionStorage.removeItem('fullname');
-    sessionStorage.removeItem('role');
-    window.location.href = '../User/user.html'; // Irányítás a felhasználói oldalra
+    sessionStorage.clear();
+    window.location.href = '../User/user.html';
 }
 
+function fetchUsers() {
+    fetch('../../Backend/Controller/userController.php?action=getAllUsers')
+    .then(handleResponse)
+    .then(data => {
+        // Ellenőrzés, hogy a data már a tömb, vagy egy objektum ami tartalmazza a tömböt
+        const users = Array.isArray(data) ? data : data.users;
+        const tableBody = document.getElementById('usersTableBody');
+        if (Array.isArray(users)) {
+            users.forEach(user => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.id}</td>
+                    <td>${user.fullname}</td>
+                    <td>${user.email}</td>
+                    <td>${user.role}</td>
+                    <td  style="text-align: center;">${user.registration_date}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        } else {
+            console.error('A válaszadat nem tömb.');
+        }
+    })
+    .catch(error => console.error('Hiba történt a felhasználók lekérésekor:', error));
+}
+
+
+function handleResponse(response) {
+    if (!response.ok) {
+        throw Error('A szerver hibaüzenete: ' + response.statusText);
+    }
+    return response.json();
+}

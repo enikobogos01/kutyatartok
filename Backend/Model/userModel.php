@@ -57,6 +57,16 @@ class UserModel {
             return ['success' => false, 'msg' => 'Nem sikerült frissíteni a felhasználói adatokat.'];
         }
     }
+    public function getAllUsers() {
+        $query = "SELECT id, fullname, email, role, registration_date FROM users";
+        $result = $this->conn->query($query);
+        
+        $users = [];
+        while($row = $result->fetch_assoc()) {
+            $users[] = $row;
+        }
+        return $users;
+    }
     public function getUserFullnameByEmail($email) {
         $sql = "SELECT fullname FROM users WHERE email = ?";
         $stmt = $this->conn->prepare($sql);

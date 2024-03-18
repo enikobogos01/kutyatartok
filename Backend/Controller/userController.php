@@ -90,6 +90,16 @@ class UserController {
         }
         return true;
     }
+    public function getAllUsers() {
+        header('Content-Type: application/json');
+        try {
+            $users = $this->userModel->getAllUsers();
+            echo json_encode(['success' => true, 'users' => $users]);
+        } catch (Exception $e) {
+            http_response_code(500); // Szerver oldali hiba
+            echo json_encode(['success' => false, 'msg' => 'Hiba történt a felhasználók lekérésekor: ' . $e->getMessage()]);
+        }
+    }
 }
 
 $userController = new UserController();
@@ -148,7 +158,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }  
     }
-} elseif ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["action"]) && $_GET["action"] == "getUserCount") {
-    $userController->getUserCount();
-    exit;
+} elseif ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["action"])) {
+    if ($_GET["action"] == "getUserCount") {
+        $userController->getUserCount();
+        exit;
+    } elseif ($_GET["action"] == "getAllUsers") {
+        $userController->getAllUsers();
+        exit;
+    }
 }
