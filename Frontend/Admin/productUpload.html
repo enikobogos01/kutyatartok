@@ -31,9 +31,41 @@
             </div>
         </div>
     </nav>
-    <div class="content">
-        <h1>Itt lehet majd feltölteni termékeket.</h1>
-    </div>
+    <div class="main content">
+        <h1>Termékek Feltöltése</h1>
+        <form>
+            <div class="form-group">
+                <label for="name">Név:</label>
+                <input type="text" id="name" class="nameInput" name="name" maxlength="50" required>
+            </div>
+            <div class="form-group">
+                <label for="price">Ár (Ft):</label>
+                <input type="number" id="price" class="priceInput" name="price" min="1" max="99999" required>
+            </div>
+            <div class="form-group">
+                <label for="quantity">Mennyiség (db):</label>
+                <input type="number" id="quantity" class="quantityInput" name="quantity" min="1" max="99" required>
+            </div>
+            <div class="form-group">
+                <label for="desc">Leírás:</label>
+                <textarea id="desc" name="desc" maxlength="600" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="category">Kategória:</label>
+                <select id="category" class="selectInput" name="category" required>
+                    <option value="collar">Nyakörv</option>
+                    <option value="harness">Hám</option>
+                    <option value="leash">Póráz</option>
+                    <option value="toy">Játék</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="image">Kép feltöltése:</label>
+                <input type="file" id="image" class="imageInput" name="image" style="width: fit-content;">
+            </div>
+            <button class="uploadButton" type="submit">Feltöltés</button>
+        </form>
+    </div>  
     <script src="../js/admin.js"></script>
 </body>
 </html>
