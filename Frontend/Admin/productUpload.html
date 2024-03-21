@@ -33,7 +33,7 @@
     </nav>
     <div class="main content">
         <h1>Termékek Feltöltése</h1>
-        <form>
+        <form id="productUploadForm" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="name">Név:</label>
                 <input type="text" id="name" class="nameInput" name="name" maxlength="50" required>
@@ -47,9 +47,9 @@
                 <input type="number" id="quantity" class="quantityInput" name="quantity" min="1" max="99" required>
             </div>
             <div class="form-group">
-                <label for="desc">Leírás:</label>
-                <textarea id="desc" name="desc" maxlength="600" required></textarea>
-            </div>
+                <label for="description">Leírás:</label>
+                <textarea type="text" id="description" name="description" maxlength="600" required></textarea>
+            </div>            
             <div class="form-group">
                 <label for="category">Kategória:</label>
                 <select id="category" class="selectInput" name="category" required>
@@ -63,6 +63,9 @@
                 <label for="image">Kép feltöltése:</label>
                 <input type="file" id="image" class="imageInput" name="image" style="width: fit-content;">
             </div>
+            <div id="imagePreviewContainer" class="mb-3 img-rounded">
+                <img id="imagePreview" src="#" style="max-width: 200px; max-height: 200px;">
+            </div>            
             <button class="uploadButton" type="submit">Feltöltés</button>
         </form>
     </div>  

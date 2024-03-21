@@ -60,4 +60,25 @@ class ProductModel {
         $row = $result->fetch_assoc();
         return $row['count'];
     }
+    public function addProduct($name, $price, $description, $quantity, $imagePath, $category) {
+        $sql = "INSERT INTO products (name, price, description, quantity, image_path, category, upload_date) VALUES (?, ?, ?, ?, ?, ?, NOW())";
+        
+        $stmt = $this->conn->prepare($sql);
+        if (!$stmt) {
+            throw new Exception("Adatbázis hiba: nem lehet előkészíteni a lekérdezést.");
+        }
+         
+        // Paraméterek kötése
+        $stmt->bind_param("sdsiss", $name, $price, $description, $quantity, $imagePath, $category);
+
+        $result = $stmt->execute();
+        
+        if ($result) {
+            $stmt->close();
+            return true; // Sikeres beszúrás
+        } else {
+            $stmt->close();
+            return false; // Sikertelen beszúrás
+        }
+    }          
 }

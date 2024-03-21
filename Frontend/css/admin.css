@@ -133,6 +133,7 @@ textarea {
   border-radius: 1.25vw;
   cursor: pointer;
 }
+
 @media (max-width: 800px) {
   input, select, textarea{
     border-radius: 3vw;

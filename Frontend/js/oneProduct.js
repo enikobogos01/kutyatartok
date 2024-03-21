@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Update HTML elements with product data
     document.getElementById('product-image').src = selectedProduct.image_path;
     document.getElementById('product-name').innerText = selectedProduct.name;
-    document.getElementById('product-description').innerText = selectedProduct.desc;
+    document.getElementById('product-description').innerText = selectedProduct.description;
     document.getElementById('product-price').innerText = `${selectedProduct.price}`;
 
     // Check the category and update the sizes container accordingly

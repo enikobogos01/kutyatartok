@@ -34,6 +34,38 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     })
     .catch(error => console.error('Hiba történt a termékek számának lekérésekor', error));
+
+
+    var productUploadForm = document.getElementById("productUploadForm");
+    if (productUploadForm) {
+        productUploadForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+            
+            var formData = new FormData(this);
+            
+            for (var pair of formData.entries()) {
+                console.log(pair[0] + ', ' + pair[1]);
+            }
+    
+            fetch('../../Backend/Controller/productController.php?action=uploadProduct', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(handleResponse)
+            .then(data => {
+                if (data.success) {
+                    alert("Termék sikeresen feltöltve!");
+                } else {
+                    alert("Hiba történt: " + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Hiba történt a termék feltöltésekor:', error);
+                alert("Hiba történt a termék feltöltésekor.");
+            });
+        });
+    }
+    
 });
 
 function logout() {
@@ -74,3 +106,14 @@ function handleResponse(response) {
     }
     return response.json();
 }
+
+document.getElementById("image").addEventListener("change", function() {
+    var file = this.files[0];
+    if (file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById("imagePreview").setAttribute("src", e.target.result);
+        }
+        reader.readAsDataURL(file);
+    }
+});

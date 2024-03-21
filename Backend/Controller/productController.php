@@ -17,18 +17,14 @@ class ProductController {
             $minPrice = isset($_GET['minPrice']) ? $_GET['minPrice'] : null;
             $maxPrice = isset($_GET['maxPrice']) ? $_GET['maxPrice'] : null;
 
-            // Get products from the model
             $products = $this->productModel->getProducts($sortOption, $categoryFilter, $minPrice, $maxPrice);
 
-            // Set the response header to indicate JSON content
             header('Content-Type: application/json');
 
-            // Output the JSON string
             echo json_encode($products, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-            exit(); // Add this line to prevent any further output
+            exit();
         } catch (Exception $e) {
-            // Handle exceptions
-            http_response_code(500); // Internal Server Error
+            http_response_code(500);
             echo json_encode(['error' => $e->getMessage()]);
             exit();
         }
@@ -48,51 +44,74 @@ class ProductController {
 
     public function getProductsForSwiper($sortBy, $limit) {
         try {
-            // Get products from the model based on sortBy and limit
             $products = $this->productModel->getProducts($sortBy, 'all', null, null, $limit);
 
-            // Sort products based on upload date for swiper1
             if ($sortBy === 'upload_date') {
                 usort($products, function($a, $b) {
                     return strtotime($b['upload_date']) - strtotime($a['upload_date']);
                 });
             }
 
-            // Sort products based on quantity for swiper2
             elseif ($sortBy === 'quantity') {
                 usort($products, function($a, $b) {
                     return $a['quantity'] - $b['quantity'];
                 });
             }
 
-            // Set the response header to indicate JSON content
             header('Content-Type: application/json');
 
-            // Output the JSON string
             echo json_encode($products, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-            exit(); // Add this line to prevent any further output
+            exit();
         } catch (Exception $e) {
-            // Handle exceptions
-            http_response_code(500); // Internal Server Error
+            http_response_code(500);
             echo json_encode(['error' => $e->getMessage()]);
             exit();
         }
     }
+    public function uploadProduct() {
+    try {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $name = $_POST['name'];
+            $price = $_POST['price'];
+            $description = $_POST['description'];
+            $quantity = $_POST['quantity'];
+            $category = $_POST['category'];
+            
+            if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+                $imagePath = '../../imgs/productPhotos/' . $_FILES['image']['name'];
+                move_uploaded_file($_FILES['image']['tmp_name'], $imagePath);
+            } else {
+                $imagePath = '';
+            }
+
+            $result = $this->productModel->addProduct($name, $price, $description, $quantity, $imagePath, $category);
+
+            if ($result) {
+                echo json_encode(['success' => true, 'message' => 'Termék sikeresen feltöltve!']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'A termék feltöltése sikertelen.']);
+            }
+        } else {
+            throw new Exception("Csak POST metódus engedélyezett a termék feltöltéséhez.");
+        }
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+    }
+    exit();
+    }     
 }
-// Instantiate classes and execute the method
 $database = new Database();
 $productController = new ProductController($database);
 
-// Helyezd ide az új feltételt
 if (isset($_GET['action']) && $_GET['action'] == 'getProductCount') {
     $productController->getProductCount();
-} 
-elseif (isset($_GET['swiper']) && $_GET['swiper'] == 'swiper1') {
+} elseif (isset($_GET['action']) && $_GET['action'] == 'uploadProduct') {
+    $productController->uploadProduct();
+} elseif (isset($_GET['swiper']) && $_GET['swiper'] == 'swiper1') {
     $productController->getProductsForSwiper('upload_date', 8); 
-} 
-elseif (isset($_GET['swiper']) && $_GET['swiper'] == 'swiper2') {
+} elseif (isset($_GET['swiper']) && $_GET['swiper'] == 'swiper2') {
     $productController->getProductsForSwiper('quantity', 8); 
-} 
-else {
+} else {
     $productController->getAllProducts();
 }
