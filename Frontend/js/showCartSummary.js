@@ -11,23 +11,24 @@ function showCartSummary() {
     cartSummary.forEach(function (product) {
         var div = document.createElement("div");
         div.innerHTML = `<div class="row">
-                            <div class="col-lg-8 col-sm-12">
+                            <div>
                                 <div class="row text-center align-middle d-flex">
-                                    <div class="col-sm-6 col-md-3 align-self-center">
+                                    <div class="col-6 col-lg-3 align-self-center">
                                         <img class="productImage" src="${product.image}" alt="">
                                     </div>
-                                    <div class="col-sm-6 col-md-3 align-self-center">
+                                    <div class="col-6 col-lg-3 align-self-center">
                                         <p class="productName">${product.name} ${(product.size).toUpperCase()}</p>
                                     </div>
-                                    <div class="col-sm-6 col-md-3 align-self-center d-flex justify-content-center">
+                                    <div class="col-6 col-lg-3 align-self-center d-flex justify-content-center">
                                         <p  class="quantity">${product.quantity} db</p>
                                     </div>
-                                    <div class="col-sm-6 col-md-3 align-self-center">
+                                    <div class="col-6 col-lg-3 align-self-center">
                                         <p class="price">${product.price} Ft</p>
                                     </div>
                                 </div>
                             </div>
-                        </div>`;
+                        </div>
+                        <hr>`;
         cartSummaryElement.appendChild(div);
     });
 
