@@ -25,13 +25,13 @@ function showCart() {
         var itemPrice = product.price * product.quantity;
         var div = document.createElement("div");
         div.innerHTML = `<div class="row">
-                        <div class="col-6 col-lg-3">    
+                        <div class="col-12 col-lg-3">    
                             <img class="productImage" src="${product.image}" alt="">
                         </div>
-                        <div class="col-6 col-lg-3">
+                        <div class="col-12 col-lg-3">
                             <p class="productName">${product.name} ${(product.size).toUpperCase()}</p>
                         </div>
-                        <div class="col-6 col-lg-3 quantityDiv flex-column">
+                        <div class="col-12 col-lg-3 quantityDiv flex-column">
                             <div class="row h-75">
                                 <div class="col-4 text-end">
                                     <i class="bi bi-dash-circle-fill ms-4" onclick="decreaseQuantityByOne(${index});"></i>  
@@ -47,7 +47,7 @@ function showCart() {
                                 <i class="bi bi-trash-fill"></i>
                             </div>
                         </div>
-                        <div class="col-6 col-lg-3">
+                        <div class="col-12 col-lg-3">
                             <p class="price">${itemPrice} Ft</p>
                         </div>
                         </div>

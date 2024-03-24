@@ -1,4 +1,3 @@
-
 #totalField{
     text-align: left;
 }
@@ -34,6 +33,13 @@
     background-color: #2F3B49;
     color: white;
 }
+
+@media only screen and (max-width: 992px) {
+    #labelBackground {
+      display: none;
+    }
+}
+
 .quantityDiv{
     display: flex;
 }
@@ -96,7 +102,7 @@ input[type=number] {
 }
 
 .productImage{
-    width: 220px;
+    width: 100%;
 }
 
 .bi-trash-fill{
