@@ -34,11 +34,11 @@ function showCartSummary() {
 
     //calculateSubtotal();
     updateElementWithAmount("subtotal", calculateSubtotal());
+    updateElementWithAmount("shippingCost", calculateShippingCost());
     updateElementWithAmount("total", calculateTotal(() => {
         // Callback to send the total to the server after it's calculated
         sendTotalToServer();
     }));
-    calculateShippingCost();
 }
 
 function updateElementWithAmount(elementId, amount){
@@ -64,15 +64,15 @@ function calculateSubtotal() {
 
 // Lehet nem kell a későbbiekben
 function calculateShippingCost(){
-    var shippingCost = 0;
+    var shippingCost = 1000;
     return shippingCost;
 }
 
 function calculateTotal(callback) {
     var subtotal = calculateSubtotal();  // Calculate subtotal first
-    var shippingCost = 0;  // Initialize shippingCost
+    var shippingCost = calculateShippingCost();  // Initialize shippingCost
     // "subtotal * 0.27" = áfa kiszámolása
-    var total = subtotal * 0.27 + subtotal + shippingCost;  // Calculate total
+    var total = (subtotal + shippingCost) * 1.27;  // Calculate total
 
     // Execute the callback with the calculated total
     if (callback && typeof callback === 'function') {
