@@ -32,11 +32,9 @@ function showCartSummary() {
         cartSummaryElement.appendChild(div);
     });
 
-    //calculateSubtotal();
     updateElementWithAmount("subtotal", calculateSubtotal());
     updateElementWithAmount("shippingCost", calculateShippingCost());
     updateElementWithAmount("total", calculateTotal(() => {
-        // Callback to send the total to the server after it's calculated
         sendTotalToServer();
     }));
 }
@@ -52,29 +50,25 @@ function calculateSubtotal() {
     var subtotal = 0;
 
     for (var i = 0; i < prices.length; i++) {
-        // Extract quantity and price from their respective elements
         var quantity = parseInt(quantities[i].textContent);
         var itemPrice = parseFloat(prices[i].textContent.replace(' Ft', ''));
 
-        // Calculate the subtotal for each item
+        // Részösszeg kiszámítása egyes termékekre
         subtotal += itemPrice * quantity;
     }
     return subtotal;
 }
 
-// Lehet nem kell a későbbiekben
 function calculateShippingCost(){
     var shippingCost = 1000;
     return shippingCost;
 }
 
 function calculateTotal(callback) {
-    var subtotal = calculateSubtotal();  // Calculate subtotal first
-    var shippingCost = calculateShippingCost();  // Initialize shippingCost
-    // "subtotal * 0.27" = áfa kiszámolása
-    var total = (subtotal + shippingCost) * 1.27;  // Calculate total
+    var subtotal = calculateSubtotal();
+    var shippingCost = calculateShippingCost();
+    var total = (subtotal + shippingCost) * 1.27;
 
-    // Execute the callback with the calculated total
     if (callback && typeof callback === 'function') {
         callback(total);
     }
@@ -92,10 +86,35 @@ function sendTotalToServer() {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             var response = JSON.parse(xhr.responseText);
-            console.log(response); // You can handle the server response here if needed
+            console.log(response);
         }
     };
 
     var data = JSON.stringify({ total: total });
+    xhr.send(data);
+}
+
+function sendOrderToServer() {
+    console.log("total: " + parseFloat(document.getElementById("total").innerHTML));
+    var order = {
+        status : "Feldolgozás alatt",
+        total : parseFloat(document.getElementById("total").innerHTML),
+        userId : sessionStorage.getItem('userId'),
+        paymentStatus : "Fizetve",
+        paymentMethod : "Bankkártya",
+    }
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "../../Backend/Model/orderToDataBase.php", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            console.log(response);
+        }
+    };
+
+    var data = JSON.stringify(order);
     xhr.send(data);
 }
