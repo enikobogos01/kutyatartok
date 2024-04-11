@@ -65,7 +65,74 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         });
     }
-    
+
+    var searchButton = document.getElementById("searchButton");
+    var productSearchInput = document.getElementById("productSearchInput");
+
+    if (searchButton) {
+        searchButton.addEventListener("click", function() {
+            var productName = productSearchInput.value.trim();
+            if (productName) {
+                fetch('../../Backend/Controller/productController.php?action=searchProductByName&name=' + encodeURIComponent(productName))
+                .then(handleResponse)
+                .then(data => {
+                    if (data && data.success) {
+                        document.getElementById("name").value = data.product.name;
+                        document.getElementById("price").value = data.product.price;
+                        document.getElementById("quantity").value = data.product.quantity;
+                        document.getElementById("description").value = data.product.description;
+                        document.getElementById("category").value = data.product.category;
+                    } else {
+                        alert("A termék nem található.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Hiba történt a termék keresésekor:', error);
+                });
+            } else {
+                alert("Kérlek, adj meg egy terméknevet a kereséshez.");
+            }
+        });
+    }
+
+    var saveChangesButton = document.getElementById("saveChangesButton");
+    saveChangesButton.addEventListener("click", function() {
+        var formData = new FormData(document.getElementById("productUpdateForm"));
+        fetch('../../Backend/Controller/productController.php?action=updateProduct', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("A termék sikeresen frissítve.");
+                // Ide jöhetnek további műveletek a sikeres frissítés után
+            } else {
+                alert("A frissítés sikertelen: " + data.message);
+            }
+        })
+        .catch(error => console.error('Hiba történt a frissítés során:', error));
+    });
+
+    var deleteProductButton = document.getElementById("deleteProductButton");
+    deleteProductButton.addEventListener("click", function() {
+        var productId = document.getElementById("productId").value;
+        if (confirm("Biztosan törölni szeretné ezt a terméket?")) {
+            fetch('../../Backend/Controller/productController.php?action=deleteProduct&id=' + productId, {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("A termék sikeresen törölve.");
+                    // Ide jöhetnek további műveletek a sikeres törlés után
+                } else {
+                    alert("A törlés sikertelen: " + data.message);
+                }
+            })
+            .catch(error => console.error('Hiba történt a törlés során:', error));
+        }
+    });
 });
 
 function logout() {
@@ -107,13 +174,15 @@ function handleResponse(response) {
     return response.json();
 }
 
-document.getElementById("image").addEventListener("change", function() {
-    var file = this.files[0];
-    if (file) {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            document.getElementById("imagePreview").setAttribute("src", e.target.result);
+if (document.getElementById("productUploadIndicator")) {
+    document.getElementById("image").addEventListener("change", function() {
+        var file = this.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById("imagePreview").setAttribute("src", e.target.result);
+            }
+            reader.readAsDataURL(file);
         }
-        reader.readAsDataURL(file);
-    }
-});
+    });
+}

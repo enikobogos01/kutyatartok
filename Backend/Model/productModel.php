@@ -68,17 +68,46 @@ class ProductModel {
             throw new Exception("Adatbázis hiba: nem lehet előkészíteni a lekérdezést.");
         }
          
-        // Paraméterek kötése
         $stmt->bind_param("sdsiss", $name, $price, $description, $quantity, $imagePath, $category);
 
         $result = $stmt->execute();
         
         if ($result) {
             $stmt->close();
-            return true; // Sikeres beszúrás
+            return true;
         } else {
             $stmt->close();
-            return false; // Sikertelen beszúrás
+            return false;
         }
+    }   
+    public function searchProductByName($name) {
+        $sql = "SELECT * FROM products WHERE name = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("s", $name);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            return $result->fetch_assoc();
+        } else {
+            return false;
+        }
+    }    
+    
+    public function updateProduct($id, $name, $price, $description, $quantity, $category) {
+        $sql = "UPDATE products SET name = ?, price = ?, description = ?, quantity = ?, category = ? WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("sdsissi", $name, $price, $description, $quantity, $category, $id);
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
+    }
+    
+    public function deleteProduct($id) {
+        $sql = "DELETE FROM products WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
     }          
 }

@@ -75,7 +75,7 @@ tbody tr:nth-child(even) {
   padding: 2vw;
 }
 
-.main h1 {
+.main h1, .container h1 {
   margin-bottom: 2vw;
   text-align: center;
   color: #0275d8;
@@ -203,5 +203,32 @@ textarea {
   textarea {
     padding: 0.8vw;
     font-size: 0.9em;
+  }
+}
+.search-bar {
+  width: 100%;
+  max-width: 600px; /* Vagy bármilyen méret, ami megfelelőnek tűnik */
+  margin: auto;
+}
+
+.search-bar input {
+  margin-right: 0.5rem;
+}
+
+/* Gombok méretezése és elhelyezkedése mobil nézeten */
+@media (max-width: 576px) {
+  .search-bar {
+      flex-direction: column;
+  }
+
+  .search-bar input,
+  .search-bar button {
+      width: 100%;
+      margin: 0.5rem 0;
+  }
+
+  .d-flex button {
+      width: 45%; /* Kis térköz marad közöttük */
+      margin: 0.5rem 0; /* Kis térköz fentről és lentről */
   }
 }
