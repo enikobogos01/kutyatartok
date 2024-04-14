@@ -95,24 +95,33 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    var saveChangesButton = document.getElementById("saveChangesButton");
-    saveChangesButton.addEventListener("click", function() {
-        var formData = new FormData(document.getElementById("productUpdateForm"));
-        fetch('../../Backend/Controller/productController.php?action=updateProduct', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert("A termék sikeresen frissítve.");
-                // Ide jöhetnek további műveletek a sikeres frissítés után
-            } else {
-                alert("A frissítés sikertelen: " + data.message);
-            }
-        })
-        .catch(error => console.error('Hiba történt a frissítés során:', error));
-    });
+    if (document.getElementById("saveChangesIndicator")) {
+        var saveChangesButton = document.getElementById("saveChangesButton");
+        saveChangesButton.addEventListener("click", function() {
+            var formData = new FormData(document.getElementById("productUpdateForm"));
+            fetch('../../Backend/Controller/productController.php?action=updateProduct', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw Error('A szerver hibaüzenete: ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    alert("A termék sikeresen frissítve.");
+                } else {
+                    alert("A frissítés sikertelen: " + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Hiba történt a frissítés során:', error);
+                alert("Hiba történt a frissítés során.");
+            });
+        });
+    }
 
     var deleteProductButton = document.getElementById("deleteProductButton");
     deleteProductButton.addEventListener("click", function() {

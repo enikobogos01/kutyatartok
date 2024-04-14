@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kutyatartók Webáruháza - Termékek Módosítása</title>
+    <title>Kutyatartók Webáruháza</title>
     <link rel="icon" href="../../imgs/logo.jpg" sizes="32x32" type="image/png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/admin.css">
 </head>
@@ -21,7 +22,7 @@
                 <div class="navbar-nav">
                     <a class="nav-link" href="mainAdmin.html">Általános</a>
                     <a class="nav-link" href="productUpload.html">Termékek feltöltése</a>
-                    <a class="nav-link active" aria-current="page" href="#">Termékek módosítása</a>
+                    <a class="nav-link" aria-current="page" href="#">Termékek módosítása</a>
                     <a class="nav-link" href="users.html">Felhasználók</a>
                     <a class="nav-link" href="orders.html">Rendelések</a>
                     <a class="nav-link" id="logOut" onclick="logout()"><i class="bi bi-box-arrow-right"></i></a>
@@ -29,7 +30,6 @@
             </div>
         </div>
     </nav>
-
     <div class="content container mt-5">
         <h1>Termékek Módosítása</h1>
         <div class="search-bar d-flex mb-4">
@@ -37,7 +37,6 @@
             <button class="btn btn-primary" id="searchButton"><i class="bi bi-search"></i></button>
         </div>
 
-        <!-- Termék adatok formja -->
         <form id="productUpdateForm" enctype="multipart/form-data" method="POST">
             <input type="hidden" name="id" id="productId">
             
@@ -68,7 +67,7 @@
             </div>
         </form>
 
-        <div class="d-flex justify-content-around flex-wrap mt-4">
+        <div class="d-flex justify-content-around flex-wrap mt-4" id="saveChangesIndicator">
             <button class="btn btn-success" type="submit" form="productUpdateForm" id="saveChangesButton">Módosítások mentése</button>
             <button class="btn btn-danger" id="deleteProductButton">Termék törlése</button>
         </div>
