@@ -112,6 +112,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .then(data => {
                 if (data.success) {
                     alert("A termék sikeresen frissítve.");
+                    document.getElementById("productUpdateForm").reset();
                 } else {
                     alert("A frissítés sikertelen: " + data.message);
                 }
@@ -123,25 +124,27 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    var deleteProductButton = document.getElementById("deleteProductButton");
-    deleteProductButton.addEventListener("click", function() {
-        var productId = document.getElementById("productId").value;
-        if (confirm("Biztosan törölni szeretné ezt a terméket?")) {
-            fetch('../../Backend/Controller/productController.php?action=deleteProduct&id=' + productId, {
-                method: 'POST'
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert("A termék sikeresen törölve.");
-                    // Ide jöhetnek további műveletek a sikeres törlés után
-                } else {
-                    alert("A törlés sikertelen: " + data.message);
-                }
-            })
-            .catch(error => console.error('Hiba történt a törlés során:', error));
-        }
-    });
+    if (document.getElementById("deleteProductIndicator")) {
+        var deleteProductButton = document.getElementById("deleteProductButton");
+        deleteProductButton.addEventListener("click", function() {
+            var productId = document.getElementById("productId").value;
+            if (confirm("Biztosan törölni szeretné ezt a terméket?")) {
+                fetch('../../Backend/Controller/productController.php?action=deleteProduct&id=' + productId, {
+                    method: 'POST'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("A termék sikeresen törölve.");
+                        document.getElementById("productUpdateForm").reset();
+                    } else {
+                        alert("A törlés sikertelen: " + data.message);
+                    }
+                })
+                .catch(error => console.error('Hiba történt a törlés során:', error));
+            }
+        });
+    }    
 });
 
 function logout() {
@@ -153,7 +156,6 @@ function fetchUsers() {
     fetch('../../Backend/Controller/userController.php?action=getAllUsers')
     .then(handleResponse)
     .then(data => {
-        // Ellenőrzés, hogy a data már a tömb, vagy egy objektum ami tartalmazza a tömböt
         const users = Array.isArray(data) ? data : data.users;
         const tableBody = document.getElementById('usersTableBody');
         if (Array.isArray(users)) {

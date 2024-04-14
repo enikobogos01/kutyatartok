@@ -189,7 +189,7 @@ textarea {
   .form-group {
     flex-direction: column;
     margin-bottom: 2vw;
-    text-align: left; /* Balra igazítás */
+    text-align: left;
   }
 
   .form-group label {
@@ -204,31 +204,20 @@ textarea {
     padding: 0.8vw;
     font-size: 0.9em;
   }
+
+  .search-bar input {
+    font-size: 1.8vh;
+  }
+  #saveChangesButton{
+    margin-bottom: 2vw;
+  }
 }
 .search-bar {
   width: 100%;
-  max-width: 600px; /* Vagy bármilyen méret, ami megfelelőnek tűnik */
+  max-width: 600px;
   margin: auto;
 }
 
 .search-bar input {
   margin-right: 0.5rem;
-}
-
-/* Gombok méretezése és elhelyezkedése mobil nézeten */
-@media (max-width: 576px) {
-  .search-bar {
-      flex-direction: column;
-  }
-
-  .search-bar input,
-  .search-bar button {
-      width: 100%;
-      margin: 0.5rem 0;
-  }
-
-  .d-flex button {
-      width: 45%; /* Kis térköz marad közöttük */
-      margin: 0.5rem 0; /* Kis térköz fentről és lentről */
-  }
 }

@@ -32,11 +32,10 @@
     </nav>
     <div class="content container mt-5">
         <h1>Termékek Módosítása</h1>
-        <div class="search-bar d-flex mb-4">
+        <div class="search-bar d-flex mb-4 mt-4">
             <input type="text" class="form-control" id="productSearchInput" placeholder="Keresés termék neve alapján...">
             <button class="btn btn-primary" id="searchButton"><i class="bi bi-search"></i></button>
         </div>
-
         <form id="productUpdateForm" enctype="multipart/form-data" method="POST">
             <input type="hidden" name="id" id="productId">
             
@@ -66,8 +65,7 @@
                 </select>
             </div>
         </form>
-
-        <div class="d-flex justify-content-around flex-wrap mt-4" id="saveChangesIndicator">
+        <div class="d-flex justify-content-around flex-wrap mt-4" id="saveChangesIndicator deleteProductIndicator">
             <button class="btn btn-success" type="submit" form="productUpdateForm" id="saveChangesButton">Módosítások mentése</button>
             <button class="btn btn-danger" id="deleteProductButton">Termék törlése</button>
         </div>
