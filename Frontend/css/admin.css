@@ -75,7 +75,7 @@ tbody tr:nth-child(even) {
   padding: 2vw;
 }
 
-.main h1 {
+.main h1, .container h1 {
   margin-bottom: 2vw;
   text-align: center;
   color: #0275d8;
@@ -189,7 +189,7 @@ textarea {
   .form-group {
     flex-direction: column;
     margin-bottom: 2vw;
-    text-align: left; /* Balra igazítás */
+    text-align: left;
   }
 
   .form-group label {
@@ -204,4 +204,20 @@ textarea {
     padding: 0.8vw;
     font-size: 0.9em;
   }
+
+  .search-bar input {
+    font-size: 1.8vh;
+  }
+  #saveChangesButton{
+    margin-bottom: 2vw;
+  }
+}
+.search-bar {
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+}
+
+.search-bar input {
+  margin-right: 0.5rem;
 }
