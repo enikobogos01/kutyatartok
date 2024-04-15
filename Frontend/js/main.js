@@ -94,6 +94,24 @@ function createProductCard(product, containerId) {
 window.addEventListener('DOMContentLoaded', function () {
     fetchAndDisplayProducts('swiper-wrapper-1', 8); // Latest products
     fetchAndDisplayProducts('swiper-wrapper-2', 8); // Most popular products
+
+    const cookiePopup = document.getElementById("cookie-popup");
+            const acceptCookiesBtn = document.getElementById("accept-cookies");
+
+            acceptCookiesBtn.addEventListener("click", function() {
+                // Beállítjuk a sütiket elfogadva
+                localStorage.setItem("cookiesAccepted", "true");
+
+                // Elrejtjük a sütikezelési popupot
+                cookiePopup.style.display = "none";
+            });
+
+            // Ellenőrizzük, hogy már elfogadták-e a sütiket
+            const cookiesAccepted = localStorage.getItem("cookiesAccepted");
+            if (!cookiesAccepted) {
+                // Ha még nem fogadták el a sütiket, megjelenítjük a popupot
+                cookiePopup.style.display = "block";
+            }
 });
 
 document.querySelectorAll('.position-relative').forEach(function (element) {
