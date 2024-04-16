@@ -1,7 +1,7 @@
 <?php
 require_once 'StripePayment.php';
 
-$stripeSecretKey = 'sk_test_51OjIVcFKfMSlBuhVDwuv3NV4V1DnpxqNG0KsBPM3CDAsWLV5DxBNG0aZ6Ak1cYZLAk1gDbefvF3Jg1F24H9ATQlr004zmkSylH'; // Cseréld le a saját titkos kulcsodra
+$stripeSecretKey = 'sk_test_51P66vKP89oPwwW01odzvd3WddSOrLikMKWWym9ioDATiAmQjRav8Bgob58FulCPcIyLmfsxMLVshnXgL8u10vLPP00Wg3Y6wqH'; // Cseréld le a saját titkos kulcsodra
 $stripePayment = new StripePayment($stripeSecretKey);
 
 $message = '';
